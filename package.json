@@ -1,0 +1,36 @@
+{
+  "name": "job-loss",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "patch-package",
+    "dev": "parcel src/index.html --global script",
+    "build": "parcel build src/index.html --global script --public-url . --no-content-hash"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@newswire/doc-to-archieml": "^1.0.0",
+    "cssnano": "^4.1.10",
+    "googleapis": "^49.0.0",
+    "parcel-bundler": "^1.12.4",
+    "patch-package": "^6.2.0",
+    "posthtml-expressions": "^1.1.1",
+    "posthtml-include": "^1.4.0",
+    "sass": "^1.23.0"
+  },
+  "dependencies": {
+    "enter-view": "^2.0.0",
+    "text-balancer": "^1.0.5"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "spectate": {
+    "USE_NEWS_NAV": false,
+    "USE_EYE_NAV": false,
+    "USE_COVER_HED": false,
+    "IS_EMBED": false,
+    "DOC_URL": "https://docs.google.com/document/d/16lPOVpomACnoFQ12888gUd1GaS0Q7tAVI8YcshnY0_k/edit"
+  }
+}
