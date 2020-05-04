@@ -4,9 +4,13 @@
 // @import 'styles/news-ellipsis';
 
 #postings-over-time {
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
   path {
     fill: none;
     stroke: blue;
-    stroke-width: 2px;
+    stroke-width: 1px;
   }
 }
