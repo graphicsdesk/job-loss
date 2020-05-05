@@ -10,8 +10,17 @@
 
     path {
       fill: none;
-      stroke: blue;
+      stroke: red;
       stroke-width: 1px;
     }
+
+    .domain{
+      stroke: black;
+      stroke-width: 1px;
+    }
+
+    g text {
+    	font-family: roboto;
+    } 
   }
 }
