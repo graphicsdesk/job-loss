@@ -15,12 +15,30 @@
     }
 
     .domain{
-      stroke: black;
-      stroke-width: 1px;
+      display: none;
     }
 
     g text {
     	font-family: roboto;
+      font-size: 14px;
     } 
+
+    .grid line {
+      stroke: lightgrey;
+      stroke-opacity: 0.7;
+      shape-rendering: crispEdges;
+    }
+
+    .grid path {
+      stroke-width: 0;
+    }
   }
+}
+
+#canceled-internships{
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
+
 }

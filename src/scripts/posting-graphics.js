@@ -4,6 +4,7 @@ import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
+import 'd3-transition';
 
 
 /* Data preprocessing */
@@ -13,7 +14,7 @@ const postings = rawPostings
     date: new Date(date),
     count: count,
   }))
-  .sort((a, b) => b.date - a.date);
+  .sort((a, b) => a.date-b.date);
 console.log(postings);
 
 /* Some constants */
@@ -46,7 +47,7 @@ const lineFn = line()
   .x(d => xScale(d.date))
   .y(d => yScale(d.count));
 
-/* TODO: AXES: https://bl.ocks.org/gordlea/27370d1eea8464b04538e6d8ced39e89 */
+/* The Axis */
 
 svg.append("g")
     .attr("class", "x axis")
@@ -57,5 +58,52 @@ svg.append("g")
     .attr("class", "y axis")
     .call(axisLeft(yScale));
 
+// gridlines in x axis function
+function make_x_gridlines() {   
+    return axisBottom(scaleTime().range([0, WIDTH]))
+        .ticks(8)
+}
+
+// gridlines in y axis function
+function make_y_gridlines() {   
+    return axisLeft(scaleLinear().range([HEIGHT, 0]))
+        .ticks(5)
+}
+
+// add the X gridlines
+svg.append("g")     
+    .attr("class", "grid")
+    .attr("transform", "translate(0," + HEIGHT + ")")
+    .call(make_x_gridlines()
+        .tickSize(-HEIGHT)
+        .tickFormat("")
+    )
+
+// add the Y gridlines
+svg.append("g")     
+    .attr("class", "grid")
+    .call(make_y_gridlines()
+        .tickSize(-WIDTH)
+        .tickFormat("")
+    )
+
 /* Draw the shapes */
-svg.append('path').attr('d', lineFn(postings));
+const linePath = svg.append('path')
+  .attr('d', lineFn(postings));
+
+/* animation:
+  1. get the length of the path*/
+const lineLength = linePath.node()
+  .getTotalLength();
+
+/*
+  2. set the dash array in the offset to the length*/
+linePath.style("stroke-dasharray",lineLength)
+  .style("stroke-dashoffset",lineLength)
+  .transition()
+    .duration(3000)
+    .style("stroke-dashoffset",0);
+
+/*
+  3. animate the dash offset back to 0. 
+*/

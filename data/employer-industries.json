@@ -1,0 +1,1070 @@
+[
+  {
+    "employer": "23andMe",
+    "industry": "Research"
+  },
+  {
+    "employer": "ABB",
+    "industry": "Civil Engineering"
+  },
+  {
+    "employer": "ABC",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Ad Council",
+    "industry": "Non-Profit - Other"
+  },
+  {
+    "employer": "ADTRAN",
+    "industry": "Telecommunications"
+  },
+  {
+    "employer": "AF Group",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "AGS Automotive",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "Airbnb",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "AKQA",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Alaska Airlines",
+    "industry": "Tourism"
+  },
+  {
+    "employer": "Alexander Group",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "AlphaSights",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "American Airlines",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Amtrak",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Anaplan",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Ancestry",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Apache Corporation",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "APCO Worldwide",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Applied Materials",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Applied Medical",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "ArcelorMittal",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Argonne National Laboratory",
+    "industry": "Research"
+  },
+  {
+    "employer": "Arista Networks",
+    "industry": "Computer Networking"
+  },
+  {
+    "employer": "Arthrex",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "AXS",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Baker Hughes",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Bartle Bogle Hegarty",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "BECU",
+    "industry": "Non-Profit - Other"
+  },
+  {
+    "employer": "Belvedere trading",
+    "industry": "Investment Banking"
+  },
+  {
+    "employer": "Best Buy",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Big Spaceship",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Blackbaud",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "BluJay Solutions",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Boar's Head Brand",
+    "industry": "Food & Beverage"
+  },
+  {
+    "employer": "Boom Supersonic",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "Booz Allen Hamilton",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Boston Scientific",
+    "industry": "Biotech & Life Sciences"
+  },
+  {
+    "employer": "Bright Health",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Brookings Institution",
+    "industry": "Politics"
+  },
+  {
+    "employer": "BuzzFeed",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Callaway Golf",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Calvin Klein",
+    "industry": "Fashion"
+  },
+  {
+    "employer": "Cantor Fitzgerald",
+    "industry": "Investment Banking"
+  },
+  {
+    "employer": "Cannon",
+    "industry": "Civil Engineering"
+  },
+  {
+    "employer": "Capitol Music Group",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Carfax",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "CB Insights",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "CBIZ",
+    "industry": "Accounting"
+  },
+  {
+    "employer": "CenturyLink",
+    "industry": "Telecommunications"
+  },
+  {
+    "employer": "CF Industries",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "CGI",
+    "industry": "Scientific and Technical Consulting"
+  },
+  {
+    "employer": "Chesapeake Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Checkr",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Civis Analytics",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Comcast",
+    "industry": "Telecommunications"
+  },
+  {
+    "employer": "Commonwealth Care Alliance",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "ConocoPhillips",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Continental",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Crayola",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Cummins",
+    "industry": null
+  },
+  {
+    "employer": "Custom Ink",
+    "industry": "Design"
+  },
+  {
+    "employer": "Dassault Systems",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "DataScan",
+    "industry": "Computer Networking"
+  },
+  {
+    "employer": "Datto",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Defense Counterintelligence and Security Agency",
+    "industry": "Defense"
+  },
+  {
+    "employer": "Designer Brands",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "DigitalOcean",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Dillards",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Discovery Inc.",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Disney",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "DNAnexus",
+    "industry": "Biotech & Life Sciences"
+  },
+  {
+    "employer": "Dow Jones",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "DriveTime",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Duff & Phelps",
+    "industry": "Other Industries"
+  },
+  {
+    "employer": "Echostar",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "EF Education First",
+    "industry": "Other Education"
+  },
+  {
+    "employer": "Esri",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "EVERFI",
+    "industry": "Other Education"
+  },
+  {
+    "employer": "ExtraHop",
+    "industry": "Computer Networking"
+  },
+  {
+    "employer": "Forbes",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Formlabs",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Freeport-McMoRan",
+    "industry": "Natural Resources"
+  },
+  {
+    "employer": "Funding Circle",
+    "industry": "Investment Banking"
+  },
+  {
+    "employer": "FX",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Gallagher",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "Gap Inc.",
+    "industry": "Fashion"
+  },
+  {
+    "employer": "Garmin",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Gartner",
+    "industry": "Research"
+  },
+  {
+    "employer": "Genuine Parts Company",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "Georgia Pacific",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Gildan",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Globe Life",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "GoCanvas",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Golden 1 Credit Union",
+    "industry": "Commercial Banking & Credit"
+  },
+  {
+    "employer": "Green Dot",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Group Nine Media",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Groupon",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Guideline",
+    "industry": "Investment / Portfolio Management"
+  },
+  {
+    "employer": "Halff Associates",
+    "industry": "Civil Engineering"
+  },
+  {
+    "employer": "Halliburton",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "HARMAN International",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Hawaiian Airlines",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "HCA Healthcare",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Helen of Troy",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Hendrickson",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "Hess Corporation",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Hill Holliday",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Hughes",
+    "industry": "Civil Engineering"
+  },
+  {
+    "employer": "Huhtamaki",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Husky Energy",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "iCIMS",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "IDEMIA",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "IDEO",
+    "industry": "Design"
+  },
+  {
+    "employer": "IGN",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "iHeartMedia",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "IHS Markit",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Indeed",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "InterSystems",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "IPG MediaBrands",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "JetBlue",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Kabbage",
+    "industry": "Investment Banking"
+  },
+  {
+    "employer": "Kaiser Permanente",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Kayak",
+    "industry": "Tourism"
+  },
+  {
+    "employer": "Kearney",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Keen",
+    "industry": "Sports & Leisure"
+  },
+  {
+    "employer": "Kepler Group",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Kitty Hawk",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Lands' End",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "L Brands",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "LendingClub",
+    "industry": "Commercial Banking & Credit"
+  },
+  {
+    "employer": "Leo Burnett",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Lifeway Christian Resources",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Lime",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "LLamasoft",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "L.L. Bean",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "L'Or\u00e9al",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Lowe's",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "M&T Bank",
+    "industry": "Commercial Banking & Credit"
+  },
+  {
+    "employer": "Magnopus",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Manhattan Associates",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Mattel",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Marathon Oil",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Marriot",
+    "industry": "Hotels & Accommodation"
+  },
+  {
+    "employer": "Mayo Clinic",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "M Booth",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "McCann",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Medicus Healthcare Solutions",
+    "industry": "Other Industries"
+  },
+  {
+    "employer": "Medline Industries",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "Mercer",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Micron",
+    "industry": "Biotech & Life Sciences"
+  },
+  {
+    "employer": "MIT Lincoln Laboratory",
+    "industry": "Research"
+  },
+  {
+    "employer": "MullenLowe",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "National Geographic",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "National Institutes of Health",
+    "industry": "Research"
+  },
+  {
+    "employer": "National Security Agency",
+    "industry": "Defense"
+  },
+  {
+    "employer": "Nationwide",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "Naval Research Enterprise Internship Program",
+    "industry": "Defense"
+  },
+  {
+    "employer": "NBC Olympic",
+    "industry": null
+  },
+  {
+    "employer": "Newell Brands",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "New York Air Brake",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Nielsen",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Nissan",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "No Kid Hungry",
+    "industry": "K-12 Education"
+  },
+  {
+    "employer": "Norfolk Southern",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Nordstrom ",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Northwest Permanente",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "NPR",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Oliver Wyman",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "OneWeb",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "OpenTable",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Outlier",
+    "industry": "Investment / Portfolio Management"
+  },
+  {
+    "employer": "Owens Corning",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Paccar",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "Pariveda Solutions",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Paycom",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "PBS",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Pearson VUE",
+    "industry": "Higher Education"
+  },
+  {
+    "employer": "Phoenix Children's Hospital",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Ping Identity",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Pixar Animation Studios",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "PluralSight",
+    "industry": "Other Industries"
+  },
+  {
+    "employer": "Pratt & Whitney",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "Primer",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "PROCEPT BioRobotics",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "PSB",
+    "industry": "Research"
+  },
+  {
+    "employer": "Quantcast",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Quora",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Ramboll",
+    "industry": "Scientific and Technical Consulting"
+  },
+  {
+    "employer": "Randa Accessories",
+    "industry": "Fashion"
+  },
+  {
+    "employer": "Redfin",
+    "industry": "Real Estate"
+  },
+  {
+    "employer": "Regeneron Pharmaceuticals",
+    "industry": "Pharmaceuticals"
+  },
+  {
+    "employer": "REI",
+    "industry": "Sports & Leisure"
+  },
+  {
+    "employer": "Rent The Runway",
+    "industry": "Fashion"
+  },
+  {
+    "employer": "R/GA",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Robert Half",
+    "industry": "Human Resources"
+  },
+  {
+    "employer": "Roche",
+    "industry": "Biotech & Life Sciences"
+  },
+  {
+    "employer": "Roku",
+    "industry": "Telecommunications"
+  },
+  {
+    "employer": "Saatchi & Saatchi",
+    "industry": null
+  },
+  {
+    "employer": "Salem Red Sox",
+    "industry": "Sports & Leisure"
+  },
+  {
+    "employer": "Samsung Research America",
+    "industry": "Electronic & Computer Hardware"
+  },
+  {
+    "employer": "Schlumberger",
+    "industry": "Oil & Gas"
+  },
+  {
+    "employer": "Schneider Electric",
+    "industry": "Utilities and Renewable Energy"
+  },
+  {
+    "employer": "Shamrock Foods",
+    "industry": "Food & Beverage"
+  },
+  {
+    "employer": "Sherwin Williams",
+    "industry": "CPG - Consumer Packaged Goods"
+  },
+  {
+    "employer": "Simon Kucher & Partners",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Sleep Number",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Softheon",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Sonder",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Sony",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Sony Music",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Southwest Airlines",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Springbuk",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Stanford Health Care",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "St. Jude Children's Research Hospital",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Strategic Education",
+    "industry": "Higher Education"
+  },
+  {
+    "employer": "Strategy&",
+    "industry": "Management Consulting"
+  },
+  {
+    "employer": "Stryker",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "Stubhub",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Stuller",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "STV Inc",
+    "industry": "Civil Engineering"
+  },
+  {
+    "employer": "SUEZ Water Technologies & Solutions",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Sumo Logic",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Sysco",
+    "industry": "Food & Beverage"
+  },
+  {
+    "employer": "T-Mobile",
+    "industry": "Telecommunications"
+  },
+  {
+    "employer": "Team One",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Tegna Inc.",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Tenable",
+    "industry": "Legal & Law Enforcement"
+  },
+  {
+    "employer": "The Boston Globe",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "The Hut Group",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Thermo Fisher Scientific",
+    "industry": "Healthcare"
+  },
+  {
+    "employer": "Thomson Reuters",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Thumbtack",
+    "industry": "Other Industries"
+  },
+  {
+    "employer": "Ticketmaster",
+    "industry": "Sports & Leisure"
+  },
+  {
+    "employer": "TJX",
+    "industry": "Retail Stores"
+  },
+  {
+    "employer": "Toyota Connected",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "TPRI",
+    "industry": "Scientific and Technical Consulting"
+  },
+  {
+    "employer": "Transamerica",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "TransUnion",
+    "industry": "Commercial Banking & Credit"
+  },
+  {
+    "employer": "Trexquant",
+    "industry": "Investment / Portfolio Management"
+  },
+  {
+    "employer": "TripAdvisor",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Ugam Solutions",
+    "industry": "Other Industries"
+  },
+  {
+    "employer": "Ultimate Software",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Under Armour",
+    "industry": "Fashion"
+  },
+  {
+    "employer": "United Airlines",
+    "industry": "Transportation & Logistics"
+  },
+  {
+    "employer": "Universal Music Group",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Uplift",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Uponor",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Verily",
+    "industry": "Medical Devices"
+  },
+  {
+    "employer": "Virgin Orbit",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "VMLY&R",
+    "industry": "Advertising, PR & Marketing"
+  },
+  {
+    "employer": "Volvo",
+    "industry": "Automotive"
+  },
+  {
+    "employer": "Vox",
+    "industry": "Journalism, Media & Publishing"
+  },
+  {
+    "employer": "Wagner Spraytech",
+    "industry": "Manufacturing - Other"
+  },
+  {
+    "employer": "Warner",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Warner Music Group",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Wayfair",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "WeRide.ai",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "William Morris Endeavor",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Wisk",
+    "industry": "Aerospace"
+  },
+  {
+    "employer": "WillowTree",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "WME/Endeavor",
+    "industry": "Movies, TV, Music"
+  },
+  {
+    "employer": "Workday",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Xcel Energy",
+    "industry": "Utilities and Renewable Energy"
+  },
+  {
+    "employer": "Yelp",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Yubico",
+    "industry": "Internet & Software"
+  },
+  {
+    "employer": "Zenith Insurance",
+    "industry": "Insurance"
+  },
+  {
+    "employer": "ZS",
+    "industry": "Management Consulting"
+  }
+]

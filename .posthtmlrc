@@ -6,7 +6,14 @@
     "posthtml-expressions": {
       "root": "./src/partials",
       "locals": {
-        "top": [],
+        "top": [
+          {
+            "type": "graphic",
+            "value": {
+              "asset": "canceled-internships.html"
+            }
+          }
+        ],
         "body": [
           {
             "type": "text",
