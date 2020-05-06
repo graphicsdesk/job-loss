@@ -2,7 +2,7 @@ import enterView from 'enter-view';
 import textBalancer from 'text-balancer';
 import './scripts/page';
 import './scripts/posting-graphics';
-import './scripts/canceled-internships';
+import './scripts/canceled-internships'
 
 import { spectate as spectateConfig } from '../package.json';
 const { USE_NEWS_NAV, USE_EYE_NAV, USE_COVER_HED } = spectateConfig;
