@@ -1,15 +1,21 @@
 import companies from '../../data/employer-industries.json';
 import { select } from 'd3-selection';
-import { scaleOrdinal } from 'd3-scale';
+import { scaleOrdinal, scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceCollide, forceX, forceY} from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
+import { extent } from 'd3-array';
 import 'd3-transition';
 
 
 /* Data preprocessing */
 
-const companyData = companies;
-
+const companyData = companies
+  .map(({ employer, industry, size }) => ({
+    employer,
+    industry,
+    size: parseInt(size.replace(",","").split(" ")[0])
+  }));
+  
 
 const industrySet = new Set(companies.map(item => item.industry));
 const industries =[...industrySet];
@@ -17,8 +23,8 @@ const industries =[...industrySet];
 
 /* Some constants */
 
-const WIDTH = 600;
-const HEIGHT = 400;
+const WIDTH = document.body.clientWidth;
+const HEIGHT = document.body.clientHeight;
 
 /* Create the container and canvas */
 
@@ -33,7 +39,9 @@ const svg = select('#canceled-internships')
 const simulation = forceSimulation()
   .force('x', forceX().strength(0.07))
   .force('y', forceY().strength(0.07))
-  .force('collide', forceCollide(10));
+  .force('collide', forceCollide(function(d){
+      return radiusScale(d.size);
+    }));
 
 /* industry color scale */
 function industryColorsScale(industry){
@@ -41,13 +49,21 @@ function industryColorsScale(industry){
   return interpolateSpectral(t)
 };
 
+/* radiusScale */
+
+const radiusScale = scaleSqrt()
+  .domain(extent(companyData, d => d.size))
+  .range([2,37])
+
 /* Draw the shapes */
 const circle = svg.selectAll('circle')
   .data(companyData)
   .enter()
   .append('circle')
     .attr('class','company')
-    .attr('r',10)
+    .attr('r', function(d){
+      return radiusScale(d.size);
+    })
     .attr('fill',function(d){
       return industryColorsScale(d.industry);
     }); 
