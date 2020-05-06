@@ -1,15 +1,19 @@
 import companies from '../../data/employer-industries.json';
 import { select } from 'd3-selection';
 import { scaleOrdinal } from 'd3-scale';
-import { line } from 'd3-shape';
-import { extent } from 'd3-array';
 import { forceSimulation, forceCollide, forceX, forceY} from 'd3-force';
+import { interpolateSpectral } from 'd3-scale-chromatic';
 import 'd3-transition';
 
 
 /* Data preprocessing */
 
 const companyData = companies;
+
+
+const industrySet = new Set(companies.map(item => item.industry));
+const industries =[...industrySet];
+
 
 /* Some constants */
 
@@ -31,11 +35,11 @@ const simulation = forceSimulation()
   .force('y', forceY().strength(0.07))
   .force('collide', forceCollide(10));
 
-/* industry color scale 
-const industryColor = scaleOrdinal()
-  .domain(companyData.industry)
-  .range(["red", "blue"])
-*/
+/* industry color scale */
+function industryColorsScale(industry){
+  const t = industries.indexOf(industry)/industries.length
+  return interpolateSpectral(t)
+};
 
 /* Draw the shapes */
 const circle = svg.selectAll('circle')
@@ -44,7 +48,9 @@ const circle = svg.selectAll('circle')
   .append('circle')
     .attr('class','company')
     .attr('r',10)
-    .attr('fill','orange'); 
+    .attr('fill',function(d){
+      return industryColorsScale(d.industry);
+    }); 
 
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
 simulation.nodes(companyData)
