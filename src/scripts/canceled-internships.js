@@ -9,17 +9,18 @@ import 'd3-transition';
 
 /* Data preprocessing */
 
+const industrySet = new Set(companies.map(item => item.industry));
+const industries =[...industrySet];
+const totalIndustry = industries.length;
+
 const companyData = companies
   .map(({ employer, industry, size }) => ({
     employer,
     industry,
-    size: parseInt(size.replace(",","").split(" ")[0])
+    size: parseInt(size.replace(",","").split(" ")[0]),
+    x: Math.cos((industries.indexOf(industry)) / totalIndustry * 2 * Math.PI) * 700 +  Math.random(),
+    y: Math.sin((industries.indexOf(industry)) / totalIndustry * 2 * Math.PI) * 700 + Math.random()
   }));
-  
-
-const industrySet = new Set(companies.map(item => item.industry));
-const industries =[...industrySet];
-
 
 /* Some constants */
 
@@ -40,7 +41,7 @@ const simulation = forceSimulation()
   .force('x', forceX().strength(0.07))
   .force('y', forceY().strength(0.07))
   .force('collide', forceCollide(function(d){
-      return radiusScale(d.size);
+      return radiusScale(d.size)+0.5;
     }));
 
 /* industry color scale */
@@ -82,5 +83,16 @@ function ticked() {
     })
 }
 
+/* position function for x and y position of the bubble */
 
+function xPosition(company) {
+  const i = industries.indexOf(company.industry)
+  const m = industries.length
+  return Math.cos(i / m * 2 * Math.PI) * 200 +  Math.random()
+}
 
+function yPosition(company) {
+  const i = industries.indexOf(company.industry)
+  const m = industries.length
+  return Math.sin(i / m * 2 * Math.PI) * 200 + Math.random()
+}
