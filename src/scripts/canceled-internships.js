@@ -13,13 +13,20 @@ const industrySet = new Set(companies.map(item => item.industry));
 const industries =[...industrySet];
 const totalIndustry = industries.length;
 
+/* radiusScale */
+
+const radiusScale = scaleSqrt()
+  .domain(extent(companyData, d => d.size))
+  .range([2,37])
+  
 const companyData = companies
   .map(({ employer, industry, size }) => ({
     employer,
     industry,
     size: parseInt(size.replace(",","").split(" ")[0]),
     x: Math.cos((industries.indexOf(industry)) / totalIndustry * 2 * Math.PI) * 700 +  Math.random(),
-    y: Math.sin((industries.indexOf(industry)) / totalIndustry * 2 * Math.PI) * 700 + Math.random()
+    y: Math.sin((industries.indexOf(industry)) / totalIndustry * 2 * Math.PI) * 700 + Math.random(),
+    r: radiusScale(size)
   }));
 
 /* Some constants */
@@ -50,12 +57,6 @@ function industryColorsScale(industry){
   return interpolateSpectral(t)
 };
 
-/* radiusScale */
-
-const radiusScale = scaleSqrt()
-  .domain(extent(companyData, d => d.size))
-  .range([2,37])
-
 /* Draw the shapes */
 const circle = svg.selectAll('circle')
   .data(companyData)
@@ -73,8 +74,10 @@ const circle = svg.selectAll('circle')
 simulation.nodes(companyData)
   .on('tick', ticked);
 
-function ticked() {
+function ticked(e) {
   circle
+    .each(cluster(10 * e.alpha * e.alpha))
+    //.each(collide(.5))
     .attr('cx',function(d){
       return d.x
     })
@@ -83,16 +86,22 @@ function ticked() {
     })
 }
 
-/* position function for x and y position of the bubble */
-
-function xPosition(company) {
-  const i = industries.indexOf(company.industry)
-  const m = industries.length
-  return Math.cos(i / m * 2 * Math.PI) * 200 +  Math.random()
+// Move d to be adjacent to the cluster node.
+function cluster(alpha) {
+  return function(d) {
+    var cluster = industries[d.industry];
+    if (cluster === d) return;
+    var x = d.x - cluster.x,
+        y = d.y - cluster.y,
+        l = Math.sqrt(x * x + y * y),
+        r = d.radius + cluster.radius;
+    if (l != r) {
+      l = (l - r) / l * alpha;
+      d.x -= x *= l;
+      d.y -= y *= l;
+      cluster.x += x;
+      cluster.y += y;
+    }
+  };
 }
 
-function yPosition(company) {
-  const i = industries.indexOf(company.industry)
-  const m = industries.length
-  return Math.sin(i / m * 2 * Math.PI) * 200 + Math.random()
-}
