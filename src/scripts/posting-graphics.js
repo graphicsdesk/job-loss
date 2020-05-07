@@ -2,11 +2,10 @@ import rawPostings from '../../data/postings.json';
 import { select } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { extent } from 'd3-array';
+import { extent, max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import 'd3-transition';
-
-
+import 'd3-jetpack/essentials';
 
 /* Data preprocessing */
 
@@ -15,100 +14,85 @@ const postings = rawPostings
     date: new Date(date),
     count: count,
   }))
-  .sort((a, b) => a.date-b.date);
+  .sort((a, b) => a.date - b.date);
 
-const MARGIN = 50;
+/* Some constants */
+
+const margin = { left: 40, top: 10, bottom: 40, right: 10 };
+const TICK_PADDING = 11;
+
+/**
+ * Initiation code. Creates DOM nodes and instantiates functions like scales
+ * and shape generators. None of this code should "react" (i.e. no variables
+ * here should depend on the values of other variables changing).
+ */
+
+let width, height;
+
+// Create SVG and main container group, following margin convention
+const container = select('#postings-over-time');
+const svg = container
+  .append('svg')
+  .at({ width, height })
+  .append('g')
+  .translate([margin.left, margin.top]);
+
+// Create axes groups
+const xAxis = svg.append('g.x.axis');
+const yAxis = svg.append('g.y.axis');
+
+// Instantiate scales
+const xScale = scaleTime().domain(extent(postings, d => d.date));
+const yScale = scaleLinear().domain([0, 1.1 * max(postings, d => d.count)]);
+
+// Instantiate shape and axes generators
+const lineFn = line();
+const xAxisFn = axisBottom().tickPadding(TICK_PADDING);
+const yAxisFn = axisLeft();
+
+// The line path
+const linePath = svg.append('path');
 
 function drawGraph() {
-  /* Some constants */
+  // Update width and height
+  width = Math.min(1020, document.body.clientWidth);
+  height = document.body.clientHeight;
+  const gWidth = width - margin.left - margin.right;
+  const gHeight = height - margin.top - margin.bottom;
 
-  const width = Math.min(600,document.body.clientWidth);
-  const height = Math.min(400,document.body.clientHeight);
-  const gWidth = width-MARGIN*2;
-  const gHeight = height-MARGIN*2;
+  container.select('svg').at({ width, height });
 
-  /* Create the container and canvas */
+  // Update scale ranges
+  xScale.range([0, gWidth]);
+  yScale.range([gHeight, 0]);
 
-  const svg = select('#postings-over-time')
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append("g")
-    .attr("transform", "translate(" + MARGIN + "," + MARGIN + ")");
+  // Update line and axes generation params
+  lineFn.x(d => xScale(d.date)).y(d => yScale(d.count));
+  xAxisFn
+    .scale(xScale)
+    .ticks(gWidth / 80)
+    .tickSize(-gHeight);
+  yAxisFn.scale(yScale).tickSize(-gWidth);
 
-  /* Somehow get a mapping from abstract data to coordinates on our canvas */
+  // Create axes
+  xAxis.translate([0, gHeight]).call(xAxisFn);
+  yAxis.call(yAxisFn);
 
-  // Scales
-  const xScale = scaleTime()
-    .domain(extent(postings, d => d.date))
-    .range([0, gWidth]);
-  const yScale = scaleLinear()
-    .domain(extent(postings, d => d.count))
-    .range([gHeight, 0]);
-
-  // Function that generates the line drawing string
-  const lineFn = line()
-    .x(d => xScale(d.date))
-    .y(d => yScale(d.count));
-
-  /* The Axis */
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + gHeight + ")")
-      .call(axisBottom(xScale).ticks(gWidth/80));
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(axisLeft(yScale));
-
-  // gridlines in x axis function
-  function make_x_gridlines() {   
-      return axisBottom(scaleTime().range([0, gWidth]))
-          .ticks(8)
-  }
-
-  // gridlines in y axis function
-  function make_y_gridlines() {   
-      return axisLeft(scaleLinear().range([gHeight, 0]))
-          .ticks(5)
-  }
-
-  // add the X gridlines
-  svg.append("g")     
-      .attr("class", "grid")
-      .attr("transform", "translate(0," + gHeight + ")")
-      .call(make_x_gridlines()
-          .tickSize(-gHeight)
-          .tickFormat("")
-      )
-
-  // add the Y gridlines
-  svg.append("g")     
-      .attr("class", "grid")
-      .call(make_y_gridlines()
-          .tickSize(-gWidth)
-          .tickFormat("")
-      )
-
-  /* Draw the shapes */
-  const linePath = svg.append('path')
-    .attr('d', lineFn(postings));
+  // Set path d
+  linePath.attr('d', lineFn(postings));
 
   /* animation:
-    1. get the length of the path*/
-  const lineLength = linePath.node()
-    .getTotalLength();
+    1. get the length of the path */
+  const lineLength = linePath.node().getTotalLength();
 
   /*
-    2. set the dash array in the offset to the length*/
-  linePath.style("stroke-dasharray",lineLength)
-    .style("stroke-dashoffset",lineLength)
-    .transition()
-      .duration(3000)
-      .style("stroke-dashoffset",0);
-
+    2. set the dash array in the offset to the length */
+  linePath
+    .style('stroke-dasharray', `0, ${lineLength}`)
+    .transition('draw-in')
+    .duration(3000)
+    .style('stroke-dasharray', `${lineLength}, ${lineLength}`);
 }
 
 drawGraph();
-//window.addEventListener('resize',drawGraph)
+window.addEventListener('resize', drawGraph);
