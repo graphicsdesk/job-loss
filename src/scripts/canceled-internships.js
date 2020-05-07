@@ -3,61 +3,35 @@ import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent, rollup, max } from 'd3-array';
-import {quadtree} from 'd3-quadtree';
-import 'd3-transition';
+import { quadtree } from 'd3-quadtree';
 import 'd3-jetpack/essentials';
 
-import companies from '../../data/employer-industries.json';
+/* Data preprocessing */
+
+import {
+  employers as companies,
+  industriesProportions,
+} from '../../data/canceled-internships.json';
+const industries = Object.keys(industriesProportions);
 
 /* Some constants */
 
 const WIDTH = document.body.clientWidth;
 const HEIGHT = document.body.clientHeight;
 
-/* Data preprocessing */
-
-// Generating unique industries
-const industrySet = new Set(companies.map(item => item.industry));
-const industries = [...industrySet];
-const totalIndustry = industries.length;
-
-// Calculate proportions for each industry
-// (# companies in industry / total # companies)
-const industriesProps = companies.reduce((acc, { industry }) => {
-  if (!(industry in acc)) acc[industry] = 0;
-  acc[industry] += 1 / companies.length;
-  return acc;
-}, {});
-
-// Make those proportions cumulative
-let cumValue = 0;
-const industriesPropsCum = {};
-for (const industry in industriesProps) {
-  const prop = industriesProps[industry];
-  industriesPropsCum[industry] = cumValue + prop / 2;
-  cumValue += prop;
-}
-
-const getSize = sizeStr => parseInt(sizeStr.replace(',', '').split(' ')[0]);
-
 /* radiusScale */
 
 const radiusScale = scaleSqrt()
-  .domain(extent(companies, d => getSize(d.size)))
+  .domain(extent(companies, d => d.size))
   .range([2, 37]);
 
 /* Generating initial nodes */
 
 const initialRadius = 700;
 
-const companyData = companies.map(({ employer, industry, size: sizeStr }) => {
-  // Old proportion
-  let cumulativeProportion = industries.indexOf(industry) / totalIndustry;
-  // New proportion
-  cumulativeProportion = industriesPropsCum[industry];
-
+const companyData = companies.map(({ employer, industry, size }) => {
+  const cumulativeProportion = industriesProportions[industry];
   const angle = cumulativeProportion * 2 * Math.PI;
-  const size = getSize(sizeStr);
 
   return {
     employer,
@@ -79,11 +53,11 @@ const svg = select('#canceled-internships')
 
 /* simulation force bubbles into a place and force them not to collide */
 
-const strength = 0.03;
+const strength = 0.02;
 const simulation = forceSimulation()
   .force('x', forceX().strength(strength))
   .force('y', forceY().strength(strength))
-  .force('charlotte', cjClusterForce())
+  .force('cjCluster', cjClusterForce())
   .force('elonMuskCollide', elonMuskCollide());
 
 /* industry color scale */
@@ -100,9 +74,7 @@ const circle = svg
   .data(companyData)
   .enter()
   .append('circle.company')
-  .attr('r', function (d) {
-    return radiusScale(d.size);
-  })
+  .attr('r', d => radiusScale(d.size))
   .attr('fill', function (d) {
     return industryColorsScale(d.industry);
   });
@@ -116,7 +88,8 @@ function ticked() {
 }
 
 /**
- * Cluster force
+ * Cluster and collision forces to space out groups.
+ *
  * Look here if confused: https://observablehq.com/@d3/clustered-bubbles
  */
 
@@ -136,12 +109,12 @@ function cjClusterForce() {
     }
   }
 
+  // Set the value of nodes to the argument of force.initialize while returning
+  // that value. force.initialize(companyData) is called by the simulation.
   force.initialize = _ => (nodes = _);
 
   return force;
 }
-
-/* Collision force for spacing groups */
 
 function elonMuskCollide() {
   const alpha = 0.4; // fixed for greater rigidity!
@@ -189,6 +162,9 @@ function elonMuskCollide() {
     }
   }
 
+  // Set the value of max radius to that math stuff, which includes setting
+  // the value of nodes to the argument of force.initialize.
+  // force.initialize(companyData) is called by the simulation.
   force.initialize = _ =>
     (maxRadius =
       max((nodes = _), d => d.radius) + Math.max(padding1, padding2));
