@@ -41,6 +41,8 @@ const radiusScale = scaleSqrt()
 // The largest node for each cluster
 const clusters = {};
 
+const initialRadius = 700;
+
 const companyData = companies.map(({ employer, industry, size: sizeStr }) => {
   // TODO: add industries props cum
   const angle = (industries.indexOf(industry) / totalIndustry) * 2 * Math.PI;
@@ -49,8 +51,8 @@ const companyData = companies.map(({ employer, industry, size: sizeStr }) => {
     employer,
     industry,
     size,
-    x: Math.cos(angle) * 700 + Math.random(),
-    y: Math.sin(angle) * 700 + Math.random(),
+    x: Math.cos(angle) * initialRadius + Math.random(),
+    y: Math.sin(angle) * initialRadius + Math.random(),
     radius: radiusScale(size),
   };
   if (!(industry in clusters)) clusters[industry] = d;
@@ -71,9 +73,10 @@ const svg = select('#canceled-internships')
   .translate([WIDTH / 2, HEIGHT / 2]);
 
 /* simulation force bubbles into a place and force them not to collide */
+const strength = 0.03;
 const simulation = forceSimulation()
-  .force('x', forceX().strength(0.07))
-  .force('y', forceY().strength(0.07))
+  .force('x', forceX().strength(strength))
+  .force('y', forceY().strength(strength))
   .force('charlotte', cjClusterForce())
   .force(
     'collide',
