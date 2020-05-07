@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceCollide, forceX, forceY } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
-import { extent } from 'd3-array';
+import { extent, rollup } from 'd3-array';
 import 'd3-transition';
 import 'd3-jetpack/essentials';
 
@@ -74,7 +74,7 @@ const svg = select('#canceled-internships')
 const simulation = forceSimulation()
   .force('x', forceX().strength(0.07))
   .force('y', forceY().strength(0.07))
-  .force('charlotte', charlottesClusteringForce())
+  .force('charlotte', cjClusterForce())
   .force(
     'collide',
     forceCollide(function (d) {
@@ -105,12 +105,32 @@ const circle = svg
 simulation.nodes(companyData).on('tick', ticked);
 
 function ticked() {
-  // const alpha = this.alpha();
-  circle
-    // .each(cluster(10 * alpha * alpha))
-    // .each(collide(.5))
-    .attr('cx', d => d.x)
-    .attr('cy', d => d.y);
+  circle.attr('cx', d => d.x).attr('cy', d => d.y);
+}
+
+let printedOnce = false;
+
+function cjClusterForce() {
+  const strength = 0.2;
+  let nodes;
+
+  function force(alpha) {
+    const centroids = rollup(nodes, centroid, d => d.industry);
+    if (!printedOnce) {
+      // console.log(centroids.get(''));
+      printedOnce = true;
+    }
+    const l = alpha * strength;
+    for (const d of nodes) {
+      const { x: cx, y: cy } = centroids.get(d.industry);
+      d.vx -= (d.x - cx) * l;
+      d.vy -= (d.y - cy) * l;
+    }
+  }
+
+  force.initialize = _ => (nodes = _);
+
+  return force;
 }
 
 // Move d to be adjacent to the cluster node.
@@ -136,4 +156,17 @@ function charlottesClusteringForce(alpha) {
       cluster.y += dy;
     }
   }
+}
+
+function centroid(nodes) {
+  let x = 0;
+  let y = 0;
+  let z = 0;
+  for (const d of nodes) {
+    let k = d.radius ** 2;
+    x += d.x * k;
+    y += d.y * k;
+    z += k;
+  }
+  return { x: x / z, y: y / z };
 }
