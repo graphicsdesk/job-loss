@@ -5,6 +5,7 @@ import { forceSimulation, forceCollide, forceX, forceY } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import 'd3-transition';
+import 'd3-jetpack/essentials';
 
 /* Data preprocessing */
 
@@ -31,17 +32,19 @@ for (const industry in industriesProps) {
 
 /* radiusScale */
 
+const getSize = sizeStr => parseInt(sizeStr.replace(',', '').split(' ')[0]);
+
 const radiusScale = scaleSqrt()
-  .domain(extent(companyData, d => d.size))
+  .domain(extent(companies, d => getSize(d.size)))
   .range([2, 37]);
 
 // The largest node for each cluster
 const clusters = {};
 
-const companyData = companies.map(({ employer, industry, size }) => {
+const companyData = companies.map(({ employer, industry, size: sizeStr }) => {
   // TODO: add industries props cum
   const angle = (industries.indexOf(industry) / totalIndustry) * 2 * Math.PI;
-  const size = parseInt(size.replace(',', '').split(' ')[0]);
+  const size = getSize(sizeStr);
   const d = {
     employer,
     industry,
@@ -51,6 +54,7 @@ const companyData = companies.map(({ employer, industry, size }) => {
     radius: radiusScale(size),
   };
   if (!(industry in clusters)) clusters[industry] = d;
+  return d;
 });
 
 /* Some constants */
@@ -62,15 +66,15 @@ const HEIGHT = document.body.clientHeight;
 
 const svg = select('#canceled-internships')
   .append('svg')
-  .attr('width', WIDTH)
-  .attr('height', HEIGHT)
+  .at({ width: WIDTH, height: HEIGHT })
   .append('g')
-  .attr('transform', 'translate(' + WIDTH / 2 + ',' + HEIGHT / 2 + ')');
+  .translate([WIDTH / 2, HEIGHT / 2]);
 
 /* simulation force bubbles into a place and force them not to collide */
 const simulation = forceSimulation()
   .force('x', forceX().strength(0.07))
   .force('y', forceY().strength(0.07))
+  .force('charlotte', charlottesClusteringForce())
   .force(
     'collide',
     forceCollide(function (d) {
@@ -89,8 +93,7 @@ const circle = svg
   .selectAll('circle')
   .data(companyData)
   .enter()
-  .append('circle')
-  .attr('class', 'company')
+  .append('circle.company')
   .attr('r', function (d) {
     return radiusScale(d.size);
   })
@@ -101,33 +104,36 @@ const circle = svg
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
 simulation.nodes(companyData).on('tick', ticked);
 
-function ticked(e) {
+function ticked() {
+  // const alpha = this.alpha();
   circle
-    .each(cluster(10 * e.alpha * e.alpha))
-    //.each(collide(.5))
-    .attr('cx', function (d) {
-      return d.x;
-    })
-    .attr('cy', function (d) {
-      return d.y;
-    });
+    // .each(cluster(10 * alpha * alpha))
+    // .each(collide(.5))
+    .attr('cx', d => d.x)
+    .attr('cy', d => d.y);
 }
 
 // Move d to be adjacent to the cluster node.
-function cluster(alpha) {
-  return function (d) {
+function charlottesClusteringForce(alpha) {
+  const n = companyData.length;
+
+  for (let i = 0; i < n; i++) {
+    const d = companyData[i];
     const cluster = clusters[d.industry];
-    if (cluster === d) return;
+    if (cluster === d) {
+      continue;
+    }
+
     let dx = d.x - cluster.x;
     let dy = d.y - cluster.y;
     let distance = Math.sqrt(dx * dx + dy * dy);
     let r = d.radius + cluster.radius;
-    if (distance != r) {
-      distance = ((distance - r) / l) * alpha;
+    if (distance !== r) {
+      distance = ((distance - r) / distance) * alpha;
       d.x -= dx *= distance;
       d.y -= dy *= distance;
       cluster.x += dx;
       cluster.y += dy;
     }
-  };
+  }
 }
