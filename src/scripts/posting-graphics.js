@@ -18,7 +18,7 @@ const postings = rawPostings
 
 /* Some constants */
 
-const margin = { left: 40, top: 10, bottom: 40, right: 10 };
+const margin = { left: 40, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
 
 /**
@@ -45,13 +45,13 @@ const yAxis = svg.append('g.y.axis');
 const xScale = scaleTime().domain(extent(postings, d => d.date));
 const yScale = scaleLinear().domain([
   0,
-  1.1 * Math.max(postings.map(d => d.count)),
+  1.1 * Math.max(...postings.map(d => d.count)),
 ]);
 
 // Instantiate shape and axes generators
 const lineFn = line();
 const xAxisFn = axisBottom().tickPadding(TICK_PADDING);
-const yAxisFn = axisLeft();
+const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 
 // The line path
 const linePath = svg.append('path');
