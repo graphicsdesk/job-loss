@@ -11,6 +11,8 @@
   "keywords": [],
   "devDependencies": {
     "cssnano": "^4.1.10",
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.5.7",
     "parcel-bundler": "^1.12.4",
     "patch-package": "^6.2.0",
     "posthtml-expressions": "^1.1.1",
@@ -21,6 +23,7 @@
     "d3-array": "^2.4.0",
     "d3-axis": "^1.0.12",
     "d3-force": "^2.0.1",
+    "d3-jetpack": "^2.0.20",
     "d3-scale": "^3.2.1",
     "d3-scale-chromatic": "^1.5.0",
     "d3-selection": "^1.4.1",
