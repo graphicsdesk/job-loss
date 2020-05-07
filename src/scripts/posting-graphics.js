@@ -2,7 +2,7 @@ import rawPostings from '../../data/postings.json';
 import { select } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { extent, max } from 'd3-array';
+import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import 'd3-transition';
 import 'd3-jetpack/essentials';
@@ -43,7 +43,10 @@ const yAxis = svg.append('g.y.axis');
 
 // Instantiate scales
 const xScale = scaleTime().domain(extent(postings, d => d.date));
-const yScale = scaleLinear().domain([0, 1.1 * max(postings, d => d.count)]);
+const yScale = scaleLinear().domain([
+  0,
+  1.1 * Math.max(postings.map(d => d.count)),
+]);
 
 // Instantiate shape and axes generators
 const lineFn = line();
