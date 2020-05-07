@@ -13,6 +13,23 @@ const industrySet = new Set(companies.map(item => item.industry));
 const industries =[...industrySet];
 const totalIndustry = industries.length;
 
+// Calculate proportions for each industry
+// (# companies in industry / total # companies)
+const industriesProps = companies.reduce((acc, { industry }) => {
+  if (!(industry in acc)) acc[industry] = 0;
+  acc[industry] += 1 / companies.length;
+  return acc;
+}, {});
+
+// Make those proportions cumulative
+let cumValue = 0;
+const industriesPropsCum = {};
+for (const industry in industriesProps) {
+  const prop = industriesProps[industry];
+  industriesPropsCum[industry] = (cumValue + prop / 2);
+  cumValue += prop;
+}
+
 const companyData = companies
   .map(({ employer, industry, size }) => ({
     employer,
