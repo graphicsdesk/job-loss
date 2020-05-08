@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceX, forceY } from 'd3-force';
+import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent, rollup, max } from 'd3-array';
 import { quadtree } from 'd3-quadtree';
@@ -54,12 +54,19 @@ const svg = select('#canceled-internships')
 
 /* simulation force bubbles into a place and force them not to collide */
 
-const strength = 0.02;
+const strength = 0.05;
+const forceSplit = forceX(d => d.industry=== "Internet & Software" ? -350 : 300).strength(strength)
+
 const simulation = forceSimulation()
-  .force('x', forceX().strength(strength))
-  .force('y', forceY().strength(strength))
-  .force('cjCluster', cjClusterForce())
-  .force('elonMuskCollide', elonMuskCollide());
+    .force('y', forceY().strength(strength))
+    .force('x', forceX().strength(strength))
+    .force('cjCluster', cjClusterForce())
+    .force('elonMuskCollide', elonMuskCollide())
+  //.force('x', forceX(d => d.industry=== "Internet & Software" ? -350 : 300).strength(strength))
+  //.force('y', forceY().strength(strength))
+  //.force('collide', forceCollide(d => radiusScale(d.size)))
+  //.force('cjCluster', cjClusterForce())
+  //.force('elonMuskCollide', elonMuskCollide());
 
 /* industry color scale */
 
@@ -85,6 +92,7 @@ const circle = svg
 simulation.nodes(companyData).on('tick', ticked);
 
 function ticked() {
+  console.log(this.alpha())
   circle.attr('cx', d => d.x).attr('cy', d => d.y);
 }
 
@@ -95,7 +103,7 @@ function ticked() {
  */
 
 function cjClusterForce() {
-  const strength = 0.2;
+  const strength = 0.1;
   let nodes;
 
   function force(alpha) {
@@ -195,20 +203,35 @@ var graphic = container.select('#canceled-internships');
 var text = container.select('#text');
 var step = text.selectAll('.step');
 
+function enterHandle(response) {
+ if (response.index === 0){
+      simulation
+        .force('x', forceSplit)
+        //.force('collide', forceCollide(d => radiusScale(d.size))) 
+        .alpha(0.75)
+        .restart()
+  }
+}
+
+function exitHandle({element, index, direction}) {
+  if(index === 0 && direction === "up"){
+    simulation
+      .force('x', forceX().strength(strength))
+      .alpha(0.75)
+      .restart()
+  }
+}
 // instantiate the scrollama
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
   .setup({
-    step: ".step"
+    step: ".step",
+    debug: true
   })
-  .onStepEnter(response => { 
-    // { element, index, direction }
-  })
-  .onStepExit(response => {
-    // { element, index, direction }
-  });
-console.log(index);
+  .onStepEnter(enterHandle)
+  .onStepExit(exitHandle);
+
 // setup resize event
 window.addEventListener("resize", scroller.resize);

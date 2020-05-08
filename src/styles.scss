@@ -43,10 +43,19 @@
   svg {
     display: block;
     margin: 0 auto;
-    position:sticky;
   }
+  position:sticky;
+  top: 0;
+  z-index: 0;
 }
 
-#text.step {
+#text .step {
   padding-bottom: 80vh;
+  z-index: 1;
+}
+
+#text {
+  position: relative;
+  margin: 0 auto;
+  max-width: 200;
 }
