@@ -7,7 +7,7 @@ import { quadtree } from 'd3-quadtree';
 import scrollama from 'scrollama';
 import 'd3-jetpack/essentials';
 
-/* Data preprocessing */
+/* Import data, derive some helpful values */
 
 import {
   employers as companies,
@@ -20,11 +20,16 @@ const industries = Object.keys(industriesProportions);
 const WIDTH = document.body.clientWidth;
 const HEIGHT = document.body.clientHeight;
 
-/* radiusScale */
+/* Scales */
 
 const radiusScale = scaleSqrt()
   .domain(extent(companies, d => d.size))
   .range([2, 37]);
+
+function industryColorsScale(industry) {
+  const t = industries.indexOf(industry) / industries.length;
+  return interpolateSpectral(t);
+}
 
 /* Generating initial nodes */
 
@@ -32,8 +37,7 @@ const initialRadius = 700;
 
 const companyData = companies.map(({ employer, industry, size }) => {
   const cumulativeProportion = industriesProportions[industry];
-  const angle = cumulativeProportion * 2.5 * Math.PI;
-
+  const angle = cumulativeProportion * 2 * Math.PI + 0.5 * Math.PI;
   return {
     employer,
     industry,
@@ -44,7 +48,7 @@ const companyData = companies.map(({ employer, industry, size }) => {
   };
 });
 
-/* Create the container and canvas */
+/* Create the svg and then draw circles */
 
 const svg = select('#canceled-internships')
   .append('svg')
@@ -52,9 +56,19 @@ const svg = select('#canceled-internships')
   .append('g')
   .translate([WIDTH / 2, HEIGHT / 2]);
 
-/* simulation force bubbles into a place and force them not to collide */
+const circles = svg
+  .selectAll('circle')
+  .data(companyData)
+  .join('circle') // https://observablehq.com/@d3/selection-join
+  .at({
+    r: d => radiusScale(d.size),
+    fill: d => industryColorsScale(d.industry),
+  });
+
+/* Initiate simulation, define some forces */
 
 const strength = 0.02;
+
 const forceCombine = forceX().strength(strength);
 const forceSplit = forceX(d =>
   d.industry === 'Internet & Software' ? -350 : 300,
@@ -66,32 +80,14 @@ const simulation = forceSimulation()
   .force('cjCluster', cjClusterForce())
   .force('elonMuskCollide', elonMuskCollide());
 
-/* industry color scale */
-
-function industryColorsScale(industry) {
-  const t = industries.indexOf(industry) / industries.length;
-  return interpolateSpectral(t);
-}
-
-/* Draw the shapes */
-
-const circle = svg
-  .selectAll('circle')
-  .data(companyData)
-  .enter()
-  .append('circle.company')
-  .attr('r', d => radiusScale(d.size))
-  .attr('fill', function (d) {
-    return industryColorsScale(d.industry);
-  });
-
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
 
-simulation.nodes(companyData).on('tick', ticked);
-
-function ticked() {
-  circle.attr('cx', d => d.x).attr('cy', d => d.y);
-}
+simulation.nodes(companyData).on('tick', () => {
+  circles.at({
+    cx: d => d.x,
+    cy: d => d.y,
+  });
+});
 
 /**
  * This cluster force attracts each group of nodes towards its
@@ -158,9 +154,9 @@ function elonMuskCollide() {
       theQuadtree.visit((q, x1, y1, x2, y2) => {
         const { data: quadNode } = q;
         if (!q.length && quadNode !== node) {
-
           // Calculate desired minimum distance and current distance
-          const padding = node.industry === quadNode.industry ? padding1 : padding2;
+          const padding =
+            node.industry === quadNode.industry ? padding1 : padding2;
           const minDistance = node.radius + quadNode.radius + padding;
           let dx = node.x - quadNode.x;
           let dy = node.y - quadNode.y;
@@ -172,8 +168,10 @@ function elonMuskCollide() {
             distance = ((distance - minDistance) / distance) * alpha;
             dx *= distance;
             dy *= distance;
-            node.x -= dx; node.y -= dy;
-            quadNode.x += dx; quadNode.y += dy;
+            node.x -= dx;
+            node.y -= dy;
+            quadNode.x += dx;
+            quadNode.y += dy;
           }
         }
         // If this returns true, then q's children are not visited
@@ -206,11 +204,11 @@ function centroid(nodes) {
   return { x: x / z, y: y / z };
 }
 
-//scrolly stuffs
+/* scrolly stuffs */
 
 function enterHandle({ index, direction }) {
   if (index === 0 && direction === 'down') {
-    simulation.force('x', forceSplit).alpha(0.3).restart();
+    simulation.force('x', forceSplit).alpha(0.6).restart();
   }
 }
 
