@@ -4,7 +4,7 @@ import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent, rollup, max } from 'd3-array';
 import { quadtree } from 'd3-quadtree';
-import scrollama from "scrollama";
+import scrollama from 'scrollama';
 import 'd3-jetpack/essentials';
 
 /* Data preprocessing */
@@ -32,7 +32,7 @@ const initialRadius = 700;
 
 const companyData = companies.map(({ employer, industry, size }) => {
   const cumulativeProportion = industriesProportions[industry];
-  const angle = cumulativeProportion * 2 * Math.PI;
+  const angle = cumulativeProportion * 2.5 * Math.PI;
 
   return {
     employer,
@@ -54,19 +54,17 @@ const svg = select('#canceled-internships')
 
 /* simulation force bubbles into a place and force them not to collide */
 
-const strength = 0.05;
-const forceSplit = forceX(d => d.industry=== "Internet & Software" ? -350 : 300).strength(strength)
+const strength = 0.02;
+const forceCombine = forceX().strength(strength);
+const forceSplit = forceX(d =>
+  d.industry === 'Internet & Software' ? -350 : 300,
+).strength(strength);
 
 const simulation = forceSimulation()
+  .force('x', forceCombine)
     .force('y', forceY().strength(strength))
-    .force('x', forceX().strength(strength))
     .force('cjCluster', cjClusterForce())
-    .force('elonMuskCollide', elonMuskCollide())
-  //.force('x', forceX(d => d.industry=== "Internet & Software" ? -350 : 300).strength(strength))
-  //.force('y', forceY().strength(strength))
-  //.force('collide', forceCollide(d => radiusScale(d.size)))
-  //.force('cjCluster', cjClusterForce())
-  //.force('elonMuskCollide', elonMuskCollide());
+  .force('elonMuskCollide', elonMuskCollide());
 
 /* industry color scale */
 
@@ -92,14 +90,13 @@ const circle = svg
 simulation.nodes(companyData).on('tick', ticked);
 
 function ticked() {
-  console.log(this.alpha())
   circle.attr('cx', d => d.x).attr('cy', d => d.y);
 }
 
 /**
- * Cluster and collision forces to space out groups.
- *
- * Look here if confused: https://observablehq.com/@d3/clustered-bubbles
+ * This cluster force attracts each group of nodes towards its
+ * weighted centroid.
+ * Adapted from https://observablehq.com/@d3/clustered-bubbles
  */
 
 function cjClusterForce() {
@@ -125,6 +122,11 @@ function cjClusterForce() {
   return force;
 }
 
+/**
+ * This collision force prevents nodes from overlapping. It uses different
+ * distances to separate nodes of the same group versus different groups.
+ * Adapted from https://observablehq.com/@d3/clustered-bubbles
+ */
 function elonMuskCollide() {
   const alpha = 0.4; // fixed for greater rigidity!
   const padding1 = 1; // separation between same-color nodes
@@ -138,7 +140,6 @@ function elonMuskCollide() {
       d => d.x,
       d => d.y,
     );
-    // Black box of quadtree
     for (const d of nodes) {
       const r = d.radius + maxRadius;
       const nx1 = d.x - r,
@@ -195,43 +196,35 @@ function centroid(nodes) {
   return { x: x / z, y: y / z };
 }
 
-
 //scrolly stuffs
 
-var container = select('#scrolly');
-var graphic = container.select('#canceled-internships');
-var text = container.select('#text');
-var step = text.selectAll('.step');
-
-function enterHandle(response) {
- if (response.index === 0){
+function enterHandle({ index }) {
+  if (index === 0) {
       simulation
         .force('x', forceSplit)
-        //.force('collide', forceCollide(d => radiusScale(d.size))) 
-        .alpha(0.75)
-        .restart()
+      .alpha(0.3)
+      .restart();
   }
 }
 
-function exitHandle({element, index, direction}) {
-  if(index === 0 && direction === "up"){
-    simulation
-      .force('x', forceX().strength(strength))
-      .alpha(0.75)
-      .restart()
+function exitHandle({ index, direction }) {
+  if (index === 0 && direction === 'up') {
+    simulation.force('x', forceCombine).alpha(0.2).restart();
   }
 }
+
 // instantiate the scrollama
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
   .setup({
-    step: ".step",
-    debug: true
+    step: '.step',
+    debug: true,
   })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 
 // setup resize event
-window.addEventListener("resize", scroller.resize);
+// TODO: debounce
+window.addEventListener('resize', scroller.resize);
