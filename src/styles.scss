@@ -8,11 +8,18 @@
     display: block;
     margin: 0 auto;
 
-    path {
+    path#rawCount {
       fill: none;
-      stroke: red;
+      stroke: grey;
       stroke-width: 1px;
     }
+
+    path#rollingMean {
+      fill: none;
+      stroke: red;
+      stroke-width: 2px;
+    }
+
 
     .domain {
       display: none;

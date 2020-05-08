@@ -16,6 +16,27 @@ const postings = rawPostings
   }))
   .sort((a, b) => a.date - b.date);
 
+/* compute the rolling mean */
+const rollingMean = [];
+
+for(let i = 0; i < postings.length; i++) {
+  let sum = 0;
+  let mean = 0;
+
+  if ( i > 2 && i < postings.length-3){
+    for(let j = -3; j <= 3; j++) {
+      sum += postings[i+j].count; 
+    }
+    mean = sum/7;
+    rollingMean.push({
+      date: postings[i].date,
+      count: mean
+    });
+  }
+}
+
+console.log(rollingMean);
+
 /* Some constants */
 
 const margin = { left: 40, top: 20, bottom: 50, right: 20 };
@@ -54,7 +75,8 @@ const xAxisFn = axisBottom().tickPadding(TICK_PADDING);
 const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 
 // The line path
-const linePath = svg.append('path');
+const linePath = svg.append('path#rawCount');
+const meanPath = svg.append('path#rollingMean');
 
 function drawGraph() {
   // Update width and height
@@ -83,10 +105,12 @@ function drawGraph() {
 
   // Set path d
   linePath.attr('d', lineFn(postings));
+  meanPath.attr('d', lineFn(rollingMean));
 
   /* animation:
     1. get the length of the path */
   const lineLength = linePath.node().getTotalLength();
+  const rollingMeanLength = meanPath.node().getTotalLength();
 
   /*
     2. set the dash array in the offset to the length */
@@ -95,6 +119,12 @@ function drawGraph() {
     .transition('draw-in')
     .duration(3000)
     .style('stroke-dasharray', `${lineLength}, ${lineLength}`);
+
+  meanPath
+    .style('stroke-dasharray', `0, ${rollingMeanLength}`)
+    .transition('draw-in')
+    .duration(3000)
+    .style('stroke-dasharray', `${rollingMeanLength}, ${rollingMeanLength}`);
 }
 
 drawGraph();
