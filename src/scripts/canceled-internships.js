@@ -104,20 +104,23 @@ function cjClusterForce() {
   let nodes;
 
   function force(alpha) {
-    // Group nodes by industry, then aggregate values by calculating centroid
+    // Group nodes by industry, then invoke a value aggregator that calculates
+    // each group's centroid
     const centroids = rollup(nodes, centroid, d => d.industry);
 
-    const l = alpha * strength;
+    alpha *= strength;
     for (const d of nodes) {
       const { x: cx, y: cy } = centroids.get(d.industry);
-      d.vx -= (d.x - cx) * l;
-      d.vy -= (d.y - cy) * l;
+      d.vx -= (d.x - cx) * alpha;
+      d.vy -= (d.y - cy) * alpha;
     }
   }
 
-  // Set the value of nodes to the argument of force.initialize while returning
-  // that value. force.initialize(companyData) is called by the simulation.
-  force.initialize = _ => (nodes = _);
+  // force.initialize is passed the array of nodes.
+  // https://github.com/d3/d3-force/blob/master/README.md#force_initialize
+  force.initialize = _ => {
+    nodes = _;
+  };
 
   return force;
 }
@@ -135,49 +138,56 @@ function elonMuskCollide() {
   let maxRadius;
 
   function force() {
+    // A quadtree recursively partitions 2D space into squares. Distinct points
+    // are leaf nodes; conincident ones are linked lists.
     const theQuadtree = quadtree(
       nodes,
       d => d.x,
       d => d.y,
     );
-    for (const d of nodes) {
-      const r = d.radius + maxRadius;
-      const nx1 = d.x - r,
-        ny1 = d.y - r;
-      const nx2 = d.x + r,
-        ny2 = d.y + r;
+
+    for (const node of nodes) {
+      const r = node.radius + maxRadius;
+      const nx1 = node.x - r,
+        ny1 = node.y - r;
+      const nx2 = node.x + r,
+        ny2 = node.y + r;
+
+      // Visit each node in the quadtree. q is the node. (x1, y1) and (x2, y2)
+      // are the lower and upper bounds of the node.
       theQuadtree.visit((q, x1, y1, x2, y2) => {
-        // Truthy if q.length undefined (if q is a leaf node)
-        if (!q.length) {
-          do {
-            // q.data is a node
-            if (q.data !== d) {
-              const r =
-                d.radius +
-                q.data.radius +
-                (d.industry === q.data.industry ? padding1 : padding2);
-              let x = d.x - q.data.x;
-              let y = d.y - q.data.y;
-              let l = Math.hypot(x, y);
-              if (l < r) {
-                l = ((l - r) / l) * alpha;
-                (d.x -= x *= l), (d.y -= y *= l);
-                (q.data.x += x), (q.data.y += y);
-              }
-            }
-          } while ((q = q.next));
+        const { data: quadNode } = q;
+        if (!q.length && quadNode !== node) {
+
+          // Calculate desired minimum distance and current distance
+          const padding = node.industry === quadNode.industry ? padding1 : padding2;
+          const minDistance = node.radius + quadNode.radius + padding;
+          let dx = node.x - quadNode.x;
+          let dy = node.y - quadNode.y;
+          let distance = Math.hypot(dx, dy);
+
+          // If current distance between the two nodes is less than the
+          // desired distance (sums of radii + appropriate padding)...
+          if (distance < minDistance) {
+            distance = ((distance - minDistance) / distance) * alpha;
+            dx *= distance;
+            dy *= distance;
+            node.x -= dx; node.y -= dy;
+            quadNode.x += dx; quadNode.y += dy;
+          }
         }
+        // If this returns true, then q's children are not visited
         return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
       });
     }
   }
 
-  // Set the value of max radius to that math stuff, which includes setting
-  // the value of nodes to the argument of force.initialize.
-  // force.initialize(companyData) is called by the simulation.
-  force.initialize = _ =>
-    (maxRadius =
-      max((nodes = _), d => d.radius) + Math.max(padding1, padding2));
+  // force.initialize is passed the array of nodes.
+  // https://github.com/d3/d3-force/blob/master/README.md#force_initialize
+  force.initialize = _ => {
+    nodes = _;
+    maxRadius = max(nodes, d => d.radius) + Math.max(padding1, padding2);
+  };
 
   return force;
 }
@@ -198,12 +208,9 @@ function centroid(nodes) {
 
 //scrolly stuffs
 
-function enterHandle({ index }) {
-  if (index === 0) {
-    simulation
-      .force('x', forceSplit)
-      .alpha(0.3)
-      .restart();
+function enterHandle({ index, direction }) {
+  if (index === 0 && direction === 'down') {
+    simulation.force('x', forceSplit).alpha(0.3).restart();
   }
 }
 
