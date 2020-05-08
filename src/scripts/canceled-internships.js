@@ -62,8 +62,8 @@ const forceSplit = forceX(d =>
 
 const simulation = forceSimulation()
   .force('x', forceCombine)
-    .force('y', forceY().strength(strength))
-    .force('cjCluster', cjClusterForce())
+  .force('y', forceY().strength(strength))
+  .force('cjCluster', cjClusterForce())
   .force('elonMuskCollide', elonMuskCollide());
 
 /* industry color scale */
@@ -200,8 +200,8 @@ function centroid(nodes) {
 
 function enterHandle({ index }) {
   if (index === 0) {
-      simulation
-        .force('x', forceSplit)
+    simulation
+      .force('x', forceSplit)
       .alpha(0.3)
       .restart();
   }
