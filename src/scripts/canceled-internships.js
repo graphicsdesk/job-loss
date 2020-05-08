@@ -4,6 +4,7 @@ import { scaleOrdinal, scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceCollide, forceX, forceY} from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
+import scrollama from "scrollama";
 import 'd3-transition';
 
 
@@ -18,7 +19,6 @@ const totalIndustry = industries.length;
 const radiusScale = scaleSqrt()
   .domain(extent(companyData, d => d.size))
   .range([2,37])
-  
 const companyData = companies
   .map(({ employer, industry, size }) => ({
     employer,
@@ -104,4 +104,29 @@ function cluster(alpha) {
     }
   };
 }
+
+//scrolly stuffs
+
+var container = select('#scrolly');
+var graphic = container.select('#canceled-internships');
+var text = container.select('#text');
+var step = text.selectAll('.step');
+
+// instantiate the scrollama
+const scroller = scrollama();
+
+// setup the instance, pass callback functions
+scroller
+  .setup({
+    step: ".step"
+  })
+  .onStepEnter(response => { 
+    // { element, index, direction }
+  })
+  .onStepExit(response => {
+    // { element, index, direction }
+  });
+console.log(index);
+// setup resize event
+window.addEventListener("resize", scroller.resize);
 
