@@ -208,13 +208,13 @@ function centroid(nodes) {
 
 function enterHandle({ index, direction }) {
   if (index === 0 && direction === 'down') {
-    simulation.force('x', forceSplit).alpha(0.5).restart();
+    simulation.force('x', forceSplit).alpha(0.69).restart();
   }
 }
 
 function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
-    simulation.force('x', forceCombine).alpha(0.5).restart();
+    simulation.force('x', forceCombine).alpha(0.69).restart();
   }
 }
 
