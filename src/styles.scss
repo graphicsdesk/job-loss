@@ -35,9 +35,18 @@
   }
 }
 
+#scrolly {
+  position:relative;
+}
+
 #canceled-internships {
   svg {
     display: block;
     margin: 0 auto;
+    position:sticky;
   }
+}
+
+#text.step {
+  padding-bottom: 80vh;
 }
