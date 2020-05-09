@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceCenter, forceX, forceY } from 'd3-force';
+import { forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import scrollama from 'scrollama';
@@ -40,6 +40,7 @@ function initialRadiusScale(industry) {
     industry === 'Internet & Software' ||
     industry === 'Aerospace' ||
     industry === 'Tourism' ||
+    industry === 'Advertising, PR & Marketing' ||
     industry === 'Transportation & Logistics'
   ) {
     return initialRadius * 1.5;
@@ -77,7 +78,7 @@ const circles = svg
     fill: d => industryColorsScale(d.industry),
   });
 
- svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
+svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
 const green = svg.append('circle').at({ r: 10, fill: 'green', cx: 0, cy: 0 });
 
 /* partition the circles for discoloring */
@@ -90,14 +91,17 @@ const softwareBig = circles.filter(
 
 const strength = 0.02;
 
-const forceCombine = forceX().strength(strength);
-
+// Force generators
 const forceXFn = x => forceX(x).strength(strength);
-const forceYFn = x => forceY(x).strength(strength);
+const forceYFn = y => forceY(y).strength(strength);
+
+// Default forces
+const forceXCenter = forceXFn(0);
+const forceYCenter = forceYFn(0);
 
 const simulation = forceSimulation()
-  .force('x', forceXFn(0))
-  .force('y', forceYFn(0))
+  .force('x', forceXCenter)
+  .force('y', forceYCenter)
   .force('cjCluster', cjClusterForce())
   .force('elonMuskCollide', elonMuskCollide());
 
@@ -117,12 +121,6 @@ async function separateIndustry(industry) {
     companyData.filter(d => d.industry === industry),
   );
 
-  /**
-   * Reflection matrix:
-   * 1  0
-   * 0 -1
-   */
-
   // Calculate the rotation (2 possible errors made here right now)
   let initialAngle = Math.atan(cy / cx); // angle of the industry cluster
   if (cx < 0) {
@@ -130,47 +128,64 @@ async function separateIndustry(industry) {
   }
   const desiredAngle = Math.PI; // angle we want industry cluster to point in
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
-  await svg.setRotate(angle * 180 / Math.PI); // rotate the SVG
+  await svg.setRotate((angle * 180) / Math.PI); // rotate the SVG
 
-  const initialX = -500; const initialY = 0; // the point when rotation = 0
-  const cos = Math.cos(-angle); const sin = Math.sin(-angle);
-  const x = initialX * cos + initialY * (-sin);
+  const initialX = -500;
+  const initialY = 0; // the point when rotation = 0
+  const cos = Math.cos(-angle);
+  const sin = Math.sin(-angle);
+  const x = initialX * cos + initialY * -sin;
   const y = initialX * sin + initialY * cos;
   green.transition().at({ cx: x, cy: y });
   simulation
-    .force('x', forceXFn(d => d.industry === industry ? x : -x ))
-    .force('y', forceYFn(d => d.industry === industry ? y : -y ))
+    .force(
+      'x',
+      forceXFn(d => (d.industry === industry ? x : -x)),
+    )
+    .force(
+      'y',
+      forceYFn(d => (d.industry === industry ? y : -y)),
+    )
     .alpha(0.69)
     .restart();
 }
 
-async function unseparateIndustry(industry) {
-  simulation.force('x', forceCombine).alpha(0.69).restart();
+async function unseparateIndustry() {
+  simulation
+    .force('x', forceXCenter)
+    .force('y', forceYCenter)
+    .alpha(0.69)
+    .restart();
 
   // Wait 1 second
-  // await new Promise(r => setTimeout(r, 2000));
-
-  await svg.setRotate(0);
+  await new Promise(r => setTimeout(r, 1000));
 }
 
-async function enterHandle({ index, direction }) {
-  if (index === 0 && direction === 'down') {
-    separateIndustry('Internet & Software');
-  }
+const industriesToShow = [
+  'Internet & Software',
+  'Advertising, PR & Marketing',
+  'Tourism',
+];
 
+async function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
-    separateIndustry('Advertising, PR & Marketing');
     softwareBig.classed('softwareBig', true);
   }
 
-  if (index === 2 && direction === 'down') {
+  if (index === 3 && direction === 'down') {
     bigBusiness.classed('bigBusiness', true);
   }
+
+  if (index > 0 && direction === 'down') {
+    await unseparateIndustry();
+  }
+  await separateIndustry(industriesToShow[index]);
 }
 
-function exitHandle({ index, direction }) {
+async function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
-    unseparateIndustry('Internet & Software');
+    await unseparateIndustry();
+    await svg.setRotate(0);
   }
 
   if (index === 1 && direction === 'up') {
