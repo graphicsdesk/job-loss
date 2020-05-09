@@ -36,7 +36,7 @@
     "text-balancer": "^1.0.5"
   },
   "browserslist": [
-    "defaults"
+    "last 2 Chrome versions"
   ],
   "spectate": {
     "USE_NEWS_NAV": false,

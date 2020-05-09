@@ -1,5 +1,8 @@
 import enterView from 'enter-view';
 import textBalancer from 'text-balancer';
+import 'd3-jetpack/essentials';
+
+import './scripts/d3-wrappers';
 import './scripts/page';
 import './scripts/posting-graphics';
 import './scripts/canceled-internships';
