@@ -14,6 +14,16 @@
     svg {
       display: block;
       margin: 0 auto;
+
+      circle.bigBusiness {
+        fill-opacity: 0.3;
+        transition-duration: 0.2s;
+      }
+
+      circle.softwareBig {
+        fill-opacity: 0.5;
+        transition-duration: 0.2s;
+      }
     }
   }
 
@@ -70,6 +80,11 @@
 
       .grid path {
         stroke-width: 0;
+      }
+
+      line {
+        stroke: black;
+        stroke-width: 2px;
       }
     }
   }

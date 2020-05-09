@@ -4,6 +4,7 @@ import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
+import scrollama from 'scrollama';
 import 'd3-transition';
 import 'd3-jetpack/essentials';
 
@@ -39,6 +40,10 @@ for (let i = 0; i < postings.length; i++) {
 
 const margin = { left: 40, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
+const universityClosingDate = new Date("2020-03-08"); //University announced canceled classes for 2 days
+const universityRemoteDate = new Date("2020-03-12");
+const pauseStartDate = new Date("2020-03-22"); //PAUSE:effective at 8PM on Sunday, March 22
+const dates = [universityClosingDate, universityRemoteDate, pauseStartDate];
 
 /**
  * Initiation code. Creates DOM nodes and instantiates functions like scales
@@ -127,3 +132,36 @@ function drawGraph() {
 
 drawGraph();
 window.addEventListener('resize', drawGraph);
+
+/* scrolly stuffs */
+function enterHandle ({index, direction}) {
+  console.log(index);
+  if (index === 4 && direction === 'down'){
+    for(const d of dates ){
+      svg.append('line')
+      .attr('x1', xScale(d))
+      .attr('x2', xScale(d))
+      .attr('y1', yScale(0))
+      .attr('y2', yScale(1.1 * Math.max(...postings.map(d => d.count))))
+    }
+  }
+}
+
+// instantiate the scrollama
+const scroller = scrollama();
+
+// setup the instance, pass callback functions
+scroller
+  .setup({
+    step: '.step',
+    debug: true,
+  })
+  .onStepEnter(enterHandle)
+  //.onStepExit(/*exitHandle*/);
+
+
+
+// setup resize event
+// TODO: debounce
+window.addEventListener('resize', scroller.resize);
+
