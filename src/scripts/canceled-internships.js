@@ -1,7 +1,7 @@
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
-import { interpolateSpectral } from 'd3-scale-chromatic';
+import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent, rollup, max } from 'd3-array';
 import { quadtree } from 'd3-quadtree';
 import scrollama from 'scrollama';
@@ -28,7 +28,7 @@ const radiusScale = scaleSqrt()
 
 function industryColorsScale(industry) {
   const t = industries.indexOf(industry) / industries.length;
-  return interpolateSpectral(t);
+  return interpolateViridis(t);
 }
 
 /* Generating initial nodes */
@@ -64,6 +64,10 @@ const circles = svg
     r: d => radiusScale(d.size),
     fill: d => industryColorsScale(d.industry),
   });
+
+/* partition the circles for discoloring */
+const bigBusiness = circles.filter(d => d.size > 250);
+const softwareBig = circles.filter(d => d.industry === "Internet & Software" && d.size > 1000);
 
 /* Initiate simulation, define some forces */
 
@@ -210,11 +214,27 @@ function enterHandle({ index, direction }) {
   if (index === 0 && direction === 'down') {
     simulation.force('x', forceSplit).alpha(0.69).restart();
   }
+
+  if (index === 1 && direction === 'down') {
+    softwareBig.classed('softwareBig', true);
+  }
+
+  if (index === 2 && direction === 'down') {
+    bigBusiness.classed('bigBusiness', true);
+  }
 }
 
 function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
     simulation.force('x', forceCombine).alpha(0.69).restart();
+  }
+
+  if (index === 1 && direction === 'up') {
+    softwareBig.classed('softwareBig', false);
+  }
+
+  if (index === 2 && direction === 'up') {
+    bigBusiness.classed('bigBusiness', false);
   }
 }
 
