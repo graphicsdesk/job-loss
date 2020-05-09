@@ -13,15 +13,12 @@ transition.prototype.at = selection.prototype.at; // gives transitions .at!
 function setRotate(degrees) {
   console.log('degrees :>> ', degrees);
   degrees = Math.floor(degrees % 360);
-  let transform = this.attr('transform');
+  let transform = this.style('transform');
   if (transform.includes('rotate')) {
-    transform = transform.replace(/(?<=rotate\()[.\d]+(?=\))/, degrees)
+    transform = transform.replace(/(?<=rotate\()-?[.\d]+(?=deg\))/, degrees);
   } else {
-    transform = transform + ` rotate(${degrees})`;
+    transform = transform + ` rotate(${degrees}deg)`;
   }
   console.log('transform :>> ', transform);
-  return this.transition('rotation')
-    .duration(1200)
-    .at({ transform })
-    .end();
+  this.style('transform', transform);
 }

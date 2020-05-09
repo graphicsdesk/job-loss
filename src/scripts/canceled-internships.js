@@ -1,8 +1,9 @@
-import { select } from 'd3-selection';
+import { select, mouse, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
+import throttle from 'just-throttle';
 import scrollama from 'scrollama';
 
 import { cjClusterForce, elonMuskCollide, centroid } from './forces';
@@ -35,14 +36,14 @@ function industryColorsScale(industry) {
 
 const initialRadius = 700;
 
+const industriesToShow = [
+  'Internet & Software',
+  'Transportation & Logistics',
+  'Aerospace',
+];
+
 function initialRadiusScale(industry) {
-  if (
-    industry === 'Internet & Software' ||
-    industry === 'Aerospace' ||
-    industry === 'Tourism' ||
-    industry === 'Advertising, PR & Marketing' ||
-    industry === 'Transportation & Logistics'
-  ) {
+  if (industriesToShow.includes(industry)) {
     return initialRadius * 1.5;
   }
   return initialRadius;
@@ -66,8 +67,18 @@ const companyData = companies.map(({ employer, industry, size }) => {
 const svg = select('#canceled-internships')
   .append('svg')
   .at({ width: WIDTH, height: HEIGHT })
-  .append('g')
-  .translate([WIDTH / 2, HEIGHT / 2]);
+  .append('g.node-container')
+  .style('transform', `translate(${WIDTH / 2}px, ${HEIGHT / 2}px)`)
+  .on('mousemove', function () {
+    console.log('this :>> ', this);
+    // mousemove.bind(this);
+    // mousemove();
+    // return throttle(() => mousemove.call(this), 2000, true);
+  })
+  .on('mousemove', function () {
+    event.preventDefault();
+    console.log(this.toString(), select(this).style('transform'));
+  });
 
 const circles = svg
   .selectAll('circle')
@@ -76,7 +87,20 @@ const circles = svg
   .at({
     r: d => radiusScale(d.size),
     fill: d => industryColorsScale(d.industry),
-  });
+  })
+  .on('mouseover', circleMouseOver)
+  .on('mouseout', circleMouseOut);
+
+function mousemove() {
+  console.log('mouse(this) :>> ', mouse(this));
+}
+function circleMouseOver() {
+  // console.log('this :>> ', this);
+}
+
+function circleMouseOut() {
+  // console.log('out :>> ', this);
+}
 
 svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
 const green = svg.append('circle').at({ r: 10, fill: 'green', cx: 0, cy: 0 });
@@ -158,14 +182,8 @@ async function unseparateIndustry() {
     .restart();
 
   // Wait 1 second
-  await new Promise(r => setTimeout(r, 1000));
+  // await new Promise(r => setTimeout(r, 1000));
 }
-
-const industriesToShow = [
-  'Internet & Software',
-  'Advertising, PR & Marketing',
-  'Tourism',
-];
 
 async function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
@@ -177,7 +195,7 @@ async function enterHandle({ index, direction }) {
   }
 
   if (index > 0 && direction === 'down') {
-    await unseparateIndustry();
+    // await unseparateIndustry();
   }
   await separateIndustry(industriesToShow[index]);
 }
@@ -185,7 +203,7 @@ async function enterHandle({ index, direction }) {
 async function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
     await unseparateIndustry();
-    await svg.setRotate(0);
+    // await svg.setRotate(0);
   }
 
   if (index === 1 && direction === 'up') {
@@ -204,7 +222,6 @@ const scroller = scrollama();
 scroller
   .setup({
     step: '.step',
-    // debug: true,
   })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);

@@ -137,6 +137,7 @@ window.addEventListener('resize', drawGraph);
 function enterHandle({ index, direction }) {
   if (index === 4 && direction === 'down') {
     for (const d of dates) {
+      // TODO: use data binding
       svg
         .append('line')
         .attr('x1', xScale(d))
@@ -154,10 +155,8 @@ const scroller = scrollama();
 scroller
   .setup({
     step: '.step',
-    debug: true,
   })
   .onStepEnter(enterHandle);
-//.onStepExit(/*exitHandle*/);
 
 // setup resize event
 // TODO: debounce

@@ -1,4 +1,4 @@
-@import "styles/spectate";
+@import 'styles/spectate';
 
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
@@ -15,6 +15,10 @@
       display: block;
       margin: 0 auto;
 
+      g.node-container {
+        transition-duration: 1.2s;
+      }
+
       circle.bigBusiness {
         fill-opacity: 0.3;
       }
@@ -23,17 +27,6 @@
         fill-opacity: 0.5;
       }
     }
-  }
-
-  #text .step {
-    padding-bottom: 80vh;
-    z-index: 1;
-  }
-
-  #text {
-    position: relative;
-    margin: 0 auto;
-    max-width: 200;
   }
 }
 
@@ -86,23 +79,22 @@
       }
     }
   }
-
-  #text .step {
-    padding-bottom: 80vh;
-    z-index: 1;
-  }
-
-  #text {
-    position: relative;
-    margin: 0 auto;
-    max-width: 200;
-  }
 }
 
 #text {
   position: relative;
   margin: 0 auto;
   max-width: 200;
+  pointer-events: none;
+
+  .step {
+    padding-bottom: 80vh;
+    z-index: 1;
+
+    p {
+      pointer-events: all;
+    }
+  }
 }
 
 body.fixed {
@@ -128,7 +120,7 @@ body.fixed {
   margin-bottom: 100vh;
 }
 
-/* Hides horizontal scrollbar */;
+/* Hides horizontal scrollbar */
 #industry-impact-overflow {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
