@@ -1,11 +1,10 @@
-import { select, mouse, event } from 'd3-selection';
+import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
+import { forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolateSpectral } from 'd3-scale-chromatic';
 import { extent, rollup, max } from 'd3-array';
 import { quadtree } from 'd3-quadtree';
 import scrollama from 'scrollama';
-import 'd3-jetpack/essentials';
 
 /* Import data, derive some helpful values */
 
@@ -37,7 +36,7 @@ const initialRadius = 700;
 
 const companyData = companies.map(({ employer, industry, size }) => {
   const cumulativeProportion = industriesProportions[industry];
-  const angle = cumulativeProportion * 2 * Math.PI + 0.5 * Math.PI;
+  const angle = cumulativeProportion * 2 * Math.PI;
   return {
     employer,
     industry,
@@ -70,9 +69,6 @@ const circles = svg
 const strength = 0.02;
 
 const forceCombine = forceX().strength(strength);
-const forceSplit = forceX(d =>
-  d.industry === 'Internet & Software' ? -350 : 300,
-).strength(strength);
 
 const simulation = forceSimulation()
   .force('x', forceCombine)
@@ -206,15 +202,32 @@ function centroid(nodes) {
 
 /* scrolly stuffs */
 
-function enterHandle({ index, direction }) {
+async function separateIndustry(industry) {
+  await svg.setRotate(90);
+  const forceSplit = forceX(d =>
+    d.industry === industry ? -350 : 300,
+  ).strength(strength);
+  simulation.force('x', forceSplit).alpha(0.69).restart();
+}
+
+async function unseparateIndustry(industry) {
+  simulation.force('x', forceCombine).alpha(0.69).restart();
+
+  // Wait 1 second
+  // await new Promise(r => setTimeout(r, 2000));
+
+  await svg.setRotate(0);
+}
+
+async function enterHandle({ index, direction }) {
   if (index === 0 && direction === 'down') {
-    simulation.force('x', forceSplit).alpha(0.69).restart();
+    separateIndustry('Internet & Software');
   }
 }
 
 function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
-    simulation.force('x', forceCombine).alpha(0.69).restart();
+    unseparateIndustry('Internet & Software');
   }
 }
 
