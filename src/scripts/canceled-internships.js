@@ -2,9 +2,10 @@ import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceX, forceY } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
-import { extent, rollup, max } from 'd3-array';
-import { quadtree } from 'd3-quadtree';
+import { extent } from 'd3-array';
 import scrollama from 'scrollama';
+
+import { cjClusterForce, elonMuskCollide, centroid } from './forces';
 
 /* Import data, derive some helpful values */
 
@@ -66,7 +67,9 @@ const circles = svg
 
 /* partition the circles for discoloring */
 const bigBusiness = circles.filter(d => d.size > 250);
-const softwareBig = circles.filter(d => d.industry === "Internet & Software" && d.size > 1000);
+const softwareBig = circles.filter(
+  d => d.industry === 'Internet & Software' && d.size > 1000,
+);
 
 /* Initiate simulation, define some forces */
 
@@ -89,125 +92,18 @@ simulation.nodes(companyData).on('tick', () => {
   });
 });
 
-/**
- * This cluster force attracts each group of nodes towards its
- * weighted centroid.
- * Adapted from https://observablehq.com/@d3/clustered-bubbles
- */
-
-function cjClusterForce() {
-  const strength = 0.1;
-  let nodes;
-
-  function force(alpha) {
-    // Group nodes by industry, then invoke a value aggregator that calculates
-    // each group's centroid
-    const centroids = rollup(nodes, centroid, d => d.industry);
-
-    alpha *= strength;
-    for (const d of nodes) {
-      const { x: cx, y: cy } = centroids.get(d.industry);
-      d.vx -= (d.x - cx) * alpha;
-      d.vy -= (d.y - cy) * alpha;
-    }
-  }
-
-  // force.initialize is passed the array of nodes.
-  // https://github.com/d3/d3-force/blob/master/README.md#force_initialize
-  force.initialize = _ => {
-    nodes = _;
-  };
-
-  return force;
-}
-
-/**
- * This collision force prevents nodes from overlapping. It uses different
- * distances to separate nodes of the same group versus different groups.
- * Adapted from https://observablehq.com/@d3/clustered-bubbles
- */
-function elonMuskCollide() {
-  const alpha = 0.4; // fixed for greater rigidity!
-  const padding1 = 1; // separation between same-color nodes
-  const padding2 = 17; // separation between different-color nodes
-  let nodes;
-  let maxRadius;
-
-  function force() {
-    // A quadtree recursively partitions 2D space into squares. Distinct points
-    // are leaf nodes; conincident ones are linked lists.
-    const theQuadtree = quadtree(
-      nodes,
-      d => d.x,
-      d => d.y,
-    );
-
-    for (const node of nodes) {
-      const r = node.radius + maxRadius;
-      const nx1 = node.x - r,
-        ny1 = node.y - r;
-      const nx2 = node.x + r,
-        ny2 = node.y + r;
-
-      // Visit each node in the quadtree. q is the node. (x1, y1) and (x2, y2)
-      // are the lower and upper bounds of the node.
-      theQuadtree.visit((q, x1, y1, x2, y2) => {
-        const { data: quadNode } = q;
-        if (!q.length && quadNode !== node) {
-          // Calculate desired minimum distance and current distance
-          const padding =
-            node.industry === quadNode.industry ? padding1 : padding2;
-          const minDistance = node.radius + quadNode.radius + padding;
-          let dx = node.x - quadNode.x;
-          let dy = node.y - quadNode.y;
-          let distance = Math.hypot(dx, dy);
-
-          // If current distance between the two nodes is less than the
-          // desired distance (sums of radii + appropriate padding)...
-          if (distance < minDistance) {
-            distance = ((distance - minDistance) / distance) * alpha;
-            dx *= distance;
-            dy *= distance;
-            node.x -= dx;
-            node.y -= dy;
-            quadNode.x += dx;
-            quadNode.y += dy;
-          }
-        }
-        // If this returns true, then q's children are not visited
-        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-      });
-    }
-  }
-
-  // force.initialize is passed the array of nodes.
-  // https://github.com/d3/d3-force/blob/master/README.md#force_initialize
-  force.initialize = _ => {
-    nodes = _;
-    maxRadius = max(nodes, d => d.radius) + Math.max(padding1, padding2);
-  };
-
-  return force;
-}
-
-// Calculates centroid for an array of nodes
-function centroid(nodes) {
-  let x = 0;
-  let y = 0;
-  let z = 0;
-  for (const d of nodes) {
-    let k = d.radius ** 2;
-    x += d.x * k;
-    y += d.y * k;
-    z += k;
-  }
-  return { x: x / z, y: y / z };
-}
-
 /* scrolly stuffs */
 
 async function separateIndustry(industry) {
-  await svg.setRotate(90);
+  const { x: cx, y: cy } = centroid(
+    companyData.filter(d => d.industry === industry),
+  );
+  const initialAngle = Math.PI - Math.atan(-cy / cx);
+
+  const desiredAngle = Math.PI;
+  const degreeDifference = ((desiredAngle - initialAngle) * 180) / Math.PI;
+  await svg.setRotate(degreeDifference);
+
   const forceSplit = forceX(d =>
     d.industry === industry ? -350 : 300,
   ).strength(strength);
@@ -229,6 +125,7 @@ async function enterHandle({ index, direction }) {
   }
 
   if (index === 1 && direction === 'down') {
+    separateIndustry('Advertising, PR & Marketing');
     softwareBig.classed('softwareBig', true);
   }
 
