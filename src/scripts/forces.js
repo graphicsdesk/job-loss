@@ -1,5 +1,15 @@
+import { forceX, forceY } from 'd3-force';
 import { quadtree } from 'd3-quadtree';
 import { rollup, max } from 'd3-array';
+import { centroid } from './utils';
+
+/**
+ * Utility functions for making forces quickly
+ */
+
+const STRENGTH = 0.02;
+export const forceXFn = x => forceX(x).strength(STRENGTH);
+export const forceYFn = y => forceY(y).strength(STRENGTH);
 
 /**
  * This cluster force attracts each group of nodes towards its
@@ -100,18 +110,4 @@ export function elonMuskCollide() {
   };
 
   return force;
-}
-
-// Calculates centroid for an array of nodes
-export function centroid(nodes) {
-  let x = 0;
-  let y = 0;
-  let z = 0;
-  for (const d of nodes) {
-    let k = d.radius ** 2;
-    x += d.x * k;
-    y += d.y * k;
-    z += k;
-  }
-  return { x: x / z, y: y / z };
 }

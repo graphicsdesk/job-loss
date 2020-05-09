@@ -12,6 +12,7 @@
   "devDependencies": {
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
+    "eslint": "^7.0.0",
     "mongodb": "^3.5.7",
     "parcel-bundler": "^1.12.4",
     "patch-package": "^6.2.0",

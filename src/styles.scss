@@ -3,29 +3,29 @@
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
 
-#scrolly1 {
-  position: relative;
+#canceled-internships {
+  position: sticky;
+  top: 0;
+  z-index: 0;
 
-  #canceled-internships {
-    position: sticky;
-    top: 0;
-    z-index: 0;
+  svg {
+    display: block;
+    margin: 0 auto;
 
-    svg {
-      display: block;
-      margin: 0 auto;
+    circle.bigBusiness {
+      fill-opacity: 0.3;
+    }
 
-      g.node-container {
-        transition-duration: 1.2s;
-      }
+    circle.softwareBig {
+      fill-opacity: 0.5;
+    }
 
-      circle.bigBusiness {
-        fill-opacity: 0.3;
-      }
-
-      circle.softwareBig {
-        fill-opacity: 0.5;
-      }
+    circle#highlight-circle {
+      stroke: black;
+      stroke-width: 2px;
+      fill: none;
+      transition-duration: .3s;
+      transition-property: opacity;
     }
   }
 }

@@ -1,12 +1,19 @@
-import { select, mouse, event } from 'd3-selection';
+import { select, clientPoint, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceX, forceY } from 'd3-force';
+import { forceSimulation } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import throttle from 'just-throttle';
 import scrollama from 'scrollama';
 
-import { cjClusterForce, elonMuskCollide, centroid } from './forces';
+import { cjClusterForce, elonMuskCollide, forceXFn, forceYFn } from './forces';
+import { inverseRotatePoint, centroid } from './utils';
+
+const industriesToShow = [
+  'Internet & Software',
+  'Transportation & Logistics',
+  'Aerospace',
+];
 
 /* Import data, derive some helpful values */
 
@@ -32,78 +39,54 @@ function industryColorsScale(industry) {
   return interpolateViridis(t);
 }
 
-/* Generating initial nodes */
+/* Generate initial array of nodes */
 
-const initialRadius = 700;
-
-const industriesToShow = [
-  'Internet & Software',
-  'Transportation & Logistics',
-  'Aerospace',
-];
-
-function initialRadiusScale(industry) {
-  if (industriesToShow.includes(industry)) {
-    return initialRadius * 1.5;
-  }
-  return initialRadius;
-}
+const INITIAL_RADIUS = 600;
 
 const companyData = companies.map(({ employer, industry, size }) => {
+  // The angle an industry's employers should center themselve around
   const cumulativeProportion = industriesProportions[industry];
   const angle = cumulativeProportion * 2 * Math.PI;
+  // Place industries we will highlight in the future on the outsides
+  const initRadius =
+    (industriesToShow.includes(industry) ? 1.5 : 1) * INITIAL_RADIUS;
   return {
     employer,
     industry,
     size,
-    x: Math.cos(angle) * initialRadiusScale(industry) + Math.random(),
-    y: Math.sin(angle) * initialRadiusScale(industry) + Math.random(),
+    x: Math.cos(angle) * initRadius + Math.random(),
+    y: Math.sin(angle) * initRadius + Math.random(),
     radius: radiusScale(size),
   };
 });
 
-/* Create the svg and then draw circles */
+/* Create the svg, and then create helpful container groups */
 
+// Create top-level group that translates and rotates everything
 const svg = select('#canceled-internships')
   .append('svg')
   .at({ width: WIDTH, height: HEIGHT })
-  .append('g.node-container')
-  .style('transform', `translate(${WIDTH / 2}px, ${HEIGHT / 2}px)`)
-  .on('mousemove', function () {
-    console.log('this :>> ', this);
-    // mousemove.bind(this);
-    // mousemove();
-    // return throttle(() => mousemove.call(this), 2000, true);
-  })
-  .on('mousemove', function () {
-    event.preventDefault();
-    console.log(this.toString(), select(this).style('transform'));
-  });
+  .append('g')
+  .style('transform', `translate(${WIDTH / 2}px, ${HEIGHT / 2}px)`);
 
-const circles = svg
+// Create subgroup just for the bubbles
+const nodesContainer = svg.append('g.node-container');
+
+// Create the bubbles
+const circles = nodesContainer
   .selectAll('circle')
   .data(companyData)
   .join('circle') // https://observablehq.com/@d3/selection-join
   .at({
     r: d => radiusScale(d.size),
     fill: d => industryColorsScale(d.industry),
-  })
-  .on('mouseover', circleMouseOver)
-  .on('mouseout', circleMouseOut);
+  });
 
-function mousemove() {
-  console.log('mouse(this) :>> ', mouse(this));
-}
-function circleMouseOver() {
-  // console.log('this :>> ', this);
-}
-
-function circleMouseOut() {
-  // console.log('out :>> ', this);
-}
-
+// Red circle shows the origin, green circle shows split target. For debugging.
 svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
-const green = svg.append('circle').at({ r: 10, fill: 'green', cx: 0, cy: 0 });
+const greenCircle = svg
+  .append('circle')
+  .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
 
 /* partition the circles for discoloring */
 const bigBusiness = circles.filter(d => d.size > 250);
@@ -113,13 +96,7 @@ const softwareBig = circles.filter(
 
 /* Initiate simulation, define some forces */
 
-const strength = 0.02;
-
-// Force generators
-const forceXFn = x => forceX(x).strength(strength);
-const forceYFn = y => forceY(y).strength(strength);
-
-// Default forces
+// Default forces that pulls nodes towards the origin
 const forceXCenter = forceXFn(0);
 const forceYCenter = forceYFn(0);
 
@@ -145,22 +122,22 @@ async function separateIndustry(industry) {
     companyData.filter(d => d.industry === industry),
   );
 
-  // Calculate the rotation (2 possible errors made here right now)
+  // Calculate the rotation
   let initialAngle = Math.atan(cy / cx); // angle of the industry cluster
   if (cx < 0) {
     initialAngle += Math.PI;
   }
   const desiredAngle = Math.PI; // angle we want industry cluster to point in
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
-  await svg.setRotate((angle * 180) / Math.PI); // rotate the SVG
+  console.log(
+    'init, rotate :>> ',
+    Math.round((initialAngle * 180) / Math.PI),
+    Math.round((angle * 180) / Math.PI),
+  );
+  await svg.rotate(angle); // rotate nodes
 
-  const initialX = -500;
-  const initialY = 0; // the point when rotation = 0
-  const cos = Math.cos(-angle);
-  const sin = Math.sin(-angle);
-  const x = initialX * cos + initialY * -sin;
-  const y = initialX * sin + initialY * cos;
-  green.transition().at({ cx: x, cy: y });
+  const [x, y] = inverseRotatePoint([-450, 0], angle);
+  greenCircle.transition().at({ cx: x, cy: y });
   simulation
     .force(
       'x',
@@ -202,8 +179,8 @@ async function enterHandle({ index, direction }) {
 
 async function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
-    await unseparateIndustry();
-    // await svg.setRotate(0);
+    await svg.rotate(0);
+    unseparateIndustry();
   }
 
   if (index === 1 && direction === 'up') {
@@ -230,19 +207,62 @@ scroller
 // TODO: debounce
 window.addEventListener('resize', scroller.resize);
 
-/**
- * Hovering stuff. It's too slow.
- */
+/* hovering/highlighting */
 
-/*
-svg.on('mousemove', moved);
-function moved() {
-  event.preventDefault();
-  const q = quadtree(companyData, d => d.x, d => d.y);
-  const coords = mouse(this);
-  const x = coords[0];
-  const y = coords[1];
-  const result = q.find(x, y, 20);
-  if (result) console.log('result :>> ', result);
+const highlightCircle = svg.append('circle#highlight-circle');
+function highlight({ target }) {
+  const { __data__: d } = target;
+  if (d === undefined) {
+    return;
+  }
+
+  highlightCircle
+    .st({ opacity: 1 })
+    .at({ cx: d.x, cy: d.y, r: radiusScale(d.size) });
 }
-*/
+
+const throttledHighlight = throttle(highlight, 10);
+svg
+  .on('mousemove', function () {
+    throttledHighlight.call(this, event);
+  })
+  .on('mouseout', () => highlightCircle.st({ opacity: 0 }));
+
+/* axes debugging*/
+
+svg.append('line').at({
+  x1: -WIDTH / 2,
+  x2: WIDTH / 2,
+  y1: 0,
+  y2: 0,
+  stroke: 'blue',
+  strokeWidth: 2,
+  strokeDasharray: 4,
+});
+svg
+  .append('text')
+  .at({ x: WIDTH / 2 - 10, y: 0, fill: 'blue' })
+  .text('X');
+svg.append('line').at({
+  y1: -HEIGHT / 2,
+  y2: HEIGHT / 2,
+  x1: 0,
+  x2: 0,
+  stroke: 'purple',
+  strokeWidth: 2,
+  strokeDasharray: 4,
+});
+svg
+  .append('text')
+  .at({ y: HEIGHT / 2 - 10, x: 0, fill: 'purple' })
+  .text('Y');
+
+svg.append('line').at({
+  x1: -WIDTH / 2,
+  x2: WIDTH / 2,
+  y1: 0,
+  y2: 0,
+  stroke: 'blue',
+  strokeWidth: 2,
+  strokeDasharray: 4,
+});
