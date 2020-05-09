@@ -1,4 +1,4 @@
-import { select } from 'd3-selection';
+import { select, mouse, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
@@ -245,7 +245,7 @@ const scroller = scrollama();
 scroller
   .setup({
     step: '.step',
-    debug: true,
+    // debug: true,
   })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
@@ -253,3 +253,20 @@ scroller
 // setup resize event
 // TODO: debounce
 window.addEventListener('resize', scroller.resize);
+
+/**
+ * Hovering stuff. It's too slow.
+ */
+
+/*
+svg.on('mousemove', moved);
+function moved() {
+  event.preventDefault();
+  const q = quadtree(companyData, d => d.x, d => d.y);
+  const coords = mouse(this);
+  const x = coords[0];
+  const y = coords[1];
+  const result = q.find(x, y, 20);
+  if (result) console.log('result :>> ', result);
+}
+*/

@@ -4,10 +4,10 @@
 // @import 'styles/news-ellipsis';
 
 #scrolly1 {
-  position:relative;
+  position: relative;
 
   #canceled-internships {
-    position:sticky;
+    position: sticky;
     top: 0;
     z-index: 0;
 
@@ -37,15 +37,13 @@
     margin: 0 auto;
     max-width: 200;
   }
-
-
 }
 
 #scrolly2 {
-  position:relative;
+  position: relative;
 
   #postings-over-time {
-    position:sticky;
+    position: sticky;
     top: 0;
     z-index: 0;
 
@@ -64,7 +62,6 @@
         stroke: red;
         stroke-width: 2px;
       }
-
 
       .domain {
         display: none;
@@ -104,5 +101,40 @@
   }
 }
 
+#text {
+  position: relative;
+  margin: 0 auto;
+  max-width: 200;
+}
 
+body.fixed {
+  width: 100%;
+  position: fixed;
+}
 
+#industry-impact-overflow {
+  overflow-x: scroll;
+  height: 100vh;
+}
+
+#industry-impact-container {
+  width: 2000px;
+  height: 100%;
+  background: repeating-linear-gradient(transparent, #4d9f0c 40px),
+    repeating-linear-gradient(0.25turn, transparent, #3f87a6 20px);
+}
+
+#jasons-detection {
+  display: none;
+  height: 1px;
+  margin-bottom: 100vh;
+}
+
+/* Hides horizontal scrollbar */;
+#industry-impact-overflow {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+#industry-impact-overflow::-webkit-scrollbar {
+  // display: none;  /* Safari and Chrome */
+}

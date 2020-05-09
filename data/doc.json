@@ -27,11 +27,90 @@
     },
     {
       "type": "text",
+      "value": "Intermission"
+    },
+    {
+      "type": "graphic",
+      "value": {
+        "asset": "industry-impact.html"
+      }
+    },
+    {
+      "type": "text",
+      "value": "More"
+    },
+    {
+      "type": "text",
+      "value": "Text"
+    },
+    {
+      "type": "text",
+      "value": "TK"
+    },
+    {
+      "type": "text",
+      "value": "I"
+    },
+    {
+      "type": "text",
+      "value": "need"
+    },
+    {
+      "type": "text",
+      "value": "more"
+    },
+    {
+      "type": "text",
+      "value": "space"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
+      "value": "I"
+    },
+    {
+      "type": "text",
+      "value": "need"
+    },
+    {
+      "type": "text",
+      "value": "more"
+    },
+    {
+      "type": "text",
+      "value": "space"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
+      "value": "tk"
+    },
+    {
+      "type": "text",
       "value": "<i>Charlotte Li is a Graphics deputy editor. She can be contacted at </i><a href=\"mailto:charlotte.li@columbiaspectator.com\"><i>charlotte.li@columbiaspectator.com</i></a><i>.</i>"
     },
     {
       "type": "text",
       "value": "<i>Jun Yi Zhang is a Graphics reporter. She can be contacted at </i><a href=\"mailto:junyi.zhang@columbiaspectator.com\"><i>junyi.zhang@columbiaspectator.com</i></a><i>.</i>"
     }
-  ]
+  ],
+  "footer": "Data sources: Handshake, Crunchbase"
 }

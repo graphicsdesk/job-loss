@@ -20,23 +20,21 @@ const postings = rawPostings
 /* compute the rolling mean */
 const rollingMean = [];
 
-for(let i = 0; i < postings.length; i++) {
+for (let i = 0; i < postings.length; i++) {
   let sum = 0;
   let mean = 0;
 
-  if ( i > 2 && i < postings.length-3){
-    for(let j = -3; j <= 3; j++) {
-      sum += postings[i+j].count; 
+  if (i > 2 && i < postings.length - 3) {
+    for (let j = -3; j <= 3; j++) {
+      sum += postings[i + j].count;
     }
-    mean = sum/7;
+    mean = sum / 7;
     rollingMean.push({
       date: postings[i].date,
-      count: mean
+      count: mean,
     });
   }
 }
-
-console.log(rollingMean);
 
 /* Some constants */
 
