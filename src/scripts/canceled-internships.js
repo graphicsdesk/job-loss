@@ -35,6 +35,14 @@ function industryColorsScale(industry) {
 
 const initialRadius = 700;
 
+function initialRadiusScale (industry) {
+  if (industry === "Internet & Software" || industry === "Aerospace" || 
+    industry === "Tourism" || industry === "Transportation & Logistics"){
+    return initialRadius*1.5;
+  }
+  return initialRadius;
+}
+
 const companyData = companies.map(({ employer, industry, size }) => {
   const cumulativeProportion = industriesProportions[industry];
   const angle = cumulativeProportion * 2 * Math.PI;
@@ -42,8 +50,8 @@ const companyData = companies.map(({ employer, industry, size }) => {
     employer,
     industry,
     size,
-    x: Math.cos(angle) * initialRadius + Math.random(),
-    y: Math.sin(angle) * initialRadius + Math.random(),
+    x: Math.cos(angle) * initialRadiusScale(industry) + Math.random(),
+    y: Math.sin(angle) * initialRadiusScale(industry) + Math.random(),
     radius: radiusScale(size),
   };
 });
