@@ -1,6 +1,6 @@
 import { select } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceX, forceY } from 'd3-force';
+import { forceSimulation, forceCenter, forceX, forceY } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import scrollama from 'scrollama';
@@ -77,6 +77,9 @@ const circles = svg
     fill: d => industryColorsScale(d.industry),
   });
 
+ svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
+const green = svg.append('circle').at({ r: 10, fill: 'green', cx: 0, cy: 0 });
+
 /* partition the circles for discoloring */
 const bigBusiness = circles.filter(d => d.size > 250);
 const softwareBig = circles.filter(
@@ -89,9 +92,12 @@ const strength = 0.02;
 
 const forceCombine = forceX().strength(strength);
 
+const forceXFn = x => forceX(x).strength(strength);
+const forceYFn = x => forceY(x).strength(strength);
+
 const simulation = forceSimulation()
-  .force('x', forceCombine)
-  .force('y', forceY().strength(strength))
+  .force('x', forceXFn(0))
+  .force('y', forceYFn(0))
   .force('cjCluster', cjClusterForce())
   .force('elonMuskCollide', elonMuskCollide());
 
@@ -107,19 +113,35 @@ simulation.nodes(companyData).on('tick', () => {
 /* scrolly stuffs */
 
 async function separateIndustry(industry) {
-  const { x: cx, y: cy } = centroid(
+  let { x: cx, y: cy } = centroid(
     companyData.filter(d => d.industry === industry),
   );
-  const initialAngle = Math.PI - Math.atan(-cy / cx);
 
-  const desiredAngle = Math.PI;
-  const degreeDifference = ((desiredAngle - initialAngle) * 180) / Math.PI;
-  await svg.setRotate(degreeDifference);
+  /**
+   * Reflection matrix:
+   * 1  0
+   * 0 -1
+   */
 
-  const forceSplit = forceX(d =>
-    d.industry === industry ? -350 : 300,
-  ).strength(strength);
-  simulation.force('x', forceSplit).alpha(0.69).restart();
+  // Calculate the rotation (2 possible errors made here right now)
+  let initialAngle = Math.atan(cy / cx); // angle of the industry cluster
+  if (cx < 0) {
+    initialAngle += Math.PI;
+  }
+  const desiredAngle = Math.PI; // angle we want industry cluster to point in
+  const angle = desiredAngle - initialAngle; // angle we have to rotate in
+  await svg.setRotate(angle * 180 / Math.PI); // rotate the SVG
+
+  const initialX = -500; const initialY = 0; // the point when rotation = 0
+  const cos = Math.cos(-angle); const sin = Math.sin(-angle);
+  const x = initialX * cos + initialY * (-sin);
+  const y = initialX * sin + initialY * cos;
+  green.transition().at({ cx: x, cy: y });
+  simulation
+    .force('x', forceXFn(d => d.industry === industry ? x : -x ))
+    .force('y', forceYFn(d => d.industry === industry ? y : -y ))
+    .alpha(0.69)
+    .restart();
 }
 
 async function unseparateIndustry(industry) {
