@@ -3,66 +3,91 @@
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
 
-#postings-over-time {
-  svg {
-    display: block;
-    margin: 0 auto;
-
-    path#rawCount {
-      fill: none;
-      stroke: grey;
-      stroke-width: 1px;
-    }
-
-    path#rollingMean {
-      fill: none;
-      stroke: red;
-      stroke-width: 2px;
-    }
-
-
-    .domain {
-      display: none;
-    }
-
-    g text {
-      font-family: Roboto;
-      font-size: 14px;
-    }
-
-    .tick line {
-      stroke: lightgrey;
-      stroke-opacity: 0.7;
-      shape-rendering: crispEdges;
-    }
-
-    .grid path {
-      stroke-width: 0;
-    }
-  }
-}
-
-#scrolly {
+#scrolly1 {
   position:relative;
-}
 
-#canceled-internships {
-  svg {
-    display: block;
-    margin: 0 auto;
+  #canceled-internships {
+    position:sticky;
+    top: 0;
+    z-index: 0;
+
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
   }
-  position:sticky;
-  top: 0;
-  z-index: 0;
+
+  #text .step {
+    padding-bottom: 80vh;
+    z-index: 1;
+  }
+
+  #text {
+    position: relative;
+    margin: 0 auto;
+    max-width: 200;
+  }
+
+
 }
 
-#text .step {
-  padding-bottom: 80vh;
-  z-index: 1;
+#scrolly2 {
+  position:relative;
+
+  #postings-over-time {
+    position:sticky;
+    top: 0;
+    z-index: 0;
+
+    svg {
+      display: block;
+      margin: 0 auto;
+
+      path#rawCount {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1px;
+      }
+
+      path#rollingMean {
+        fill: none;
+        stroke: red;
+        stroke-width: 2px;
+      }
+
+
+      .domain {
+        display: none;
+      }
+
+      g text {
+        font-family: Roboto;
+        font-size: 14px;
+      }
+
+      .tick line {
+        stroke: lightgrey;
+        stroke-opacity: 0.7;
+        shape-rendering: crispEdges;
+      }
+
+      .grid path {
+        stroke-width: 0;
+      }
+    }
+  }
+
+  #text .step {
+    padding-bottom: 80vh;
+    z-index: 1;
+  }
+
+  #text {
+    position: relative;
+    margin: 0 auto;
+    max-width: 200;
+  }
 }
 
-#text {
-  position: relative;
-  margin: 0 auto;
-  max-width: 200;
-}
+
+
