@@ -35,10 +35,14 @@ function industryColorsScale(industry) {
 
 const initialRadius = 700;
 
-function initialRadiusScale (industry) {
-  if (industry === "Internet & Software" || industry === "Aerospace" || 
-    industry === "Tourism" || industry === "Transportation & Logistics"){
-    return initialRadius*1.5;
+function initialRadiusScale(industry) {
+  if (
+    industry === 'Internet & Software' ||
+    industry === 'Aerospace' ||
+    industry === 'Tourism' ||
+    industry === 'Transportation & Logistics'
+  ) {
+    return initialRadius * 1.5;
   }
   return initialRadius;
 }
