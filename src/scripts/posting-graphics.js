@@ -152,11 +152,7 @@ function enterHandle({ index, direction }) {
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
-scroller
-  .setup({
-    step: '.step',
-  })
-  .onStepEnter(enterHandle);
+scroller.setup({ step: '#postings-scrolly .step' }).onStepEnter(enterHandle);
 
 // setup resize event
 // TODO: debounce

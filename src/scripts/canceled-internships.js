@@ -1,4 +1,4 @@
-import { select, clientPoint, event } from 'd3-selection';
+import { select, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
 import { forceSimulation } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
@@ -6,8 +6,14 @@ import { extent } from 'd3-array';
 import throttle from 'just-throttle';
 import scrollama from 'scrollama';
 
-import { cjClusterForce, elonMuskCollide, forceXFn, forceYFn } from './forces';
-import { inverseRotatePoint, centroid } from './utils';
+import {
+  cjClusterForce,
+  elonMuskCollide,
+  forceXFn,
+  forceYFn,
+} from './helpers/forces';
+import { inverseRotatePoint, centroid } from './helpers/utils';
+import { outlineOnHover } from './helpers/dom-events';
 
 const industriesToShow = [
   'Internet & Software',
@@ -25,8 +31,8 @@ const industries = Object.keys(industriesProportions);
 
 /* Some constants */
 
-const WIDTH = document.body.clientWidth;
-const HEIGHT = document.body.clientHeight;
+const width = document.body.clientWidth;
+const height = document.body.clientHeight;
 
 /* Scales */
 
@@ -64,10 +70,10 @@ const companyData = companies.map(({ employer, industry, size }) => {
 
 // Create top-level group that translates and rotates everything
 const svg = select('#canceled-internships')
-  .append('svg')
-  .at({ width: WIDTH, height: HEIGHT })
+  .insert('svg', ':first-child')
+  .at({ width, height })
   .append('g')
-  .style('transform', `translate(${WIDTH / 2}px, ${HEIGHT / 2}px)`);
+  .style('transform', `translate(${width / 2}px, ${height / 2}px)`);
 
 // Create subgroup just for the bubbles
 const nodesContainer = svg.append('g.node-container');
@@ -78,7 +84,7 @@ const circles = nodesContainer
   .data(companyData)
   .join('circle') // https://observablehq.com/@d3/selection-join
   .at({
-    r: d => radiusScale(d.size),
+    r: d => d.radius,
     fill: d => industryColorsScale(d.industry),
   });
 
@@ -89,12 +95,13 @@ const greenCircle = svg
   .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
 
 /* partition the circles for discoloring */
+
 const bigBusiness = circles.filter(d => d.size > 250);
 const softwareBig = circles.filter(
   d => d.industry === 'Internet & Software' && d.size > 1000,
 );
 
-/* Initiate simulation, define some forces */
+/* Initiate simulation */
 
 // Default forces that pulls nodes towards the origin
 const forceXCenter = forceXFn(0);
@@ -117,6 +124,12 @@ simulation.nodes(companyData).on('tick', () => {
 
 /* scrolly stuffs */
 
+/**
+ * Spits out an industry cluster. Rotates graphic so the cluster is always spit
+ * towards SPIT_TARGET.
+ */
+
+const SPIT_TARGET = [-450, 0];
 async function separateIndustry(industry) {
   let { x: cx, y: cy } = centroid(
     companyData.filter(d => d.industry === industry),
@@ -136,19 +149,12 @@ async function separateIndustry(industry) {
   );
   await svg.rotate(angle); // rotate nodes
 
-  const [x, y] = inverseRotatePoint([-450, 0], angle);
+  const [x, y] = inverseRotatePoint(SPIT_TARGET, angle);
   greenCircle.transition().at({ cx: x, cy: y });
-  simulation
-    .force(
-      'x',
-      forceXFn(d => (d.industry === industry ? x : -x)),
-    )
-    .force(
-      'y',
-      forceYFn(d => (d.industry === industry ? y : -y)),
-    )
-    .alpha(0.69)
-    .restart();
+
+  const xForce = forceXFn(d => (d.industry === industry ? x : -x));
+  const yForce = forceYFn(d => (d.industry === industry ? y : -y));
+  simulation.force('x', xForce).force('y', yForce).alpha(0.69).restart();
 }
 
 async function unseparateIndustry() {
@@ -162,18 +168,18 @@ async function unseparateIndustry() {
   // await new Promise(r => setTimeout(r, 1000));
 }
 
-async function enterHandle({ index, direction }) {
-  if (index === 1 && direction === 'down') {
+async function enterHandle({ index }) {
+  if (index === 0) {
+    softwareBig.classed('softwareBig', false);
+  }
+  if (index === 1) {
+    bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
   }
-
-  if (index === 3 && direction === 'down') {
+  if (index === 2) {
     bigBusiness.classed('bigBusiness', true);
   }
 
-  if (index > 0 && direction === 'down') {
-    // await unseparateIndustry();
-  }
   await separateIndustry(industriesToShow[index]);
 }
 
@@ -182,14 +188,6 @@ async function exitHandle({ index, direction }) {
     await svg.rotate(0);
     unseparateIndustry();
   }
-
-  if (index === 1 && direction === 'up') {
-    softwareBig.classed('softwareBig', false);
-  }
-
-  if (index === 2 && direction === 'up') {
-    bigBusiness.classed('bigBusiness', false);
-  }
 }
 
 // instantiate the scrollama
@@ -197,33 +195,19 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({
-    step: '.step',
-  })
+  .setup({ step: '#canceled-scrolly .step' })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 
 // setup resize event
-// TODO: debounce
-window.addEventListener('resize', scroller.resize);
+window.addEventListener('resize', throttle(scroller.resize, 300));
 
-/* hovering/highlighting */
+/* Logic for adding an outline to circles we're hovering over */
 
-const highlightCircle = svg.append('circle#highlight-circle');
-function highlight({ target }) {
-  const { __data__: d } = target;
-  if (d === undefined) {
-    return;
-  }
-
-  highlightCircle
-    .st({ opacity: 1 })
-    .at({ cx: d.x, cy: d.y, r: radiusScale(d.size) });
-}
-
-const throttledHighlight = throttle(highlight, 10);
+// Invisible background required for catching mouse movement events
 svg
-  .on('mousemove', function () {
-    throttledHighlight.call(this, event);
-  })
-  .on('mouseout', () => highlightCircle.st({ opacity: 0 }));
+  .insert('rect#invisible-background', ':first-child')
+  .at({ width, height, x: -width / 2, y: -height / 2 });
+
+// On mousemove, outline the hovered bubble and show the tooltip
+svg.on('mousemove', () => outlineOnHover(event));

@@ -1,5 +1,5 @@
 import { spectate as spectateConfig } from '../../package.json';
-import initAi2html from './ai2html-resizer';
+import initAi2html from './helpers/ai2html-resizer';
 
 /**
  * Put all initializer scripts into this init() function
