@@ -48,7 +48,7 @@ function moveLeft(e) {
 const scroller = scrollama();
 scroller
   .setup({
-    step: '#test',
+    step: '#jasons-detection',
     offset: 0,
   })
   .onStepEnter(handleEnter);

@@ -3,55 +3,87 @@
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
 
-#postings-over-time {
-  svg {
-    display: block;
+#scrolly1 {
+  position: relative;
+
+  #canceled-internships {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+
+    svg {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  #text .step {
+    padding-bottom: 80vh;
+    z-index: 1;
+  }
+
+  #text {
+    position: relative;
     margin: 0 auto;
-
-    path {
-      fill: none;
-      stroke: red;
-      stroke-width: 1px;
-    }
-
-    .domain {
-      display: none;
-    }
-
-    g text {
-      font-family: Roboto;
-      font-size: 14px;
-    }
-
-    .tick line {
-      stroke: lightgrey;
-      stroke-opacity: 0.7;
-      shape-rendering: crispEdges;
-    }
-
-    .grid path {
-      stroke-width: 0;
-    }
+    max-width: 200;
   }
 }
 
-#scrolly {
-  position:relative;
-}
+#scrolly2 {
+  position: relative;
 
-#canceled-internships {
-  svg {
-    display: block;
-    margin: 0 auto;
+  #postings-over-time {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+
+    svg {
+      display: block;
+      margin: 0 auto;
+
+      path#rawCount {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1px;
+      }
+
+      path#rollingMean {
+        fill: none;
+        stroke: red;
+        stroke-width: 2px;
+      }
+
+      .domain {
+        display: none;
+      }
+
+      g text {
+        font-family: Roboto;
+        font-size: 14px;
+      }
+
+      .tick line {
+        stroke: lightgrey;
+        stroke-opacity: 0.7;
+        shape-rendering: crispEdges;
+      }
+
+      .grid path {
+        stroke-width: 0;
+      }
+    }
   }
-  position:sticky;
-  top: 0;
-  z-index: 0;
-}
 
-#text .step {
-  padding-bottom: 80vh;
-  z-index: 1;
+  #text .step {
+    padding-bottom: 80vh;
+    z-index: 1;
+  }
+
+  #text {
+    position: relative;
+    margin: 0 auto;
+    max-width: 200;
+  }
 }
 
 #text {
@@ -74,25 +106,20 @@ body.fixed {
   width: 2000px;
   height: 100%;
   background: repeating-linear-gradient(transparent, #4d9f0c 40px),
-            repeating-linear-gradient(0.25turn, transparent, #3f87a6 20px);
+    repeating-linear-gradient(0.25turn, transparent, #3f87a6 20px);
 }
 
-#industry-impact-overflow {
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
-  scrollbar-width: none;  /* Firefox */
-}
-
-#test {
+#jasons-detection {
+  display: none;
   height: 1px;
   margin-bottom: 100vh;
 }
 
+/* Hides horizontal scrollbar */;
+#industry-impact-overflow {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
 #industry-impact-overflow::-webkit-scrollbar {
   // display: none;  /* Safari and Chrome */
-}
-
-.detect {
-  height: 100px;
-  width: 100px;
-  background: red;
 }
