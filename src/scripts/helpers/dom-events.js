@@ -3,6 +3,9 @@ import { select } from 'd3-selection';
 
 let outlinedCircle;
 
+const formatInfo = (industry, employer) =>
+  `<p>${industry}</p><p>${employer}</p>`;
+
 class Tooltip {
   constructor() {
     this.node = select('#bubble-tooltip')
@@ -13,9 +16,9 @@ class Tooltip {
     this.node.st({
       left: clientX,
       top: clientY,
+      opacity: 1,
     });
-    this.node.innerHTML = d.industry;
-    this.node.style('opacity', 1);
+    this.node.html(formatInfo(d.industry, d.employer));
   }
 
   hide() {
@@ -31,7 +34,6 @@ const tooltip = new Tooltip();
  */
 
 export const outlineOnHover = throttle((event) => {
-  console.log('event :>> ', event);
   const { clientX, clientY, target } = event;
   const { __data__: d } = target;
 

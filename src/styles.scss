@@ -70,6 +70,16 @@
   position: absolute;
   pointer-events: none;
   opacity: 0;
+
+  p {
+    margin: 0;
+    &:first-child {
+      margin-bottom: 10px;
+    }
+    &:nth-child(2) {
+      font-weight: bold;
+    }
+  }
 }
 
 /**
