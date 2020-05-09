@@ -59,3 +59,40 @@
   margin: 0 auto;
   max-width: 200;
 }
+
+body.fixed {
+  width: 100%;
+  position: fixed;
+}
+
+#industry-impact-overflow {
+  overflow-x: scroll;
+  height: 100vh;
+}
+
+#industry-impact-container {
+  width: 2000px;
+  height: 100%;
+  background: repeating-linear-gradient(transparent, #4d9f0c 40px),
+            repeating-linear-gradient(0.25turn, transparent, #3f87a6 20px);
+}
+
+#industry-impact-overflow {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+#test {
+  height: 1px;
+  margin-bottom: 100vh;
+}
+
+#industry-impact-overflow::-webkit-scrollbar {
+  // display: none;  /* Safari and Chrome */
+}
+
+.detect {
+  height: 100px;
+  width: 100px;
+  background: red;
+}

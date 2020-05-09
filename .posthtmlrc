@@ -31,6 +31,84 @@
           },
           {
             "type": "text",
+            "value": "Intermission"
+          },
+          {
+            "type": "graphic",
+            "value": {
+              "asset": "industry-impact.html"
+            }
+          },
+          {
+            "type": "text",
+            "value": "More"
+          },
+          {
+            "type": "text",
+            "value": "Text"
+          },
+          {
+            "type": "text",
+            "value": "TK"
+          },
+          {
+            "type": "text",
+            "value": "I"
+          },
+          {
+            "type": "text",
+            "value": "need"
+          },
+          {
+            "type": "text",
+            "value": "more"
+          },
+          {
+            "type": "text",
+            "value": "space"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
+            "value": "I"
+          },
+          {
+            "type": "text",
+            "value": "need"
+          },
+          {
+            "type": "text",
+            "value": "more"
+          },
+          {
+            "type": "text",
+            "value": "space"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
+            "value": "tk"
+          },
+          {
+            "type": "text",
             "value": "<i>Charlotte Li is a Graphics deputy editor. She can be contacted at </i><a href=\"mailto:charlotte.li@columbiaspectator.com\"><i>charlotte.li@columbiaspectator.com</i></a><i>.</i>"
           },
           {
@@ -41,6 +119,7 @@
         "headline": "The U.S. and Ivy League schools were late to respond to COVID-19.",
         "date": "October 17, 2019",
         "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Jun-Yi-Zhang\">Jun Yi Zhang</a>",
+        "footer": "Data sources: Handshake, Crunchbase",
         "USE_NEWS_NAV": false,
         "USE_EYE_NAV": false,
         "USE_COVER_HED": false,

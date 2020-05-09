@@ -225,7 +225,7 @@ const scroller = scrollama();
 scroller
   .setup({
     step: '.step',
-    debug: true,
+    // debug: true,
   })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);

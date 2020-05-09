@@ -3,6 +3,7 @@ import textBalancer from 'text-balancer';
 import './scripts/page';
 import './scripts/posting-graphics';
 import './scripts/canceled-internships';
+import './scripts/industry-impact';
 
 import { spectate as spectateConfig } from '../package.json';
 const { USE_NEWS_NAV, USE_EYE_NAV, USE_COVER_HED } = spectateConfig;
