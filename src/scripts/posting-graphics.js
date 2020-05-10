@@ -133,18 +133,31 @@ function drawGraph() {
 drawGraph();
 window.addEventListener('resize', drawGraph);
 
+/* draw some lines for specfic dates */
+const dateLineContainer = svg.append('g')
+
+const dateLine = dateLineContainer.selectAll('line')
+  .data(dates)
+  .enter()
+  .append('line')
+  .at({
+    x1: d => xScale(d),
+    x2: d => xScale(d),
+    y1: (d,i) => yScale(0),
+    y2: (d,i) => yScale(550/(i+1)),
+    jason: console.log
+  })
+
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
-  if (index === 4 && direction === 'down') {
-    for (const d of dates) {
-      // TODO: use data binding
-      svg
-        .append('line')
-        .attr('x1', xScale(d))
-        .attr('x2', xScale(d))
-        .attr('y1', yScale(0))
-        .attr('y2', yScale(1.1 * Math.max(...postings.map(d => d.count))));
-    }
+  if (index === 1 && direction === 'down') {
+    dateLine.classed('dateLine', true);
+  }
+}
+
+function existHandle({index, direction}) {
+  if (index === 1 && direction === 'up') {
+    dateLine.classed('dateLine', false);
   }
 }
 
@@ -152,7 +165,9 @@ function enterHandle({ index, direction }) {
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
-scroller.setup({ step: '#postings-scrolly .step' }).onStepEnter(enterHandle);
+scroller.setup({ step: '#postings-scrolly .step' })
+  .onStepEnter(enterHandle)
+  .onStepExit(existHandle);
 
 // setup resize event
 // TODO: debounce
