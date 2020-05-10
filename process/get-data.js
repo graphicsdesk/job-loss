@@ -49,7 +49,7 @@ function aggregatePostings(cursor) {
         postingsByDate[day] = { count: 0, remoteCount: 0 };
       }
       postingsByDate[day].count += 1;
-      remote && (postingsByDate.remoteCount += 1);
+      remote && (postingsByDate[day].remoteCount += 1)
     },
 
     // This callback is invoked when the iterator ends
