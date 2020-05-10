@@ -177,7 +177,7 @@ function drawRemoteGraph() {
   yAxis.call(yAxisFn);
 
   // Set path d
-  remotePath.attr('d', lineFn(remotePostings))
+  meanPath.attr('d', lineFn(remotePostings))
     .classed('remotePostings', true);
 
   /* animation:
@@ -186,7 +186,7 @@ function drawRemoteGraph() {
 
   /*
     2. set the dash array in the offset to the length */
-  linePath
+  meanPath
     .style('stroke-dasharray', `0, ${remotePathLength}`)
     .transition('draw-in')
     .duration(3000)
@@ -224,7 +224,7 @@ function existHandle({index, direction}) {
   }
 
   if (index === 2 && direction === 'up') {
-    remotePath.classed('remotePostings', false);
+    meanPath.classed('remotePostings', false);
   }
 }
 

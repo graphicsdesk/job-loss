@@ -146,6 +146,13 @@ $step-max-width: 420px;
     path#rollingMean {
       stroke: red;
       stroke-width: 2px;
+      transition-duration: 1s; 
+    }
+
+    path#rollingMean.remotePostings {
+      stroke: red;
+      stroke-width: 2px;
+      transition-duration: 1s; 
     }
 
     .domain {
@@ -165,12 +172,6 @@ $step-max-width: 420px;
     line.dateLine {
       stroke: #000;
       stroke-width: 1.5px;
-    }
-
-    g.remote {
-      stroke: black;
-      stroke-width: 1px;
-      stroke-opacity: 0.9;
     }
   }
 }
