@@ -122,7 +122,7 @@ function drawGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.call(yAxisFn);
+  yAxis.transition().call(yAxisFn);
 
   // Set path d
   linePath.attr('d', lineFn(postings))
@@ -229,10 +229,7 @@ function existHandle({index, direction}) {
 
   if (index === 2 && direction === 'up') {
     remotePath.classed('remotePostings', false);
-    meanPath.classed('rollingMean', true);
-    linePath.classed('rawCount', true);
-    yAxisFn.scale(yScale).tickSize(-gWidth);
-    yAxis.transition().call(yAxisFn);
+    drawGraph();
   }
 }
 
