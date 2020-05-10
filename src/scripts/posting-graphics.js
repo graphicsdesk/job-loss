@@ -36,6 +36,16 @@ for (let i = 0; i < postings.length; i++) {
   }
 }
 
+/* compute the remote percentage */
+const remotePostings = rawPostings
+  .map(({ date, count, remoteCount }) => ({
+    date: new Date(date),
+    percentage: remoteCount/count,
+  }))
+  .sort((a, b) => a.date - b.date);
+
+  console.log(remotePostings)
+
 /* Some constants */
 
 const margin = { left: 40, top: 20, bottom: 50, right: 20 };

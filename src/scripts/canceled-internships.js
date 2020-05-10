@@ -16,9 +16,11 @@ import { inverseRotatePoint, centroid } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
-  'Internet & Software',
   'Transportation & Logistics',
   'Aerospace',
+  'Internet & Software',
+  'Internet & Software',
+  'Internet & Software',
 ];
 
 /* Import data, derive some helpful values */
@@ -176,25 +178,38 @@ async function unseparateIndustry() {
   // await new Promise(r => setTimeout(r, 1000));
 }
 
-async function enterHandle({ index }) {
-  if (index === 0) {
+async function enterHandle({ index, direction }) {
+  console.log(index)
+  if (index === 0 && direction === 'down') {
     softwareBig.classed('softwareBig', false);
   }
-  if (index === 1) {
+  if (index === 3 && direction === 'down') {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
   }
-  if (index === 2) {
+  if (index === 4 && direction === 'down') {
+    await svg.rotate(0);
+    unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-
-  await separateIndustry(industriesToShow[index]);
+  if(index !== 3 && index !== 4){
+    await separateIndustry(industriesToShow[index]);
+  }
+  
 }
 
 async function exitHandle({ index, direction }) {
   if (index === 0 && direction === 'up') {
     await svg.rotate(0);
     unseparateIndustry();
+  }
+
+  if (index === 3 && direction === 'up') {
+    bigBusiness.classed('bigBusiness', false);
+    softwareBig.classed('softwareBig', false);
+  }
+  if (index === 4 && direction === 'up') {
+    bigBusiness.classed('bigBusiness', false);
   }
 }
 
