@@ -137,19 +137,19 @@ $step-max-width: 420px;
       fill: none;
     }
 
-    path#rawCount {
+    path#rawCount.rawCount {
       stroke: red;
       stroke-opacity: 0.2;
       stroke-width: 1px;
     }
 
-    path#rollingMean {
+    path#rollingMean.rollingMean {
       stroke: red;
       stroke-width: 2px;
       transition-duration: 1s; 
     }
 
-    path#rollingMean.remotePostings {
+    g.remote path.remotePostings {
       stroke: red;
       stroke-width: 2px;
       transition-duration: 1s; 
