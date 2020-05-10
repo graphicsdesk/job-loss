@@ -23,3 +23,8 @@ export function centroid(nodes) {
   }
   return { x: x / z, y: y / z };
 }
+
+// Calculates angle from 0 to 2π of a coordinate
+export function calcAngle([x, y]) {
+  return Math.atan(y / x) + (x < 0 && Math.PI);
+}

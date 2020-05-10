@@ -12,7 +12,7 @@ import {
   forceXFn,
   forceYFn,
 } from './helpers/forces';
-import { inverseRotatePoint, centroid } from './helpers/utils';
+import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
@@ -45,9 +45,11 @@ const height = document.body.clientHeight;
 
 /* Scales */
 
+const maxRadius = 37;
+
 const radiusScale = scaleSqrt()
   .domain(extent(companies, d => d.size))
-  .range([2, 37]);
+  .range([2, maxRadius]);
 
 function industryColorsScale(industry) {
   const t = industries.indexOf(industry) / industries.length;
@@ -140,17 +142,15 @@ simulation.nodes(companyData).on('tick', () => {
  */
 
 const SPIT_TARGET = [-450, 0];
+const desiredAngle = calcAngle(SPIT_TARGET);
+
 async function separateIndustry(industry) {
   let { x: cx, y: cy } = centroid(
     companyData.filter(d => d.industry === industry),
   );
 
   // Calculate the rotation
-  let initialAngle = Math.atan(cy / cx); // angle of the industry cluster
-  if (cx < 0) {
-    initialAngle += Math.PI;
-  }
-  const desiredAngle = Math.PI; // angle we want industry cluster to point in
+  const initialAngle = calcAngle([cx, cy]); // angle of the industry cluster  // const desiredAngle = Math.PI; // angle we want industry cluster to point in
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
   console.log(
     'init, rotate :>> ',
@@ -179,7 +179,6 @@ async function unseparateIndustry() {
 }
 
 async function enterHandle({ index, direction }) {
-  console.log(index);
   if (index === 0 && direction === 'down') {
     softwareBig.classed('softwareBig', false);
   }
