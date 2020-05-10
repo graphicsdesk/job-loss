@@ -8,28 +8,40 @@ import './scripts/posting-graphics';
 import './scripts/canceled-internships';
 // import './scripts/industry-impact';
 
-import { spectate as spectateConfig } from '../package.json';
-const { USE_NEWS_NAV, USE_EYE_NAV, USE_COVER_HED } = spectateConfig;
-
-// Fade in navbar at scroll trigger
+/* Navbar fade ins */
 
 const navbar = document.getElementById('navbar');
 
-if (USE_NEWS_NAV || USE_EYE_NAV || USE_COVER_HED) {
-  enterView({
-    selector: '.headline',
-    offset: 1,
-    enter: () => {
-      navbar.classList.remove('only-eye-logo');
-      navbar.classList.remove('hide-news-navbar');
-    },
-    exit: () => {
-      navbar.classList.remove('show-nav-links');
-      navbar.classList.add('only-eye-logo');
-      navbar.classList.add('hide-news-navbar');
-    },
-  });
-}
+const hideNav = () => {
+  navbar.classList.remove('show-nav-links');
+  navbar.classList.add('only-eye-logo');
+};
+
+const showNav = () => navbar.classList.remove('only-eye-logo');
+
+// By default the navbar is hidden. When headline reached, show the navbar.
+enterView({
+  selector: '.headline',
+  offset: 1,
+  enter: showNav,
+  exit: hideNav,
+});
+// But for the postings scrolly, to maximize screen space, hide the navbar.
+enterView({
+  selector: '#postings-scrolly',
+  offset: 1,
+  enter: hideNav,
+  exit: showNav,
+});
+// In index.html we manually added an ID to the div.graphic that contains
+// #postings-scrolly, so we can use an adjacent sibling combinator to show
+// the navbar after postings-scrolly is done.
+enterView({
+  selector: '#show-navbar-after-graphic + p',
+  offset: 1,
+  enter: showNav,
+  exit: hideNav,
+});
 
 // Mobile navbar hamburger trigger
 
@@ -40,5 +52,5 @@ export function hamburgerTrigger() {
 // Text balance headline, deck, and image captions
 
 if (window.innerWidth <= 460) {
-  textBalancer.balanceText('.headline, .deck, .image-caption-text');
+  textBalancer.balanceText('.headline');
 }

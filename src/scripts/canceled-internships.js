@@ -83,7 +83,7 @@ const svg = select('#canceled-internships')
   .insert('svg', ':first-child')
   .at({ width, height })
   .append('g')
-  .style('transform', `translate(${width / 2}px, ${height / 2}px)`);
+  .style('transform', `translate(50%, 50%)`);
 
 // Create subgroup just for the bubbles
 const nodesContainer = svg.append('g.node-container');
@@ -179,7 +179,7 @@ async function unseparateIndustry() {
 }
 
 async function enterHandle({ index, direction }) {
-  console.log(index)
+  console.log(index);
   if (index === 0 && direction === 'down') {
     softwareBig.classed('softwareBig', false);
   }
@@ -192,10 +192,9 @@ async function enterHandle({ index, direction }) {
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-  if(index !== 3 && index !== 4){
+  if (index !== 3 && index !== 4) {
     await separateIndustry(industriesToShow[index]);
   }
-  
 }
 
 async function exitHandle({ index, direction }) {
@@ -230,7 +229,7 @@ window.addEventListener('resize', throttle(scroller.resize, 300));
 // Invisible background required for catching mouse movement events
 svg
   .insert('rect#invisible-background', ':first-child')
-  .at({ width, height, x: -width / 2, y: -height / 2 });
+  .at({ width: '100%', height: '100%', x: '-50%', y: '-50%' });
 
 // On mousemove, outline the hovered bubble and show the tooltip
-svg.on('mousemove', () => outlineOnHover(event)).on('mouseout', hideTooltip)
+svg.on('mousemove', () => outlineOnHover(event)).on('mouseout', hideTooltip);
