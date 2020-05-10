@@ -30,39 +30,42 @@ client.connect(function (err) {
 });
 
 function aggregatePostings(cursor) {
-  const postingsByDate = {};
-
   // Date should be between September and today
   const lowerBound = new Date('2019-09-16');
   const upperBound = new Date();
 
+  const postingsByDate = {};
+
   // Loop through the postings
   cursor.forEach(
     // This callback is invoked for every element
-    ({ apply_start }) => {
+    function ({ apply_start, remote }) {
       const date = new Date(apply_start);
       if (apply_start === null || date < lowerBound || date > upperBound) {
         return;
       }
       const day = apply_start.split('T')[0];
-      if (!(day in postingsByDate)) postingsByDate[day] = 0;
-      postingsByDate[day] += 1;
+      if (!(day in postingsByDate)) {
+        postingsByDate[day] = { count: 0, remoteCount: 0 };
+      }
+      postingsByDate[day].count += 1;
+      remote && (postingsByDate.remoteCount += 1);
     },
 
     // This callback is invoked when the iterator ends
-    err => {
+    function (err) {
       if (err !== null) console.error(err);
       client.close();
 
       // Make postingsByDate an array
       const output = [];
       for (const date in postingsByDate) {
-        output.push({ date, count: postingsByDate[date] });
+        output.push({ date, ...postingsByDate[date] });
       }
 
       // Write the output to data/postings.json
       const filename = path.join(__dirname, '../data/postings.json');
-      fs.writeFile(filename, JSON.stringify(output), err => {
+      fs.writeFile(filename, JSON.stringify(output, null, 2), err => {
         if (err) throw err;
         console.log('Successfully wrote', filename);
       });
