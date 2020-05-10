@@ -3,8 +3,11 @@ import { select } from 'd3-selection';
 
 let outlinedCircle;
 
-const formatInfo = (industry, employer) =>
-  `<p>${industry}</p><p>${employer}</p>`;
+const formatInfo = ({ industry, employer, sizeText }) => `
+  <p class="tooltip-employer">${employer}</p>
+  <p class="tooltip-industry">${industry}</p>
+  <p class="tooltip-size">${sizeText}</p>
+`;
 
 class Tooltip {
   constructor() {
@@ -18,15 +21,18 @@ class Tooltip {
       top: clientY,
       opacity: 1,
     });
-    this.node.html(formatInfo(d.industry, d.employer));
+    this.node.html(formatInfo(d));
   }
 
   hide() {
+    if (!this.node) this.node = select('#bubble-tooltip');
     this.node.style('opacity', 0);
   }
 }
 
 const tooltip = new Tooltip();
+
+export const hideTooltip = tooltip.hide;
 
 /**
  * Callback for mousemove events that outlines the correct employer bubble.

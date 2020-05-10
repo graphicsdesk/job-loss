@@ -7,20 +7,52 @@
  * Styles for the text that goes over scrolly things
  */
 
+$step-margin-side: 120px;
+$step-max-width: 440px;
+
+.step {
+  padding-top: 0;
+  padding-bottom: 80vh;
+  z-index: 1;
+
+  p {
+    padding: 18px;
+    margin: 0 $step-margin-side 0 auto;
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 30px;
+    background: hsla(0, 0%, 100%, 0.9);
+    box-shadow: 0 2px 5px 0 #e4e4e4;
+    width: calc(100% - 70px);
+    max-width: $step-max-width;
+    pointer-events: all;
+  }
+}
+
+@media (max-width: $step-max-width + 2 * $step-margin-side) {
+  .step p {
+    padding: 15px;
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+}
+
 #text {
   position: relative;
   margin: 0 auto;
-  max-width: 200;
   pointer-events: none;
+}
 
-  .step {
-    padding-bottom: 80vh;
-    z-index: 1;
+// Place bubble chart paragraphs near the right of the screen
+#canceled-scrolly .step p {
+  margin: 0 $step-margin-side 0 auto;
+}
 
-    p {
-      pointer-events: all;
-    }
-  }
+// Place postings line chart paragraphs near the left of the screen
+#postings-scrolly .step p {
+  margin: 0 0 0 $step-margin-side;
 }
 
 /**
@@ -67,17 +99,19 @@
 #bubble-tooltip {
   padding: 10px;
   background: rgba(255, 255, 255, 0.9);
-  position: absolute;
+  position: fixed;
   pointer-events: none;
   opacity: 0;
+  transition-duration: 0.1s;
+  transition-property: opacity;
 
   p {
     font-family: Roboto;
     margin: 0;
-    &:first-child {
-      margin-bottom: 10px;
+    &:not(:last-child) {
+      margin-bottom: 3px;
     }
-    &:nth-child(2) {
+    &.tooltip-employer {
       font-weight: bold;
     }
   }

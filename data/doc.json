@@ -4,6 +4,14 @@
   "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Jun-Yi-Zhang\">Jun Yi Zhang</a>",
   "top": [
     {
+      "type": "text",
+      "value": "When Chaitanya Reddy Gurijala, a Computer Science Master’s Student at Stony Brook university lost his internship, he knew he wasn’t the only one."
+    },
+    {
+      "type": "text",
+      "value": "So he took to twitter and started the account @hiring2020. The twitter bio reads a simple mission: “Information about internships and full-time jobs for college students.” Gurijala is on a mission to collect and distribute information about the hiring status of student internships and jobs amid the pandemic."
+    },
+    {
       "type": "graphic",
       "value": {
         "asset": "canceled-internships.html"

@@ -22,6 +22,9 @@
     <div class="story-top">
       <each loop="item in top">
         <switch expression="item.type">
+          <case n="'text'">
+            <include src="partials/paragraph.html"></include>
+          </case>
           <case n="'graphic'">
             <div class="graphic">
               <if condition="item.value.asset === 'canceled-internships.html'">

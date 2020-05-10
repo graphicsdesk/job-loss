@@ -13,7 +13,7 @@ import {
   forceYFn,
 } from './helpers/forces';
 import { inverseRotatePoint, centroid } from './helpers/utils';
-import { outlineOnHover } from './helpers/dom-events';
+import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
   'Internet & Software',
@@ -24,9 +24,16 @@ const industriesToShow = [
 /* Import data, derive some helpful values */
 
 import {
-  employers as companies,
+  employers,
   industriesProportions,
 } from '../../data/canceled-internships.json';
+
+const companies = employers.map(({ sizeText, ...rest }) => ({
+  ...rest,
+  size: parseInt(sizeText.split(' ')[0].replace(',', '').replace('+', '')),
+  sizeText,
+}));
+
 const industries = Object.keys(industriesProportions);
 
 /* Some constants */
@@ -49,7 +56,7 @@ function industryColorsScale(industry) {
 
 const INITIAL_RADIUS = 600;
 
-const companyData = companies.map(({ employer, industry, size }) => {
+const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   // The angle an industry's employers should center themselve around
   const cumulativeProportion = industriesProportions[industry];
   const angle = cumulativeProportion * 2 * Math.PI;
@@ -60,6 +67,7 @@ const companyData = companies.map(({ employer, industry, size }) => {
     employer,
     industry,
     size,
+    sizeText,
     x: Math.cos(angle) * initRadius + Math.random(),
     y: Math.sin(angle) * initRadius + Math.random(),
     radius: radiusScale(size),
@@ -210,4 +218,4 @@ svg
   .at({ width, height, x: -width / 2, y: -height / 2 });
 
 // On mousemove, outline the hovered bubble and show the tooltip
-svg.on('mousemove', () => outlineOnHover(event));
+svg.on('mousemove', () => outlineOnHover(event)).on('mouseout', hideTooltip)
