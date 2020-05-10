@@ -44,7 +44,7 @@ const remotePostings = rawPostings
   }))
   .sort((a, b) => a.date - b.date);
 
-  console.log(remotePostings)
+console.log(remotePostings)
 
 /* Some constants */
 
@@ -81,6 +81,7 @@ const yScale = scaleLinear().domain([
   0,
   1.1 * Math.max(...postings.map(d => d.count)),
 ]);
+const pScale = scaleLinear().domain(extent(remotePostings, d => d.percentage));
 
 // Instantiate shape and axes generators
 const lineFn = line();
@@ -90,6 +91,13 @@ const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 // The line path
 const linePath = svg.append('path#rawCount');
 const meanPath = svg.append('path#rollingMean');
+
+const remoteContainer = svg.append('g.remote')
+const remotePath = remoteContainer
+  /*.selectAll("path");
+  .data(remotePostings)
+  .enter()*/
+  .append('path')
 
 function drawGraph() {
   // Update width and height
@@ -143,6 +151,48 @@ function drawGraph() {
 drawGraph();
 window.addEventListener('resize', drawGraph);
 
+/* function for remote graph */
+function drawRemoteGraph() {
+  width = Math.min(1020, document.body.clientWidth);
+  height = document.body.clientHeight;
+  const gWidth = width - margin.left - margin.right;
+  const gHeight = height - margin.top - margin.bottom;
+
+  container.select('svg').at({ width, height });
+
+  // Update scale ranges
+  xScale.range([0, gWidth]);
+  pScale.range([gHeight, 0]);
+
+  // Update line and axes generation params
+  lineFn.x(d => xScale(d.date)).y(d => pScale(d.percentage));
+  xAxisFn
+    .scale(xScale)
+    .ticks(gWidth / 80)
+    .tickSize(-gHeight);
+  yAxisFn.scale(pScale).tickSize(-gWidth);
+
+  // Create axes
+  xAxis.translate([0, gHeight]).call(xAxisFn);
+  yAxis.call(yAxisFn);
+
+  // Set path d
+  remotePath.attr('d', lineFn(remotePostings))
+    .classed('remotePostings', true);
+
+  /* animation:
+    1. get the length of the path */
+  const remotePathLength = remotePath.node().getTotalLength();
+
+  /*
+    2. set the dash array in the offset to the length */
+  linePath
+    .style('stroke-dasharray', `0, ${remotePathLength}`)
+    .transition('draw-in')
+    .duration(3000)
+    .style('stroke-dasharray', `${remotePathLength}, ${remotePathLength}`);
+}
+
 /* draw some lines for specfic dates */
 const dateLineContainer = svg.append('g')
 
@@ -155,7 +205,6 @@ const dateLine = dateLineContainer.selectAll('line')
     x2: d => xScale(d),
     y1: (d,i) => yScale(0),
     y2: (d,i) => yScale(550/(i+1)),
-    jason: console.log
   })
 
 /* scrolly stuffs */
@@ -163,11 +212,19 @@ function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
     dateLine.classed('dateLine', true);
   }
+
+  if (index === 2 && direction === 'down') {
+    drawRemoteGraph()
+  }
 }
 
 function existHandle({index, direction}) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
+  }
+
+  if (index === 2 && direction === 'up') {
+    remotePath.classed('remotePostings', false);
   }
 }
 

@@ -166,6 +166,12 @@ $step-max-width: 420px;
       stroke: #000;
       stroke-width: 1.5px;
     }
+
+    g.remote {
+      stroke: black;
+      stroke-width: 1px;
+      stroke-opacity: 0.9;
+    }
   }
 }
 
