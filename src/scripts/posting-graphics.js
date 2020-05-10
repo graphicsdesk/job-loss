@@ -122,11 +122,13 @@ function drawGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.call(yAxisFn);
+  yAxis.transition().call(yAxisFn);
 
   // Set path d
-  linePath.attr('d', lineFn(postings));
-  meanPath.attr('d', lineFn(rollingMean));
+  linePath.attr('d', lineFn(postings))
+    .classed('rawCount', true);
+  meanPath.attr('d', lineFn(rollingMean))
+    .classed('rollingMean', true);
 
   /* animation:
     1. get the length of the path */
@@ -174,10 +176,10 @@ function drawRemoteGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.call(yAxisFn);
+  yAxis.transition().call(yAxisFn);
 
   // Set path d
-  meanPath.attr('d', lineFn(remotePostings))
+  remotePath.attr('d', lineFn(remotePostings))
     .classed('remotePostings', true);
 
   /* animation:
@@ -186,7 +188,7 @@ function drawRemoteGraph() {
 
   /*
     2. set the dash array in the offset to the length */
-  meanPath
+  remotePath
     .style('stroke-dasharray', `0, ${remotePathLength}`)
     .transition('draw-in')
     .duration(3000)
@@ -214,7 +216,9 @@ function enterHandle({ index, direction }) {
   }
 
   if (index === 2 && direction === 'down') {
-    drawRemoteGraph()
+    linePath.classed('rawCount', false);
+    meanPath.classed('rollingMean', false);
+    drawRemoteGraph();
   }
 }
 
@@ -224,7 +228,8 @@ function existHandle({index, direction}) {
   }
 
   if (index === 2 && direction === 'up') {
-    meanPath.classed('remotePostings', false);
+    remotePath.classed('remotePostings', false);
+    drawGraph();
   }
 }
 
