@@ -146,13 +146,11 @@ $step-max-width: 420px;
     path#rollingMean.rollingMean {
       stroke: red;
       stroke-width: 2px;
-      transition-duration: 1s; 
     }
 
     g.remote path.remotePostings {
       stroke: red;
       stroke-width: 2px;
-      transition-duration: 1s; 
     }
 
     .domain {
