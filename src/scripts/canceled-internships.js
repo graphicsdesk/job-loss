@@ -12,11 +12,7 @@ import {
   forceXFn,
   forceYFn,
 } from './helpers/forces';
-import {
-  inverseRotatePoint,
-  centroid,
-  calcAngle
-} from './helpers/utils';
+import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
@@ -69,7 +65,8 @@ const radiusScale = scaleSqrt()
   .range([2, maxRadius]);
 
 function industryColorsScale(industry) {
-  const t = randomIndexMapping[industries.indexOf(industry)] / industries.length;
+  const t =
+    randomIndexMapping[industries.indexOf(industry)] / industries.length;
   return interpolateViridis(t);
 }
 
@@ -218,8 +215,8 @@ async function enterHandle({ index, direction }) {
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-  if(index>0 && index<4){
-    await separateIndustry(industriesToShow[index-1]);
+  if (index > 0 && index < 4) {
+    await separateIndustries(industriesToShow[index - 1]);
   }
 }
 
@@ -262,7 +259,6 @@ svg
 
 /* set styles for text elements */
 const industryList = document.querySelectorAll('c');
-for(let i = 0; i<industryList.length; i++){
+for (let i = 0; i < industryList.length; i++) {
   industryList[i].style.color = industryColorsScale(industriesToShow[i]);
 }
-
