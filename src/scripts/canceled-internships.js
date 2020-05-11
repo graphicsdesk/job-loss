@@ -180,7 +180,7 @@ async function separateIndustries(industries) {
 
   const strength = isShrunk ? 0.04 : 0.02;
   const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
-  const scaleSeparation = isShrunk ? 3 / 2 : 1; // how separate others are
+  const scaleSeparation = isShrunk ? 3.5 / 2 : 1; // how separate others are
 
   const separateValue = val => d =>
     industries.includes(d.industry)
@@ -222,7 +222,6 @@ async function enterHandle({ index, direction }) {
 
 async function exitHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
-    await svg.rotate(0);
     unseparateIndustry();
   }
 
