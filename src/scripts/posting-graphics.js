@@ -41,13 +41,13 @@ for (let i = 0; i < postings.length; i++) {
 const remotePostings = rawPostings
   .map(({ date, count, remoteCount }) => ({
     date: new Date(date),
-    percentage: remoteCount/count,
+    percentage: remoteCount / count,
   }))
   .sort((a, b) => a.date - b.date);
 
 /* Some constants */
 
-const margin = { left: 40, top: 20, bottom: 50, right: 20 };
+const margin = { left: 43, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
 const universityClosingDate = new Date('2020-03-08'); //University announced canceled classes for 2 days
 const universityRemoteDate = new Date('2020-03-12');
@@ -80,7 +80,7 @@ const yScale = scaleLinear().domain([
   0,
   1.1 * Math.max(...postings.map(d => d.count)),
 ]);
-const pScale = scaleLinear().domain(extent(remotePostings, d => d.percentage));
+const pScale = scaleLinear().domain([0, 1]);
 
 // Instantiate shape and axes generators
 const lineFn = line();
@@ -91,14 +91,14 @@ const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 const linePath = svg.append('path#rawCount');
 const meanPath = svg.append('path#rollingMean');
 
-const remoteContainer = svg.append('g.remote')
+const remoteContainer = svg.append('g.remote');
 const remotePath = remoteContainer
   /*.selectAll("path");
   .data(remotePostings)
   .enter()*/
-  .append('path')
+  .append('path');
 
-function drawGraph() {
+async function drawGraph() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
   height = document.body.clientHeight;
@@ -117,20 +117,15 @@ function drawGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn
-    .scale(yScale)
-    .tickSize(-gWidth)
-    .tickFormat(format(""));
+  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format(''));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.transition().call(yAxisFn);
+  await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
-  linePath.attr('d', lineFn(postings))
-    .classed('rawCount', true);
-  meanPath.attr('d', lineFn(rollingMean))
-    .classed('rollingMean', true);
+  linePath.attr('d', lineFn(postings)).classed('rawCount', true);
+  meanPath.attr('d', lineFn(rollingMean)).classed('rollingMean', true);
 
   /* animation:
     1. get the length of the path */
@@ -156,7 +151,7 @@ drawGraph();
 window.addEventListener('resize', drawGraph);
 
 /* function for remote graph */
-function drawRemoteGraph() {
+async function drawRemoteGraph() {
   width = Math.min(1020, document.body.clientWidth);
   height = document.body.clientHeight;
   const gWidth = width - margin.left - margin.right;
@@ -174,18 +169,14 @@ function drawRemoteGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn
-    .scale(pScale)
-    .tickSize(-gWidth)
-    .tickFormat(format(".0%"));
+  yAxisFn.scale(pScale).tickSize(-gWidth).tickFormat(format('.0%'));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.transition().call(yAxisFn);
+  await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
-  remotePath.attr('d', lineFn(remotePostings))
-    .classed('remotePostings', true);
+  remotePath.attr('d', lineFn(remotePostings)).classed('remotePostings', true);
 
   /* animation:
     1. get the length of the path */
@@ -201,18 +192,19 @@ function drawRemoteGraph() {
 }
 
 /* draw some lines for specfic dates */
-const dateLineContainer = svg.append('g')
+const dateLineContainer = svg.append('g');
 
-const dateLine = dateLineContainer.selectAll('line')
+const dateLine = dateLineContainer
+  .selectAll('line')
   .data(dates)
   .enter()
   .append('line')
   .at({
     x1: d => xScale(d),
     x2: d => xScale(d),
-    y1: (d,i) => yScale(0),
-    y2: (d,i) => yScale(550/(i+1)),
-  })
+    y1: (d, i) => yScale(0),
+    y2: (d, i) => yScale(550 / (i + 1)),
+  });
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
@@ -227,7 +219,7 @@ function enterHandle({ index, direction }) {
   }
 }
 
-function existHandle({index, direction}) {
+function existHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
   }
@@ -242,7 +234,8 @@ function existHandle({index, direction}) {
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
-scroller.setup({ step: '#postings-scrolly .step' })
+scroller
+  .setup({ step: '#postings-scrolly .step' })
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
