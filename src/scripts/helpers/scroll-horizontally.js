@@ -1,3 +1,5 @@
+import { selection } from 'd3-selection';
+
 /**
  * Why we want Intersection Observer stuff for the industry impact graphic:
  * The graphic is sticky so it stays fixed on the screen while users
@@ -6,14 +8,19 @@
  * while the graphic is sticking.
  */
 
-const select = selector =>
-  selector instanceof Element ? selector : document.getElementById(selector);
+const select = selector => {
+  if (selector instanceof selection) return selector.node();
+  if (selector instanceof Element) return selector;
+  return document.getElementById(selector);
+};
 
 export default function ({
   container,
   padding: paddingDiv,
   topDetectorId,
   bottomDetectorId,
+  callback,
+  offset = 0,
 }) {
   container = select(container);
   paddingDiv = select(paddingDiv);
@@ -29,6 +36,8 @@ export default function ({
   function shiftGraphic() {
     const { top } = paddingDiv.getBoundingClientRect();
     container.scrollLeft = paddingDiv.offsetTop - top;
+    typeof callback === 'function' &&
+      callback(container.scrollLeft + offset * container.clientWidth);
   }
 
   // Setup the intersection observer

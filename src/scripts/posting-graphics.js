@@ -9,14 +9,15 @@ import scrollama from 'scrollama';
 import throttle from 'just-throttle';
 import 'd3-transition';
 
-import rawPostings from '../../data/postings.json';
+import postingsData from '../../data/postings.json';
 
 /* Data preprocessing */
 
-const postings = rawPostings
-  .map(({ date, count }) => ({
+const postings = postingsData.postings
+  .map(({ date, count, remoteCount }) => ({
     date: new Date(date),
     count: count,
+    percentage: remoteCount / count,
   }))
   .sort((a, b) => a.date - b.date);
 
@@ -38,14 +39,6 @@ for (let i = 0; i < postings.length; i++) {
     });
   }
 }
-
-/* compute the remote percentage */
-const remotePostings = rawPostings
-  .map(({ date, count, remoteCount }) => ({
-    date: new Date(date),
-    percentage: remoteCount / count,
-  }))
-  .sort((a, b) => a.date - b.date);
 
 /* Some constants */
 
@@ -94,11 +87,7 @@ const linePath = svg.append('path#rawCount');
 const meanPath = svg.append('path#rollingMean');
 
 const remoteContainer = svg.append('g.remote');
-const remotePath = remoteContainer
-  /*.selectAll("path");
-  .data(remotePostings)
-  .enter()*/
-  .append('path');
+const remotePath = remoteContainer.append('path');
 
 async function drawGraph() {
   // Update width and height
@@ -188,7 +177,7 @@ async function drawRemoteGraph() {
   await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
-  remotePath.attr('d', lineFn(remotePostings)).classed('remotePostings', true);
+  remotePath.attr('d', lineFn(postings)).classed('remotePostings', true);
 
   /* animation:
     1. get the length of the path */

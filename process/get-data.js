@@ -29,37 +29,65 @@ client.connect(function (err) {
   aggregatePostings(cursor);
 });
 
+// Date should be between September and today
+const lowerBound = '2019-09-06';
+const upperBound = new Date().toISOString().split('T')[0];
+
+const postingsByDate = {};
+function incrementPostings(date, remote) {
+  if (!(date in postingsByDate)) {
+    postingsByDate[date] = { count: 0, remoteCount: 0 };
+  }
+  postingsByDate[date].count += 1;
+  remote && (postingsByDate[date].remoteCount += 1);
+}
+
+const industryChanges = {};
+const dateSplit = '2020-03-01';
+function incrementIndustries(day, industry) {
+  if (industry === null) {
+    return;
+  }
+  if (!(industry in industryChanges)) {
+    industryChanges[industry] = { before: 0, after: 0 };
+  }
+  industryChanges[industry][day < dateSplit ? 'before' : 'after'] += 1;
+}
+
 function aggregatePostings(cursor) {
-  // Date should be between September and today
-  const lowerBound = '2019-09-16';
-  const upperBound = new Date().toISOString().split('T')[0];
-
-  const postingsByDate = {};
-
   // Loop through the postings
   cursor.forEach(
-    // This callback is invoked for every element
-    function ({ apply_start: date, remote }) {
-      if (date === null || date < lowerBound || date > upperBound) return;
-
-      const day = date.split('T')[0];
-      if (!(day in postingsByDate)) {
-        postingsByDate[day] = { count: 0, remoteCount: 0 };
+    // This callback is executed for each element
+    function ({ apply_start, remote, employer_industry_name }) {
+      const date = apply_start === null ? null : apply_start.split('T')[0];
+      if (date === null || date < lowerBound || date > upperBound) {
+        return;
       }
-      postingsByDate[day].count += 1;
-      remote && (postingsByDate[day].remoteCount += 1)
+      incrementPostings(date, remote);
+      incrementIndustries(date, employer_industry_name);
     },
 
-    // This callback is invoked when the iterator ends
+    // This callback is executed when the iterator ends
     function (err) {
       if (err !== null) console.error(err);
       client.close();
 
       // Make postingsByDate an array
-      const output = [];
+      const postingsDatesArray = [];
       for (const date in postingsByDate) {
-        output.push({ date, ...postingsByDate[date] });
+        postingsDatesArray.push({ date, ...postingsByDate[date] });
       }
+
+      const output = {
+        postings: postingsDatesArray,
+        industryChanges: Object.keys(industryChanges).reduce((acc, industry) => {
+          let { before, after } = industryChanges[industry];
+          before /= daysBetween(lowerBound, dateSplit);
+          after /= daysBetween(dateSplit, upperBound);
+          acc[industry] = (after - before) / before;
+          return acc;
+        }, {}),
+      };
 
       // Write the output to data/postings.json
       const filename = path.join(__dirname, '../data/postings.json');
@@ -69,4 +97,14 @@ function aggregatePostings(cursor) {
       });
     },
   );
+}
+
+/**
+ * Calculates number of days between two date strings.
+ * Source: https://bit.ly/2SWbTJz
+ */
+function daysBetween(first, second) {
+  // Take the difference between the dates and divide by milliseconds per day.
+  // Round to nearest whole number to deal with DST.
+  return Math.round((Date.parse(second) - Date.parse(first))/(1000*60*60*24));
 }

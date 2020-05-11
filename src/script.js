@@ -32,7 +32,7 @@ if (elements.includes(null)) {
 scroller
   .setup({
     step: elements,
-    offset: 0.01,
+    offset: 0.05,
   })
   .onStepEnter(({ index, direction }) => {
     if (index === 0 && direction === 'down') showNav();
