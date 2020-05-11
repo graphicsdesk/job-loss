@@ -50,6 +50,7 @@ const vbHeight = height;
 const vbMinX = 0;
 const vbMinY = 0;
 const viewBox = `${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}`;
+const isShrunk = vbWidth > width;
 
 /* Scales */
 
@@ -66,7 +67,7 @@ function industryColorsScale(industry) {
 
 /* Generate initial array of nodes */
 
-const initialRadius = Math.min(vbWidth, vbHeight) * 3 / 4;
+const initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
 
 const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   // The angle an industry's employers should center themselve around
@@ -149,7 +150,7 @@ simulation.nodes(companyData).on('tick', () => {
  * towards SPIT_TARGET.
  */
 
-const spitTarget = [-vbWidth * 1 / 3, 0];
+const spitTarget = [-vbWidth / 3, 0];
 const desiredAngle = calcAngle(spitTarget);
 
 async function separateIndustry(industry) {
@@ -166,9 +167,14 @@ async function separateIndustry(industry) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = vbWidth > width ? 0.06 : 0.03;
-  const xForce = forceXFn(d => (d.industry === industry ? x : -x), strength);
-  const yForce = forceYFn(d => (d.industry === industry ? y : -y), strength);
+  const strength = isShrunk ? 0.04 : 0.025;
+  const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
+  const scaleSeparation = isShrunk ? 3 / 2 : 1; // how separate others are
+
+  const separateValue = val => d =>
+    d.industry === industry ? val * scaleIsolation : -val * scaleSeparation;
+  const xForce = forceXFn(separateValue(x), strength);
+  const yForce = forceYFn(separateValue(y), strength);
   simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
 }
 
@@ -176,7 +182,7 @@ async function unseparateIndustry() {
   simulation
     .force('x', forceXCenter)
     .force('y', forceYCenter)
-    .alpha(0.69)
+    .alpha(0.6)
     .restart();
 
   // Wait 1 second
@@ -231,9 +237,7 @@ window.addEventListener('resize', throttle(scroller.resize, 300));
 /* Logic for adding an outline to circles we're hovering over */
 
 // Invisible background required for catching mouse movement events
-svg
-  .insert('rect#invisible-background', ':first-child')
-  .at({ width: '100%', height: '100%', x: '-50%', y: '-50%' });
+svg.insert('rect#invisible-background', ':first-child');
 
 // On mousemove, outline the hovered bubble and show the tooltip
 svg
