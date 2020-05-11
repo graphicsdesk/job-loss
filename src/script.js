@@ -1,6 +1,6 @@
-import enterView from 'enter-view';
 import textBalancer from 'text-balancer';
 import 'd3-jetpack/essentials';
+import scrollama from 'scrollama';
 
 import './scripts/helpers/d3-wrappers';
 import './scripts/page';
@@ -16,32 +16,24 @@ const hideNav = () => {
   navbar.classList.remove('show-nav-links');
   navbar.classList.add('only-eye-logo');
 };
-
 const showNav = () => navbar.classList.remove('only-eye-logo');
 
-// By default the navbar is hidden. When headline reached, show the navbar.
-enterView({
-  selector: '.headline',
-  offset: 1,
-  enter: showNav,
-  exit: hideNav,
-});
-// But for the postings scrolly, to maximize screen space, hide the navbar.
-enterView({
-  selector: '#postings-scrolly',
-  offset: 1,
-  enter: hideNav,
-  exit: showNav,
-});
-// In index.html we manually added an ID to the div.graphic that contains
-// #postings-scrolly, so we can use an adjacent sibling combinator to show
-// the navbar after postings-scrolly is done.
-enterView({
-  selector: '#show-navbar-after-graphic + p',
-  offset: 1,
-  enter: showNav,
-  exit: hideNav,
-});
+const scroller = scrollama();
+scroller
+  .setup({
+    step: ['h1.headline', '#postings-scrolly'].map(s =>
+      document.querySelector(s),
+    ),
+    offset: 0.01,
+  })
+  .onStepEnter(({ index, direction }) => {
+    if (index === 0 && direction === 'down') showNav();
+    if (index === 1) hideNav();
+  })
+  .onStepExit(({ index, direction }) => {
+    if (index === 0 && direction === 'up') hideNav();
+    if (index === 1) showNav();
+  });
 
 // Mobile navbar hamburger trigger
 

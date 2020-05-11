@@ -56,18 +56,14 @@
             <include src="partials/image.html"></include>
           </case>
           <case n="'graphic'">
-            <if condition="item.value.asset === 'posting-graphics.html'">
-              <div class="graphic" id="show-navbar-after-graphic">
+            <div class="graphic">
+              <if condition="item.value.asset === 'industry-impact.html'">
+                <include src="industry-impact.html"></include>
+              </if>
+              <if condition="item.value.asset === 'posting-graphics.html'">
                 <include src="posting-graphics.html"></include>
-              </div>
-            </if>
-            <else>
-              <div class="graphic">
-                <if condition="item.value.asset === 'industry-impact.html'">
-                  <include src="industry-impact.html"></include>
-                </if>
-              </div>
-            </else>
+              </if>
+            </div>
           </case>
         </switch>
       </each>

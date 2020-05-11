@@ -157,7 +157,7 @@ const greenCircle = svg
  * towards SPIT_TARGET.
  */
 
-const spitTarget = [-vbWidth / 3, 0];
+const spitTarget = vbWidth > width ? [0, -vbHeight / 3] : [-vbWidth / 3, 0];
 const desiredAngle = calcAngle(spitTarget);
 
 async function separateIndustries(industries) {
