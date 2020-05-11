@@ -26,9 +26,7 @@ const industriesToShow = [
     'Aerospace',
     'Hotels & Accommodation',
   ],
-  'Aerospace',
-  'Internet & Software',
-  'Internet & Software',
+  'Hotels & Accommodation',
   'Internet & Software',
 ];
 
@@ -208,25 +206,25 @@ async function unseparateIndustry() {
 }
 
 async function enterHandle({ index, direction }) {
-  if (index === 0 && direction === 'down') {
+  if (index === 1 && direction === 'down') {
     softwareBig.classed('softwareBig', false);
   }
-  if (index === 3 && direction === 'down') {
+  if (index === 4 && direction === 'down') {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
   }
-  if (index === 4 && direction === 'down') {
+  if (index === 5 && direction === 'down') {
     await svg.rotate(0);
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-  if (index !== 3 && index !== 4) {
-    await separateIndustries(industriesToShow[index]);
+  if(index>0 && index<4){
+    await separateIndustry(industriesToShow[index-1]);
   }
 }
 
 async function exitHandle({ index, direction }) {
-  if (index === 0 && direction === 'up') {
+  if (index === 1 && direction === 'up') {
     await svg.rotate(0);
     unseparateIndustry();
   }
@@ -261,3 +259,10 @@ svg.insert('rect#invisible-background', ':first-child');
 svg
   .on('mousemove', () => outlineOnHover(event, industryColorsScale))
   .on('mouseout', hideTooltip);
+
+/* set styles for text elements */
+const industryList = document.querySelectorAll('c');
+for(let i = 0; i<industryList.length; i++){
+  industryList[i].style.color = industryColorsScale(industriesToShow[i]);
+}
+

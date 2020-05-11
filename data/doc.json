@@ -16,11 +16,12 @@
       "value": {
         "asset": "canceled-internships.html",
         "steps": [
-          "where",
-          "are <span class=”highlight-me”>highlight me</span>",
-          "you",
-          "you",
-          "you"
+          "As of 5/_/2020 he had noted 303 cancelled internship and job openings. Here they are, color coded by industry and size relative to their approximate company size. Hover over to see the company name, industry, and size range.The impact of this job loss can be seen across all industries—but some more than others.",
+          "It's no surprise to see loss in Hospitality and <c>travel</c> related industries being hard hit—as these are some of the largest industries impacted by the pandemic. These companies make up x percent of all the cancelled internships.",
+          "<c>Hospitality</c? (Hotel & Accomodation)",
+          "The biggest industry reflected in the data is <c>Internet and Software</c>.",
+          "31% of software companies impacted are small with less than 1000 employees, But it's not just small companies. The impact spans all size companies. [add tech industries are also one of the industries most predicted to bounce back by experts etc]",
+          "In fact 23.1% of all lost jobs reflected here are from companies with 1000 or less employees, making them in some industries small businesses."
         ]
       }
     }
