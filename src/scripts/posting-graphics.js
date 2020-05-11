@@ -4,6 +4,7 @@ import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
+import { format } from 'd3-format';
 import scrollama from 'scrollama';
 import 'd3-transition';
 import 'd3-jetpack/essentials';
@@ -118,7 +119,10 @@ function drawGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn.scale(yScale).tickSize(-gWidth);
+  yAxisFn
+    .scale(yScale)
+    .tickSize(-gWidth)
+    .tickFormat(format(""));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
@@ -172,7 +176,10 @@ function drawRemoteGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn.scale(pScale).tickSize(-gWidth);
+  yAxisFn
+    .scale(pScale)
+    .tickSize(-gWidth)
+    .tickFormat(format(".0%"));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
