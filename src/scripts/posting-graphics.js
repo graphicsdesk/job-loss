@@ -47,7 +47,7 @@ const remotePostings = rawPostings
 
 /* Some constants */
 
-const margin = { left: 40, top: 20, bottom: 50, right: 20 };
+const margin = { left: 43, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
 const universityClosingDate = new Date('2020-03-08'); //University announced canceled classes for 2 days
 const universityRemoteDate = new Date('2020-03-12');
@@ -80,7 +80,7 @@ const yScale = scaleLinear().domain([
   0,
   1.1 * Math.max(...postings.map(d => d.count)),
 ]);
-const pScale = scaleLinear().domain(extent(remotePostings, d => d.percentage));
+const pScale = scaleLinear().domain([0, 1]);
 
 // Instantiate shape and axes generators
 const lineFn = line();
@@ -98,7 +98,7 @@ const remotePath = remoteContainer
   .enter()*/
   .append('path');
 
-function drawGraph() {
+async function drawGraph() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
   height = document.body.clientHeight;
@@ -121,7 +121,7 @@ function drawGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.transition().call(yAxisFn);
+  await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
   linePath.attr('d', lineFn(postings)).classed('rawCount', true);
@@ -151,7 +151,7 @@ drawGraph();
 window.addEventListener('resize', drawGraph);
 
 /* function for remote graph */
-function drawRemoteGraph() {
+async function drawRemoteGraph() {
   width = Math.min(1020, document.body.clientWidth);
   height = document.body.clientHeight;
   const gWidth = width - margin.left - margin.right;
@@ -173,7 +173,7 @@ function drawRemoteGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  yAxis.transition().call(yAxisFn);
+  await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
   remotePath.attr('d', lineFn(remotePostings)).classed('remotePostings', true);
