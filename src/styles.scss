@@ -186,30 +186,30 @@ $step-max-width: 420px;
 }
 
 /**
- * Styles for Jason's failed horizontal scroll thing
+ * Styles for horizontal scroll thing
  */
 
-body.fixed {
-  width: 100%;
-  position: fixed;
-}
-
-#industry-impact-overflow {
-  overflow-x: scroll;
-  height: 100vh;
+#industry-impact-sticky-container {
+  position: relative;
 }
 
 #industry-impact-container {
+  overflow-x: scroll;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+#industry-impact {
   width: 2000px;
   height: 100%;
   background: repeating-linear-gradient(transparent, #4d9f0c 40px),
     repeating-linear-gradient(0.25turn, transparent, #3f87a6 20px);
 }
 
-#jasons-detection {
-  display: none;
-  height: 1px;
-  margin-bottom: 100vh;
+#industry-impact-padding {
+  position: relative;
+  visibility: hidden;
 }
 
 /* Hides horizontal scrollbar *

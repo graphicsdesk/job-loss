@@ -1,4 +1,3 @@
-import rawPostings from '../../data/postings.json';
 import { select } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
@@ -7,8 +6,10 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import scrollama from 'scrollama';
+import throttle from 'just-throttle';
 import 'd3-transition';
-import 'd3-jetpack/essentials';
+
+import rawPostings from '../../data/postings.json';
 
 /* Data preprocessing */
 
@@ -122,7 +123,17 @@ async function drawGraph() {
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
-  await yAxis.transition().duration(600).call(yAxisFn).end();
+  try {
+    await yAxis.transition('y-axis-trans').duration(600).call(yAxisFn).end();
+  } catch (error) {
+    // When another transition of the same name (in this case "y-axis-trans")
+    // starts on the same element (yAxis), the current transition gets
+    // interrupted and the Promise rejects.
+    // See https://github.com/d3/d3-transition#transition_end.
+    // It's fine if the Promise rejects, it just means the user was scrolling
+    // quickly between steps and the animation didn't have time to finish.
+    console.error('Transition', error._name, 'was interrupted.');
+  }
 
   // Set path d
   linePath.attr('d', lineFn(postings)).classed('rawCount', true);
@@ -256,5 +267,4 @@ scroller
   .onStepExit(existHandle);
 
 // setup resize event
-// TODO: debounce
-window.addEventListener('resize', scroller.resize);
+window.addEventListener('resize', throttle(scroller.resize, 300));

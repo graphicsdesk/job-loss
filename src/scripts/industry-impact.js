@@ -1,72 +1,35 @@
-import scrollama from 'scrollama';
+import { detectIntersection } from './helpers/graphic-intersection';
 
-function archive() {
-  const overflowContainer = document.getElementById('industry-impact-overflow');
-  const container = document.getElementById('industry-impact-container');
-  const containerWidth = container.offsetWidth;
+const container = document.getElementById('industry-impact-container');
+const paddingDiv = document.getElementById('industry-impact-padding');
 
-  window.addEventListener('scroll', moveLeft);
-
-  let isStuck = false;
-  let initY = null;
-
-  const maxScrollLeft =
-    overflowContainer.scrollWidth - overflowContainer.offsetWidth;
-  let justSent = false;
-
-  function moveLeft(e) {
-    if (!isStuck) {
-      return;
-    }
-
-    const newLeft = window.scrollY - initY;
-
-    const leftTop = newLeft < 0 && newLeft < overflowContainer.scrollLeft;
-    const leftBottom =
-      newLeft > maxScrollLeft && newLeft > overflowContainer.scrollLeft;
-
-    if (leftTop || leftBottom) {
-      console.log(newLeft, leftTop, leftBottom);
-      isStuck = false;
-      const old = window.scrollY;
-      document.body.classList.remove('fixed');
-      document.documentElement.style.height = 'auto';
-      console.log('old, window.scrollY :>> ', old, window.scrollY);
-    } else {
-      overflowContainer.scrollLeft = newLeft;
-    }
-
-    if (leftBottom) {
-      window.scrollBy(0, -maxScrollLeft);
-      justSent = true;
-    }
-    if (leftTop) {
-      window.scrollBy(0, overflowContainer.clientHeight);
-      justSent = true;
-    }
-  }
-
-  const scroller = scrollama();
-  scroller
-    .setup({
-      step: '#jasons-detection',
-      offset: 0,
-    })
-    .onStepEnter(handleEnter);
-
-  function handleEnter({ direction }) {
-    initY = window.scrollY;
-    if (direction === 'up') {
-      initY -= overflowContainer.clientHeight;
-    }
-
-    console.log('initY :>> ', initY);
-    document.documentElement.style.height =
-      document.body.offsetHeight + containerWidth + 'px';
-    document.body.classList.add('fixed');
-    document.body.style.top = -overflowContainer.offsetTop + 'px';
-    isStuck = true;
-  }
-
-  window.addEventListener('resize', scroller.resize);
+// Updates height of paddingDiv to match the horizontal scroll distance
+function updatePadding() {
+  paddingDiv.style.height =
+    container.scrollWidth - container.clientWidth + 'px';
 }
+
+// Shifts the graphic horizontally based on the progress of paddingDiv
+function shiftGraphic() {
+  const { top } = paddingDiv.getBoundingClientRect();
+  container.scrollLeft = paddingDiv.offsetTop - top;
+}
+
+// Initialization function
+function init() {
+  detectIntersection({
+    topDetectorId: 'detect-graphic-top',
+    bottomDetectorId: 'detect-graphic-bottom',
+    onEnter: () => window.addEventListener('scroll', shiftGraphic),
+    onExit: () => window.removeEventListener('scroll', shiftGraphic),
+  });
+
+  // TODO: put into resize listener? does width ever change?
+  updatePadding();
+
+  // Call shiftGraphic once on initiation to ensure that the graphic's horizontal
+  // horizontal position is correct wherever in the page we refresh at
+  shiftGraphic();
+}
+
+init();
