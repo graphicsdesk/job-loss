@@ -6,12 +6,28 @@
  * while the graphic is sticking.
  */
 
-export function detectIntersection({
+export default function({
+  containerId,
+  paddingId,
   topDetectorId,
   bottomDetectorId,
-  onEnter,
-  onExit,
 }) {
+  const container = document.getElementById(containerId);
+  const paddingDiv = document.getElementById(paddingId);
+
+  // Updates height of paddingDiv to match the horizontal scroll distance
+  function updatePadding() {
+    paddingDiv.style.height =
+      container.scrollWidth - container.clientWidth + 'px';
+  }
+
+  // Shifts the graphic horizontally based on the progress of paddingDiv
+  function shiftGraphic() {
+    const { top } = paddingDiv.getBoundingClientRect();
+    container.scrollLeft = paddingDiv.offsetTop - top;
+  }
+
+  // Setup the intersection observer
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const { target, isIntersecting, boundingClientRect } = entry;
@@ -30,7 +46,7 @@ export function detectIntersection({
           !isIntersecting &&
           boundingClientRect.top > midpoint)
       ) {
-        onEnter();
+        window.addEventListener('scroll', shiftGraphic);
       }
 
       // Exit condition
@@ -46,11 +62,18 @@ export function detectIntersection({
           isIntersecting &&
           boundingClientRect.top > midpoint)
       ) {
-        onExit();
+        window.removeEventListener('scroll', shiftGraphic);
       }
     });
   });
 
   observer.observe(document.getElementById(topDetectorId));
   observer.observe(document.getElementById(bottomDetectorId));
+
+  // TODO: put into resize listener? does width ever change?
+  updatePadding();
+
+  // Call shiftGraphic once on initiation to ensure that the graphic's horizontal
+  // horizontal position is correct wherever in the page we refresh at
+  shiftGraphic();
 }
