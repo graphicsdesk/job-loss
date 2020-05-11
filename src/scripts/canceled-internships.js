@@ -109,12 +109,6 @@ const circles = nodesContainer
     fill: d => industryColorsScale(d.industry),
   });
 
-// Red circle shows the origin, green circle shows split target. For debugging.
-svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
-const greenCircle = svg
-  .append('circle')
-  .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
-
 /* partition the circles for discoloring */
 
 const bigBusiness = circles.filter(d => d.size > 250);
@@ -143,6 +137,14 @@ simulation.nodes(companyData).on('tick', () => {
   });
 });
 
+/*
+// Red circle shows the origin, green circle shows split target. For debugging.
+svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
+const greenCircle = svg
+  .append('circle')
+  .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
+*/
+
 /* scrolly stuffs */
 
 /**
@@ -165,9 +167,9 @@ async function separateIndustry(industry) {
   await svg.rotate(angle); // rotate nodes
 
   const [x, y] = inverseRotatePoint(spitTarget, angle);
-  greenCircle.transition().at({ cx: x, cy: y });
+  // greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = isShrunk ? 0.04 : 0.025;
+  const strength = isShrunk ? 0.04 : 0.02;
   const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
   const scaleSeparation = isShrunk ? 3 / 2 : 1; // how separate others are
 

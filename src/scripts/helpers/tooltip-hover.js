@@ -4,14 +4,16 @@ import { select } from 'd3-selection';
 let outlinedCircle;
 
 const formatInfo = ({ industry, employer, sizeText }, industryColorsScale) => `
-  <p class="tooltip-industry" style="color:${industryColorsScale(industry)}">${industry}</p>
+  <p class="tooltip-industry" style="color:${industryColorsScale(
+    industry,
+  )}">${industry}</p>
   <p class="tooltip-employer">${employer}</p>
   <p class="tooltip-size">${sizeText} employees</p>
 `;
 
 class Tooltip {
   constructor() {
-    this.node = select('#bubble-tooltip')
+    this.node = select('#bubble-tooltip');
   }
 
   show({ clientX, clientY, industryColorsScale }) {

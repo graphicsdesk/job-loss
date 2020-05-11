@@ -41,7 +41,7 @@ for (let i = 0; i < postings.length; i++) {
 const remotePostings = rawPostings
   .map(({ date, count, remoteCount }) => ({
     date: new Date(date),
-    percentage: remoteCount/count,
+    percentage: remoteCount / count,
   }))
   .sort((a, b) => a.date - b.date);
 
@@ -91,12 +91,12 @@ const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 const linePath = svg.append('path#rawCount');
 const meanPath = svg.append('path#rollingMean');
 
-const remoteContainer = svg.append('g.remote')
+const remoteContainer = svg.append('g.remote');
 const remotePath = remoteContainer
   /*.selectAll("path");
   .data(remotePostings)
   .enter()*/
-  .append('path')
+  .append('path');
 
 function drawGraph() {
   // Update width and height
@@ -117,20 +117,15 @@ function drawGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn
-    .scale(yScale)
-    .tickSize(-gWidth)
-    .tickFormat(format(""));
+  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format(''));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
   yAxis.transition().call(yAxisFn);
 
   // Set path d
-  linePath.attr('d', lineFn(postings))
-    .classed('rawCount', true);
-  meanPath.attr('d', lineFn(rollingMean))
-    .classed('rollingMean', true);
+  linePath.attr('d', lineFn(postings)).classed('rawCount', true);
+  meanPath.attr('d', lineFn(rollingMean)).classed('rollingMean', true);
 
   /* animation:
     1. get the length of the path */
@@ -174,18 +169,14 @@ function drawRemoteGraph() {
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn
-    .scale(pScale)
-    .tickSize(-gWidth)
-    .tickFormat(format(".0%"));
+  yAxisFn.scale(pScale).tickSize(-gWidth).tickFormat(format('.0%'));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
   yAxis.transition().call(yAxisFn);
 
   // Set path d
-  remotePath.attr('d', lineFn(remotePostings))
-    .classed('remotePostings', true);
+  remotePath.attr('d', lineFn(remotePostings)).classed('remotePostings', true);
 
   /* animation:
     1. get the length of the path */
@@ -201,18 +192,19 @@ function drawRemoteGraph() {
 }
 
 /* draw some lines for specfic dates */
-const dateLineContainer = svg.append('g')
+const dateLineContainer = svg.append('g');
 
-const dateLine = dateLineContainer.selectAll('line')
+const dateLine = dateLineContainer
+  .selectAll('line')
   .data(dates)
   .enter()
   .append('line')
   .at({
     x1: d => xScale(d),
     x2: d => xScale(d),
-    y1: (d,i) => yScale(0),
-    y2: (d,i) => yScale(550/(i+1)),
-  })
+    y1: (d, i) => yScale(0),
+    y2: (d, i) => yScale(550 / (i + 1)),
+  });
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
@@ -227,7 +219,7 @@ function enterHandle({ index, direction }) {
   }
 }
 
-function existHandle({index, direction}) {
+function existHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
   }
@@ -242,7 +234,8 @@ function existHandle({index, direction}) {
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
-scroller.setup({ step: '#postings-scrolly .step' })
+scroller
+  .setup({ step: '#postings-scrolly .step' })
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 

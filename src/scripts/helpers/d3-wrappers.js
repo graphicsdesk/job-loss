@@ -22,7 +22,7 @@ async function rotate(radians) {
   const prevRotation = rotation ? (parseInt(rotation[2]) * Math.PI) / 180 : 0;
 
   let animTime = 1200;
-  if (Math.abs(radians - prevRotation) > Math.PI * 3/4) {
+  if (Math.abs(radians - prevRotation) > (Math.PI * 3) / 4) {
     animTime += 500;
   }
   this.style('transition-duration', animTime + 'ms');
