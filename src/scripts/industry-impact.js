@@ -100,9 +100,6 @@ function scrollCallback(scrollDistance, containerWidth) {
   // }
 }
 
-const exitLeft = () => highlightBar(0);
-const exitRight = () => highlightBar(barsNodes.length - 1);
-
 // Initialization function
 function init() {
   initGraph();
@@ -112,8 +109,8 @@ function init() {
     topDetectorId: 'detect-graphic-top',
     bottomDetectorId: 'detect-graphic-bottom',
     scrollCallback,
-    exitLeft,
-    exitRight,
+    exitLeft: () => highlightBar(0),
+    exitRight: () => highlightBar(barsNodes.length - 1),
   });
 }
 
