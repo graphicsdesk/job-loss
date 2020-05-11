@@ -5,6 +5,7 @@ import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
+import { timeFormat } from 'd3-time-format';
 import scrollama from 'scrollama';
 import 'd3-transition';
 import 'd3-jetpack/essentials';
@@ -206,10 +207,23 @@ const dateLine = dateLineContainer
     y2: (d, i) => yScale(550 / (i + 1)),
   });
 
+  /* append text to dateLine */
+  var formatTime = timeFormat("%B %d");
+  const lineLabel = dateLineContainer.selectAll('text')
+    .data(dates)
+    .enter()
+    .append('text')
+    .text(d => formatTime(d))
+    .at({
+      x: d => xScale(d),
+      y: (d, i) => yScale(550 / (i + 1)) -6,
+    });
+
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
     dateLine.classed('dateLine', true);
+    lineLabel.classed('lineLabel', true);
   }
 
   if (index === 2 && direction === 'down') {
@@ -222,6 +236,7 @@ function enterHandle({ index, direction }) {
 function existHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
+    lineLabel.classed('lineLabel', false);
   }
 
   if (index === 2 && direction === 'up') {
