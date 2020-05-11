@@ -6,28 +6,33 @@
  * while the graphic is sticking.
  */
 
-export default function({
-  containerId,
-  paddingId,
+const select = selector =>
+  selector instanceof Element ? selector : document.getElementById(selector);
+
+export default function ({
+  container,
+  padding: paddingDiv,
   topDetectorId,
   bottomDetectorId,
 }) {
-  const container = document.getElementById(containerId);
-  const paddingDiv = document.getElementById(paddingId);
+  container = select(container);
+  paddingDiv = select(paddingDiv);
 
   // Updates height of paddingDiv to match the horizontal scroll distance
+
   function updatePadding() {
     paddingDiv.style.height =
       container.scrollWidth - container.clientWidth + 'px';
   }
 
-  // Shifts the graphic horizontally based on the progress of paddingDiv
+  // Shifts the graphic horizontally based on the progress of paddingDiv.
   function shiftGraphic() {
     const { top } = paddingDiv.getBoundingClientRect();
     container.scrollLeft = paddingDiv.offsetTop - top;
   }
 
   // Setup the intersection observer
+
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const { target, isIntersecting, boundingClientRect } = entry;
