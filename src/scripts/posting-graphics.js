@@ -45,8 +45,6 @@ const remotePostings = rawPostings
   }))
   .sort((a, b) => a.date - b.date);
 
-console.log(remotePostings)
-
 /* Some constants */
 
 const margin = { left: 40, top: 20, bottom: 50, right: 20 };

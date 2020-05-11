@@ -16,12 +16,13 @@ transition.prototype.at = selection.prototype.at; // gives transitions .at!
 
 const rotationRegex = /(rotate\()(-?[.\d]+)(?=deg\))/;
 
-function rotate(radians) {
+async function rotate(radians) {
   let transform = this.style('transform');
   let rotation = transform.match(rotationRegex);
   // const prevRotation = rotation ? (parseInt(rotation[2]) * Math.PI) / 180 : 0;
 
-  this.style('transition-duration', 1200 + 'ms');
+  const animTime = 1200;
+  this.style('transition-duration', animTime + 'ms');
 
   const degrees = Math.floor((radians * 180) / Math.PI);
   if (rotation) {
@@ -31,4 +32,6 @@ function rotate(radians) {
   }
 
   this.style('transform', transform);
+
+  // await new Promise(resolve => setTimeout(resolve, animTime));
 }

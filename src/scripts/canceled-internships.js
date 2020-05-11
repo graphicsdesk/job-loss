@@ -152,11 +152,6 @@ async function separateIndustry(industry) {
   // Calculate the rotation
   const initialAngle = calcAngle([cx, cy]); // angle of the industry cluster  // const desiredAngle = Math.PI; // angle we want industry cluster to point in
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
-  console.log(
-    'init, rotate :>> ',
-    Math.round((initialAngle * 180) / Math.PI),
-    Math.round((angle * 180) / Math.PI),
-  );
   await svg.rotate(angle); // rotate nodes
 
   const [x, y] = inverseRotatePoint(SPIT_TARGET, angle);
