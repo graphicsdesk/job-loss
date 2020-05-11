@@ -12,11 +12,20 @@ import {
   forceXFn,
   forceYFn,
 } from './helpers/forces';
-import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
+import {
+  inverseRotatePoint,
+  centroid,
+  calcAngle
+} from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
-  'Transportation & Logistics',
+  [
+    'Tourism',
+    'Transportation & Logistics',
+    'Aerospace',
+    'Hotels & Accommodation',
+  ],
   'Aerospace',
   'Internet & Software',
   'Internet & Software',
@@ -28,6 +37,7 @@ const industriesToShow = [
 import {
   employers,
   industriesProportions,
+  randomIndexMapping,
 } from '../../data/canceled-internships.json';
 
 const companies = employers.map(({ sizeText, ...rest }) => ({
@@ -61,7 +71,7 @@ const radiusScale = scaleSqrt()
   .range([2, maxRadius]);
 
 function industryColorsScale(industry) {
-  const t = industries.indexOf(industry) / industries.length;
+  const t = randomIndexMapping[industries.indexOf(industry)] / industries.length;
   return interpolateViridis(t);
 }
 
@@ -75,7 +85,7 @@ const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   const angle = cumulativeProportion * 2 * Math.PI;
   // Place industries we will highlight in the future on the outsides
   const initRadius =
-    (industriesToShow.includes(industry) ? 1.5 : 1) * initialRadius;
+    (industriesToShow.flat(1).includes(industry) ? 1.5 : 1) * initialRadius;
   return {
     employer,
     industry,
@@ -155,10 +165,14 @@ const greenCircle = svg
 const spitTarget = [-vbWidth / 3, 0];
 const desiredAngle = calcAngle(spitTarget);
 
-async function separateIndustry(industry) {
+async function separateIndustries(industries) {
+  if (!Array.isArray(industries)) {
+    industries = [industries];
+  }
+
   // await unseparateIndustry();
   let { x: cx, y: cy } = centroid(
-    companyData.filter(d => d.industry === industry),
+    companyData.filter(d => industries.includes(d.industry)),
   );
 
   // Calculate the rotation
@@ -174,7 +188,9 @@ async function separateIndustry(industry) {
   const scaleSeparation = isShrunk ? 3 / 2 : 1; // how separate others are
 
   const separateValue = val => d =>
-    d.industry === industry ? val * scaleIsolation : -val * scaleSeparation;
+    industries.includes(d.industry)
+      ? val * scaleIsolation
+      : -val * scaleSeparation;
   const xForce = forceXFn(separateValue(x), strength);
   const yForce = forceYFn(separateValue(y), strength);
   simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
@@ -205,7 +221,7 @@ async function enterHandle({ index, direction }) {
     bigBusiness.classed('bigBusiness', true);
   }
   if (index !== 3 && index !== 4) {
-    await separateIndustry(industriesToShow[index]);
+    await separateIndustries(industriesToShow[index]);
   }
 }
 
