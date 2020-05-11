@@ -231,4 +231,6 @@ svg
   .at({ width: '100%', height: '100%', x: '-50%', y: '-50%' });
 
 // On mousemove, outline the hovered bubble and show the tooltip
-svg.on('mousemove', () => outlineOnHover(event)).on('mouseout', hideTooltip);
+svg
+  .on('mousemove', () => outlineOnHover(event, industryColorsScale))
+  .on('mouseout', hideTooltip);

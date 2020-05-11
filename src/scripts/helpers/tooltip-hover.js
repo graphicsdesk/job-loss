@@ -3,10 +3,10 @@ import { select } from 'd3-selection';
 
 let outlinedCircle;
 
-const formatInfo = ({ industry, employer, sizeText }) => `
+const formatInfo = ({ industry, employer, sizeText }, industryColorsScale) => `
+  <p class="tooltip-industry" style="color:${industryColorsScale(industry)}">${industry}</p>
   <p class="tooltip-employer">${employer}</p>
-  <p class="tooltip-industry">${industry}</p>
-  <p class="tooltip-size">${sizeText}</p>
+  <p class="tooltip-size">${sizeText} employees</p>
 `;
 
 class Tooltip {
@@ -14,14 +14,14 @@ class Tooltip {
     this.node = select('#bubble-tooltip')
   }
 
-  show({ clientX, clientY }) {
+  show({ clientX, clientY, industryColorsScale }) {
     const { __data__: d } = outlinedCircle;
     this.node.st({
       left: clientX,
       top: clientY,
       opacity: 1,
     });
-    this.node.html(formatInfo(d));
+    this.node.html(formatInfo(d, industryColorsScale));
   }
 
   hide() {
@@ -39,7 +39,7 @@ export const hideTooltip = tooltip.hide;
  * @param event The current event, see https://github.com/d3/d3-selection#event
  */
 
-export const outlineOnHover = throttle((event) => {
+export const outlineOnHover = throttle((event, industryColorsScale) => {
   const { clientX, clientY, target } = event;
   const { __data__: d } = target;
 
@@ -53,7 +53,7 @@ export const outlineOnHover = throttle((event) => {
       outlinedCircle = target;
     }
 
-    tooltip.show({ clientX, clientY });
+    tooltip.show({ clientX, clientY, industryColorsScale });
   } else if (outlinedCircle) {
     // If we're here, the target is not a bubble and a bubble is currently
     // outlined, so we should un-outline it. Catching a non-circle mouse event

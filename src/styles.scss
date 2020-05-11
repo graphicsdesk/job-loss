@@ -108,11 +108,12 @@ $step-max-width: 420px;
 
   p {
     font-family: Roboto;
+    font-size: 16px;
     margin: 0;
     &:not(:last-child) {
       margin-bottom: 3px;
     }
-    &.tooltip-employer {
+    &.tooltip-industry {
       font-weight: bold;
     }
   }
