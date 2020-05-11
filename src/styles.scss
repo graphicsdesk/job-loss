@@ -176,6 +176,12 @@ $step-max-width: 420px;
       stroke: #000;
       stroke-width: 1.5px;
     }
+
+    text.lineLabel {
+      color: black;
+      width: 90px;
+      text-align: left;
+    }
   }
 }
 
