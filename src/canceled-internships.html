@@ -6,20 +6,10 @@
     </div>
   </div>
   <div id="text">
-    <div class="step" data-step="a">
-      <p>WHERE</p>
-    </div>
-    <div class="step" data-step="b">
-      <p>ARE</p>
-    </div>
-    <div class="step" data-step="c">
-      <p>YOU</p>
-    </div>
-    <div class="step" data-step="d">
-      <p>YOU</p>
-    </div>
-    <div class="step" data-step="e">
-      <p>YOU</p>
-    </div>
+    <each loop="text in (item.value.steps || [])">
+      <div class="step">
+        <p>{{{ text }}}</p>
+      </div>
+    </each>
   </div>
 </section>

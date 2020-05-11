@@ -14,7 +14,14 @@
     {
       "type": "graphic",
       "value": {
-        "asset": "canceled-internships.html"
+        "asset": "canceled-internships.html",
+        "steps": [
+          "where",
+          "are <span class=”highlight-me”>highlight me</span>",
+          "you",
+          "you",
+          "you"
+        ]
       }
     }
   ],

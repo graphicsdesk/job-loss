@@ -8,8 +8,8 @@ import { centroid } from './utils';
  */
 
 const STRENGTH = 0.02;
-export const forceXFn = x => forceX(x).strength(STRENGTH);
-export const forceYFn = y => forceY(y).strength(STRENGTH);
+export const forceXFn = (x, strength = STRENGTH) => forceX(x).strength(strength);
+export const forceYFn = (y, strength = STRENGTH) => forceY(y).strength(strength);
 
 /**
  * This cluster force attracts each group of nodes towards its

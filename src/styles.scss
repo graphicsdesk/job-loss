@@ -223,3 +223,9 @@ body.fixed {
     margin-bottom: 0;
   }
 }
+
+@media (max-width: 460px) {
+  .story-top {
+    padding-top: 100px;
+  }
+}

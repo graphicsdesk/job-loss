@@ -40,8 +40,16 @@ const industries = Object.keys(industriesProportions);
 
 /* Some constants */
 
+// SVG dimensions
 const width = document.body.clientWidth;
 const height = document.body.clientHeight;
+
+// SVG viewbox
+const vbWidth = Math.max(750, width);
+const vbHeight = height;
+const vbMinX = 0;
+const vbMinY = 0;
+const viewBox = `${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}`;
 
 /* Scales */
 
@@ -58,7 +66,7 @@ function industryColorsScale(industry) {
 
 /* Generate initial array of nodes */
 
-const INITIAL_RADIUS = 600;
+const initialRadius = Math.min(vbWidth, vbHeight) * 3 / 4;
 
 const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   // The angle an industry's employers should center themselve around
@@ -66,7 +74,7 @@ const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   const angle = cumulativeProportion * 2 * Math.PI;
   // Place industries we will highlight in the future on the outsides
   const initRadius =
-    (industriesToShow.includes(industry) ? 1.5 : 1) * INITIAL_RADIUS;
+    (industriesToShow.includes(industry) ? 1.5 : 1) * initialRadius;
   return {
     employer,
     industry,
@@ -83,7 +91,7 @@ const companyData = companies.map(({ employer, industry, size, sizeText }) => {
 // Create top-level group that translates and rotates everything
 const svg = select('#canceled-internships')
   .insert('svg', ':first-child')
-  .at({ width, height })
+  .at({ width, height, viewBox })
   .append('g')
   .style('transform', `translate(50%, 50%)`);
 
@@ -141,10 +149,11 @@ simulation.nodes(companyData).on('tick', () => {
  * towards SPIT_TARGET.
  */
 
-const SPIT_TARGET = [-450, 0];
-const desiredAngle = calcAngle(SPIT_TARGET);
+const spitTarget = [-vbWidth * 1 / 3, 0];
+const desiredAngle = calcAngle(spitTarget);
 
 async function separateIndustry(industry) {
+  // await unseparateIndustry();
   let { x: cx, y: cy } = centroid(
     companyData.filter(d => d.industry === industry),
   );
@@ -154,12 +163,13 @@ async function separateIndustry(industry) {
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
   await svg.rotate(angle); // rotate nodes
 
-  const [x, y] = inverseRotatePoint(SPIT_TARGET, angle);
+  const [x, y] = inverseRotatePoint(spitTarget, angle);
   greenCircle.transition().at({ cx: x, cy: y });
 
-  const xForce = forceXFn(d => (d.industry === industry ? x : -x));
-  const yForce = forceYFn(d => (d.industry === industry ? y : -y));
-  simulation.force('x', xForce).force('y', yForce).alpha(0.69).restart();
+  const strength = vbWidth > width ? 0.06 : 0.03;
+  const xForce = forceXFn(d => (d.industry === industry ? x : -x), strength);
+  const yForce = forceYFn(d => (d.industry === industry ? y : -y), strength);
+  simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
 }
 
 async function unseparateIndustry() {
