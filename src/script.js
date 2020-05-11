@@ -1,6 +1,7 @@
 import textBalancer from 'text-balancer';
-import 'd3-jetpack/essentials';
 import scrollama from 'scrollama';
+import throttle from 'just-throttle';
+import 'd3-jetpack/essentials';
 
 import './scripts/helpers/d3-wrappers';
 import './scripts/page';
@@ -21,8 +22,8 @@ const showNav = () => navbar.classList.remove('only-eye-logo');
 const scroller = scrollama();
 scroller
   .setup({
-    step: ['h1.headline', '#postings-scrolly'].map(s =>
-      document.querySelector(s),
+    step: ['h1.headline', '#postings-scrolly'].map(
+      document.querySelector.bind(document),
     ),
     offset: 0.01,
   })
@@ -34,6 +35,8 @@ scroller
     if (index === 0 && direction === 'up') hideNav();
     if (index === 1) showNav();
   });
+
+window.addEventListener('resize', throttle(scroller.resize, 500));
 
 // Mobile navbar hamburger trigger
 

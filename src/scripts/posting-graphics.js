@@ -207,17 +207,18 @@ const dateLine = dateLineContainer
     y2: (d, i) => yScale(550 / (i + 1)),
   });
 
-  /* append text to dateLine */
-  var formatTime = timeFormat("%B %d");
-  const lineLabel = dateLineContainer.selectAll('text')
-    .data(dates)
-    .enter()
-    .append('text')
-    .text(d => formatTime(d))
-    .at({
-      x: d => xScale(d),
-      y: (d, i) => yScale(550 / (i + 1)) -6,
-    });
+/* append text to dateLine */
+var formatTime = timeFormat('%B %d');
+const lineLabel = dateLineContainer
+  .selectAll('text')
+  .data(dates)
+  .enter()
+  .append('text')
+  .text(d => formatTime(d))
+  .at({
+    x: d => xScale(d),
+    y: (d, i) => yScale(550 / (i + 1)) - 6,
+  });
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
