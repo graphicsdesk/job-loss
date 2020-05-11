@@ -202,6 +202,19 @@ $step-max-width: 420px;
     overflow: visible;
   }
 
+  g.y-axis {
+    .domain {
+      display: none;
+    }
+    .tick {
+      text {
+        font-family: Roboto;
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
   .bars-container {
     g {
       rect {

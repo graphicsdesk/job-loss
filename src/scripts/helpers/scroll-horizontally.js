@@ -19,8 +19,9 @@ export default function ({
   padding: paddingDiv,
   topDetectorId,
   bottomDetectorId,
-  callback,
-  offset = 0,
+  scrollCallback = () => undefined,
+  exitLeft = () => undefined,
+  exitRight = () => undefined,
 }) {
   container = select(container);
   paddingDiv = select(paddingDiv);
@@ -35,9 +36,9 @@ export default function ({
   // Shifts the graphic horizontally based on the progress of paddingDiv.
   function shiftGraphic() {
     const { top } = paddingDiv.getBoundingClientRect();
-    container.scrollLeft = paddingDiv.offsetTop - top;
-    typeof callback === 'function' &&
-      callback(container.scrollLeft + offset * container.clientWidth);
+    const scrollLeft = paddingDiv.offsetTop - top;
+    container.scrollLeft = scrollLeft;
+    scrollCallback(scrollLeft, container.clientWidth);
   }
 
   // Setup the intersection observer
@@ -77,6 +78,7 @@ export default function ({
           boundingClientRect.top > midpoint)
       ) {
         window.removeEventListener('scroll', shiftGraphic);
+        target.id === topDetectorId ? exitLeft() : exitRight();
       }
     });
   });
