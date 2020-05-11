@@ -31,20 +31,18 @@ client.connect(function (err) {
 
 function aggregatePostings(cursor) {
   // Date should be between September and today
-  const lowerBound = new Date('2019-09-16');
-  const upperBound = new Date();
+  const lowerBound = '2019-09-16';
+  const upperBound = new Date().toISOString().split('T')[0];
 
   const postingsByDate = {};
 
   // Loop through the postings
   cursor.forEach(
     // This callback is invoked for every element
-    function ({ apply_start, remote }) {
-      const date = new Date(apply_start);
-      if (apply_start === null || date < lowerBound || date > upperBound) {
-        return;
-      }
-      const day = apply_start.split('T')[0];
+    function ({ apply_start: date, remote }) {
+      if (date === null || date < lowerBound || date > upperBound) return;
+
+      const day = date.split('T')[0];
       if (!(day in postingsByDate)) {
         postingsByDate[day] = { count: 0, remoteCount: 0 };
       }
