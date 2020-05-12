@@ -15,8 +15,8 @@ This is the output from the `generate_outputs.store_canceled_internships_data()`
 To get postings data from MongoDB, use the `process/get-data.js` script. It requires a `.env` file with the following [credentials](https://docs.google.com/document/d/1C6WPRpabD6YXjQK3VnvjGy02fgxaARHbJTirm3Rzf8I/edit#heading=h.tamwx7fxlakd):
 
 ```
-MONGO_USERNAME = <username>
-MONGO_PASSWORD = <password>
+MDB_USERNAME = <username>
+MDB_PASSWORD = <password>
 ```
 
 Once that's setup, you can run:
