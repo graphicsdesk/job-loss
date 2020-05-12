@@ -34,6 +34,7 @@ export default function ({
   }
 
   // Shifts the graphic horizontally based on the progress of paddingDiv.
+
   function shiftGraphic() {
     const { top } = paddingDiv.getBoundingClientRect();
     const scrollLeft = paddingDiv.offsetTop - top;

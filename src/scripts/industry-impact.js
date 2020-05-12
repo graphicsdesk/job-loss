@@ -100,7 +100,7 @@ function updateGraph() {
 }
 
 let highlightedBarIndex = null;
-function highlightBar(index) {
+function highlightBar(index, forever) {
   if (index < 0 || index >= barsNodes.length) {
     return;
   }
@@ -111,18 +111,55 @@ function highlightBar(index) {
     newNode.classList.add('highlight-bar-group');
     highlightedBarIndex = index;
   }
+
+  if (forever) {
+    newNode.classList.add('highlight-bar-group-forever')
+  }
 }
 
-function onScroll(scrollDistance, containerWidth) {
+function highlightIndustriesForever(industries) {
+  industryChanges.forEach(({ industry }, i) => {
+    if (industries.includes(industry)) highlightBar(i, true);
+  });
+}
+
+// Horizontal scroll callback to highlight middle bar and stick axis
+function onScroll(scrollDistance) {
   highlightBar(Math.round(scrollDistance / barWidth));
-  // if (scrollDistance > containerWidth / 2) {
-  // axis.translate([ scrollDistance - containerWidth / 2 + 30, 0 ]);
-  // }
+}
+
+// Parses data-industries from paragraph blocks
+const paragraphs = Array.from(
+  document.querySelectorAll('#industry-content p'),
+  p => ({
+    node: p,
+    industries: p.getAttribute('data-industries').split(/;\s?/),
+  }),
+);
+function positionText() {
+  paragraphs.forEach(({ node, industries }) => {
+    const xAvg = industries.reduce(
+      (avg, industry) => avg + xScale(industry) / industries.length,
+      0,
+    );
+    const pctAvg = industries.reduce(
+      (avg, industry) => avg + industryChangesRaw[industry] / industries.length,
+      0,
+    );
+    node.style.left =
+      Math.min(
+        Math.max(xAvg - node.clientWidth / 2, 20),
+        width - node.clientWidth - 20,
+      ) + 'px';
+    node.style.top = pctAvg < -0.2 ? yScale(0.45) : yScale(-0.3) + 'px';
+    highlightIndustriesForever(industries);
+  });
 }
 
 // Initialization function
 function init() {
   updateGraph();
+  positionText();
 
   scrollHorizontally({
     container: divContainer,

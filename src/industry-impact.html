@@ -4,7 +4,7 @@
   <div id="industry-impact-container">
     <div id="industry-content">
       <each loop="step in (item.value.steps || [])">
-        <p data-industry="{{ step.industry }}">{{{ step.text }}}</p>
+        <p data-industries="{{ step.industries }}">{{{ step.text }}}</p>
       </each>
     </div>
   </div>

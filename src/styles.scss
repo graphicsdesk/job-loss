@@ -21,7 +21,7 @@ $step-max-width: 420px;
     font-family: Georgia, serif;
     font-size: 18px;
     line-height: 30px;
-    background: hsla(0, 0%, 100%, 0.9);
+    background: hsla(0, 0%, 100%, 0.93);
     box-shadow: 0 2px 5px 0 #e4e4e4;
     width: calc(100% - 70px);
     max-width: $step-max-width;
@@ -59,6 +59,10 @@ $step-max-width: 420px;
 /**
  * Styles for the canceled internships bubble chart
  */
+
+#canceled-scrolly #text {
+  margin-top: -50vh;
+}
 
 #canceled-internships {
   position: sticky;
@@ -194,8 +198,8 @@ $step-max-width: 420px;
   height: 100vh;
   position: sticky;
   top: 0;
-  // padding-left: calc(50% - #{$gbody-width / 2});
   padding-left: 50%;
+  // padding-left: max(30%, calc(50% - #{$gbody-width / 2}));
   padding-right: 50%;
 
   svg {
@@ -243,6 +247,12 @@ $step-max-width: 420px;
         fill-opacity: 1;
       }
     }
+
+    g.highlight-bar-group-forever {
+      rect {
+        fill: #0282fa;
+      }
+    }
   }
 }
 
@@ -253,8 +263,12 @@ $step-max-width: 420px;
     font-family: Georgia, serif;
     font-size: 18px;
     line-height: 30px;
-    max-width: $step-max-width;
+    width: $step-max-width;
     position: absolute;
+    margin: 0;
+    padding: 18px;
+    background: hsla(0, 0%, 100%, 0.93);
+    box-shadow: 0 2px 5px 0 #ccc;
   }
 }
 

@@ -68,12 +68,12 @@
               "asset": "industry-impact.html",
               "steps": [
                 {
-                  "industry": "INDUSTRY NAMES",
-                  "text": "TEXT"
+                  "industries": "Tourism; Hotels & Accommodation; Restaurants & Food Service",
+                  "text": "The industries that have had the most change in daily posting are not a surprise—the bottom three are restaurants and food service, hotels and accomodation, and tourism."
                 },
                 {
-                  "industry": "INDUSTRY NAMES",
-                  "text": "TEXT"
+                  "industries": "Medical Devices; Biotech & Life Sciences; Research",
+                  "text": "The medical devices industry is one of the few with increased postings. Biotech and life sciences and research, while impacted, have not experienced a drastic change relative to the data for other industries."
                 }
               ]
             }
@@ -89,62 +89,6 @@
           {
             "type": "text",
             "value": "TK"
-          },
-          {
-            "type": "text",
-            "value": "I"
-          },
-          {
-            "type": "text",
-            "value": "need"
-          },
-          {
-            "type": "text",
-            "value": "more"
-          },
-          {
-            "type": "text",
-            "value": "space"
-          },
-          {
-            "type": "text",
-            "value": "tk"
-          },
-          {
-            "type": "text",
-            "value": "tk"
-          },
-          {
-            "type": "text",
-            "value": "tk"
-          },
-          {
-            "type": "text",
-            "value": "I"
-          },
-          {
-            "type": "text",
-            "value": "need"
-          },
-          {
-            "type": "text",
-            "value": "more"
-          },
-          {
-            "type": "text",
-            "value": "space"
-          },
-          {
-            "type": "text",
-            "value": "tk"
-          },
-          {
-            "type": "text",
-            "value": "tk"
-          },
-          {
-            "type": "text",
-            "value": "tk"
           },
           {
             "type": "text",
