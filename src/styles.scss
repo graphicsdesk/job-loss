@@ -191,6 +191,7 @@ $step-max-width: 420px;
 
 #industry-impact-container {
   overflow-x: scroll;
+  overflow-y: hidden;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -212,13 +213,16 @@ $step-max-width: 420px;
         font-size: 14px;
         color: #666;
       }
+      line {
+        stroke: #ddd;
+      }
     }
   }
 
   .bars-container {
     g {
       rect {
-        fill: red;
+        fill: #62aee5;
         transition-duration: 0.1s;
       }
       text {
@@ -226,6 +230,7 @@ $step-max-width: 420px;
         fill-opacity: 0;
         transition-duration: 0.1s;
         text-anchor: middle;
+        alignment-baseline: middle;
         font-family: Roboto;
         font-size: 16px;
       }
@@ -233,13 +238,24 @@ $step-max-width: 420px;
 
     g.highlight-bar-group {
       rect {
-        fill: blue;
+        fill: #0282fa;
       }
       text {
         fill-opacity: 1;
-        alignment-baseline: middle;
       }
     }
+  }
+}
+
+#industry-content {
+  position: absolute;
+
+  p {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 30px;
+    max-width: $step-max-width;
+    position: absolute;
   }
 }
 

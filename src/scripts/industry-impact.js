@@ -15,15 +15,18 @@ const industryChanges = Object.keys(industryChangesRaw)
 
 /* Some constants and containers */
 
-const barWidth = 40;
+const barWidth = 36;
 
-const container = select('#industry-impact-container');
+const divContainer = select('#industry-impact-container');
 
-const svg = container.append('svg');
-const axis = svg.append('g.y-axis');
-const barsContainer = svg.append('g.bars-container');
+/* Initiation code */
 
-/* BarGraph class */
+const svg = divContainer.append('svg');
+const container = svg.append('g');
+const barsContainer = container.append('g.bars-container');
+const axis = container.append('g.y-axis');
+
+const margin = { top: 10, bottom: 25 };
 
 let width;
 let height;
@@ -32,20 +35,24 @@ const xScale = scaleBand().domain(industryChanges.map(d => d.industry));
 const yScale = scaleLinear().domain(
   extent(industryChanges, d => d.percentChange),
 );
-const axisFn = axisLeft(yScale).tickFormat(format('.0%'));
+const axisFn = axisLeft(yScale).tickFormat(format('.0%')).tickPadding(10);
 
 let bars;
 let barsNodes;
 
 function initGraph() {
+  const svgHeight = window.innerHeight;
+  height = svgHeight - margin.top - margin.bottom;
   width = barWidth * industryChanges.length;
-  height = window.innerHeight;
-  svg.at({ width, height });
+  svg.at({ width, height: svgHeight });
+  container.at({ width, height });
 
-  xScale.rangeRound([0, width]).paddingInner(0.1);
+  container.translate([0, margin.top]);
+
+  xScale.rangeRound([0, width]).paddingInner(0.04);
   yScale.rangeRound([height, 0]);
 
-  axis.call(axisFn);
+  axis.call(axisFn.tickSize(-width));
 
   // Join bars to data
   bars = barsContainer
@@ -94,7 +101,7 @@ function highlightBar(index) {
 }
 
 function scrollCallback(scrollDistance, containerWidth) {
-  highlightBar(Math.floor(scrollDistance / barWidth));
+  highlightBar(Math.round(scrollDistance / barWidth));
   // if (scrollDistance > containerWidth / 2) {
   // axis.translate([ scrollDistance - containerWidth / 2 + 30, 0 ]);
   // }
@@ -104,7 +111,7 @@ function scrollCallback(scrollDistance, containerWidth) {
 function init() {
   initGraph();
   scrollHorizontally({
-    container,
+    container: divContainer,
     padding: 'industry-impact-padding',
     topDetectorId: 'detect-graphic-top',
     bottomDetectorId: 'detect-graphic-bottom',
