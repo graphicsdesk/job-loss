@@ -1,4 +1,4 @@
-import { select } from 'd3-selection';
+import { select, selectAll } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
@@ -21,21 +21,28 @@ const postings = postingsData.postings
   }))
   .sort((a, b) => a.date - b.date);
 
+const standardPosting = postings[0].count;
+const percentChange = postings.map(({date, count, remoteCount}) => ({
+  date: date,
+  percentChange: (count - standardPosting)/standardPosting ,
+}))
+  console.log(percentChange)
+
 /* compute the rolling mean */
 const rollingMean = [];
 
-for (let i = 0; i < postings.length; i++) {
+for (let i = 0; i < percentChange.length; i++) {
   let sum = 0;
   let mean = 0;
 
-  if (i > 2 && i < postings.length - 3) {
+  if (i > 2 && i < percentChange.length - 3) {
     for (let j = -3; j <= 3; j++) {
-      sum += postings[i + j].count;
+      sum += percentChange[i + j].percentChange;
     }
     mean = sum / 7;
     rollingMean.push({
-      date: postings[i].date,
-      count: mean,
+      date: percentChange[i].date,
+      percentChange: mean,
     });
   }
 }
@@ -70,11 +77,8 @@ const xAxis = svg.append('g.x.axis');
 const yAxis = svg.append('g.y.axis');
 
 // Instantiate scales
-const xScale = scaleTime().domain(extent(postings, d => d.date));
-const yScale = scaleLinear().domain([
-  0,
-  1.1 * Math.max(...postings.map(d => d.count)),
-]);
+const xScale = scaleTime().domain(extent(percentChange, d => d.date));
+const yScale = scaleLinear().domain([-1,1]);
 const pScale = scaleLinear().domain([0, 1]);
 
 // Instantiate shape and axes generators
@@ -83,7 +87,7 @@ const xAxisFn = axisBottom().tickPadding(TICK_PADDING);
 const yAxisFn = axisLeft().tickPadding(TICK_PADDING);
 
 // The line path
-const linePath = svg.append('path#rawCount');
+const linePath = svg.append('path#percentChange');
 const meanPath = svg.append('path#rollingMean');
 
 const remoteContainer = svg.append('g.remote');
@@ -103,12 +107,12 @@ async function drawGraph() {
   yScale.range([gHeight, 0]);
 
   // Update line and axes generation params
-  lineFn.x(d => xScale(d.date)).y(d => yScale(d.count));
+  lineFn.x(d => xScale(d.date)).y(d => yScale(d.percentChange));
   xAxisFn
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format(''));
+  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format('.0%'));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
@@ -123,9 +127,14 @@ async function drawGraph() {
     // quickly between steps and the animation didn't have time to finish.
     console.error('Transition', error._name, 'was interrupted.');
   }
+   //change 0% tick 
+   yAxis.selectAll('g.tick')
+   .filter(d => d === 0)
+   .select('line')
+   .style('stroke', 'black');
 
   // Set path d
-  linePath.attr('d', lineFn(postings)).classed('rawCount', true);
+  linePath.attr('d', lineFn(percentChange)).classed('percentChange', true);
   meanPath.attr('d', lineFn(rollingMean)).classed('rollingMean', true);
 
   /* animation:
@@ -203,7 +212,7 @@ const dateLine = dateLineContainer
   .at({
     x1: d => xScale(d),
     x2: d => xScale(d),
-    y1: (d, i) => yScale(0),
+    y1: (d, i) => yScale(-1),
     y2: (d, i) => yScale(550 / (i + 1)),
   });
 
