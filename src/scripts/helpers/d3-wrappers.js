@@ -20,11 +20,19 @@ async function rotate(radians) {
   let transform = this.style('transform');
   let rotation = transform.match(rotationRegex);
   const prevRotation = rotation ? (parseInt(rotation[2]) * Math.PI) / 180 : 0;
+  const rotationDistance = Math.abs(radians - prevRotation);
 
+  // If we're rotating a lot, allow some more animation time
   let animTime = 1200;
-  if (Math.abs(radians - prevRotation) > (Math.PI * 3) / 4) {
+  if (rotationDistance > (Math.PI * 3) / 4) {
     animTime += 500;
   }
+
+  // We should never rotate through an angle of more than π
+  if (rotationDistance > Math.PI) {
+    radians -= radians / Math.abs(radians) * 2 * Math.PI;
+  }
+
   this.style('transition-duration', animTime + 'ms');
 
   const degrees = Math.floor((radians * 180) / Math.PI);
