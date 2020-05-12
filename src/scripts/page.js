@@ -1,5 +1,6 @@
-import { spectate as spectateConfig } from '../../package.json';
+import textBalancer from 'text-balancer';
 import initAi2html from './helpers/ai2html-resizer';
+import { spectate as spectateConfig } from '../../package.json';
 
 /**
  * Put all initializer scripts into this init() function
@@ -90,4 +91,13 @@ if (isOnSpectatorPage && isOnContributorPage) {
   styleSheet.type = 'text/css';
   styleSheet.innerText = '.story-summary > .twolines { display: none; }';
   document.head.appendChild(styleSheet);
+}
+
+/**
+ * Other random stuff that clogs stuff up
+ */
+
+// Text balance headline, deck, and image captions
+if (window.innerWidth <= 460) {
+  textBalancer.balanceText('.headline');
 }

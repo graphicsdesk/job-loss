@@ -1,4 +1,3 @@
-import textBalancer from 'text-balancer';
 import scrollama from 'scrollama';
 import throttle from 'just-throttle';
 import 'd3-jetpack/essentials';
@@ -13,11 +12,12 @@ import './scripts/industry-impact';
 
 const navbar = document.getElementById('navbar');
 
-const hideNav = () => {
+const hideNav = fully => {
   navbar.classList.remove('show-nav-links');
   navbar.classList.add('only-eye-logo');
+  if (fully) navbar.classList.add('not-even-eye-logo');
 };
-const showNav = () => navbar.classList.remove('only-eye-logo');
+const showNav = () => (navbar.className = '');
 
 const scroller = scrollama();
 const elements = [
@@ -36,7 +36,7 @@ scroller
   })
   .onStepEnter(({ index, direction }) => {
     if (index === 0 && direction === 'down') showNav();
-    else if (index > 0) hideNav();
+    else if (index > 0) hideNav(true);
   })
   .onStepExit(({ index, direction }) => {
     if (index === 0 && direction === 'up') hideNav();
@@ -49,10 +49,4 @@ window.addEventListener('resize', throttle(scroller.resize, 500));
 
 export function hamburgerTrigger() {
   navbar.classList.toggle('show-nav-links');
-}
-
-// Text balance headline, deck, and image captions
-
-if (window.innerWidth <= 460) {
-  textBalancer.balanceText('.headline');
 }

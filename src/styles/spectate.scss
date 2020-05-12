@@ -9,7 +9,7 @@ $gbody-padding: 20px;
 $navbar-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.27);
 $navbar-height: 48px;
 
-$fade-transition-duration: 0.2s;
+$fade-transition-duration: 0.3s;
 
 /* Load fonts */
 
@@ -248,6 +248,18 @@ header {
   box-shadow: $navbar-shadow;
 }
 
+#eye-logo-container {
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+  z-index: 1;
+  transition-duration: $fade-transition-duration;
+
+  #eye-logo {
+    width: 96px;
+  }
+}
+
 #navbar.only-eye-logo {
   background: none;
   box-shadow: none;
@@ -262,14 +274,9 @@ header {
   }
 }
 
-#eye-logo-container {
-  display: flex;
-  justify-content: space-between;
-  height: 48px;
-  z-index: 1;
-
-  #eye-logo {
-    width: 96px;
+#navbar.not-even-eye-logo {
+  #eye-logo-container {
+    opacity: 0;
   }
 }
 
