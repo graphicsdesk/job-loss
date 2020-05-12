@@ -1,7 +1,0 @@
-.DS_Store
-.cache
-dist
-node_modules
-.env
-
-data/
