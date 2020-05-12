@@ -11,30 +11,25 @@ const formatInfo = ({ industry, employer, sizeText }, industryColorsScale) => `
   <p class="tooltip-size">${sizeText} employees</p>
 `;
 
-class Tooltip {
-  constructor() {
-    this.node = select('#bubble-tooltip');
-  }
+const tooltipBox = select('#bubble-tooltip');
 
-  show({ clientX, clientY, industryColorsScale }) {
-    const { __data__: d } = outlinedCircle;
-    this.node.st({
-      left: clientX,
-      top: clientY,
-      opacity: 1,
-    });
-    this.node.html(formatInfo(d, industryColorsScale));
-  }
-
-  hide() {
-    if (!this.node) this.node = select('#bubble-tooltip');
-    this.node.style('opacity', 0);
-  }
+function showTooltip({ clientX, clientY, industryColorsScale }) {
+  const { __data__: d } = outlinedCircle;
+  tooltipBox.st({
+    left: clientX,
+    top: clientY,
+    opacity: 1,
+  });
+  tooltipBox.html(formatInfo(d, industryColorsScale));
 }
 
-const tooltip = new Tooltip();
-
-export const hideTooltip = tooltip.hide;
+export function hideTooltip() {
+  tooltipBox.style('opacity', 0);
+  if (outlinedCircle) {
+    outlinedCircle.classList.remove('hover-highlight');
+    outlinedCircle = null;
+  }
+}
 
 /**
  * Callback for mousemove events that outlines the correct employer bubble.
@@ -55,13 +50,11 @@ export const outlineOnHover = throttle((event, industryColorsScale) => {
       outlinedCircle = target;
     }
 
-    tooltip.show({ clientX, clientY, industryColorsScale });
+    showTooltip({ clientX, clientY, industryColorsScale });
   } else if (outlinedCircle) {
     // If we're here, the target is not a bubble and a bubble is currently
     // outlined, so we should un-outline it. Catching a non-circle mouse event
     // requires an invisible background rectangle.
-    outlinedCircle.classList.remove('hover-highlight');
-    outlinedCircle = null;
-    tooltip.hide();
+    hideTooltip();
   }
 }, 0);

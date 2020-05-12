@@ -16,12 +16,7 @@ import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
-  [
-    'Tourism',
-    'Transportation & Logistics',
-    'Aerospace',
-    'Hotels & Accommodation',
-  ],
+  ['Tourism', 'Transportation & Logistics', 'Hotels & Accommodation'],
   'Hotels & Accommodation',
   'Internet & Software',
 ];
@@ -70,14 +65,17 @@ function industryColorsScale(industry) {
   return interpolateViridis(t);
 }
 
-/* Generate initial array of nodes */
+/* Generate initial array of nodes. Initial angle based on first split angle */
+
+const spitTarget = vbWidth > width ? [0, -vbHeight / 3] : [-vbWidth / 3, 0];
+const desiredAngle = calcAngle(spitTarget);
 
 const initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
 
 const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   // The angle an industry's employers should center themselve around
   const cumulativeProportion = industriesProportions[industry];
-  const angle = cumulativeProportion * 2 * Math.PI;
+  const angle = cumulativeProportion * 2 * Math.PI + desiredAngle / 2;
   // Place industries we will highlight in the future on the outsides
   const initRadius =
     (industriesToShow.flat(1).includes(industry) ? 1.5 : 1) * initialRadius;
@@ -150,15 +148,12 @@ const greenCircle = svg
   .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
 */
 
-/* scrolly stuffs */
+/* Functions for interactivity */
 
 /**
  * Spits out an industry cluster. Rotates graphic so the cluster is always spit
  * towards SPIT_TARGET.
  */
-
-const spitTarget = vbWidth > width ? [0, -vbHeight / 3] : [-vbWidth / 3, 0];
-const desiredAngle = calcAngle(spitTarget);
 
 async function separateIndustries(industries) {
   if (!Array.isArray(industries)) {
@@ -175,6 +170,15 @@ async function separateIndustries(industries) {
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
   await svg.rotate(angle); // rotate nodes
 
+  // Calculate and apply separation forces
+  const [xForce, yForce] = calculateSeparationForces(industries, angle);
+  simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
+
+  showTextNodes(industries);
+}
+
+/** Calculates separation forces based on angle and spitTarget */
+function calculateSeparationForces(industries, angle) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   // greenCircle.transition().at({ cx: x, cy: y });
 
@@ -182,15 +186,19 @@ async function separateIndustries(industries) {
   const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
   const scaleSeparation = isShrunk ? 3.5 / 2 : 1; // how separate others are
 
-  const separateValue = val => d =>
+  const separate = val => d =>
     industries.includes(d.industry)
       ? val * scaleIsolation
       : -val * scaleSeparation;
-  const xForce = forceXFn(separateValue(x), strength);
-  const yForce = forceYFn(separateValue(y), strength);
-  simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
+  return [forceXFn(separate(x), strength), forceYFn(separate(y), strength)];
 }
 
+/** TODO: Show the text labels of certain industries */
+
+const labelNodes = null;
+function showTextNodes(industries) {}
+
+/** Brings everything back to the center. */
 async function unseparateIndustry() {
   simulation
     .force('x', forceXCenter)
@@ -198,9 +206,10 @@ async function unseparateIndustry() {
     .alpha(0.6)
     .restart();
 
-  // Wait 1 second
-  // await new Promise(r => setTimeout(r, 1000));
+  // await new Promise(r => setTimeout(r, 1000)); // Wait 1 second
 }
+
+/* Scrolly stuff */
 
 async function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
