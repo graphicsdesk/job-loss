@@ -19,7 +19,7 @@ export default function ({
   padding: paddingDiv,
   topDetectorId,
   bottomDetectorId,
-  scrollCallback = () => undefined,
+  onScroll = () => undefined,
   exitLeft = () => undefined,
   exitRight = () => undefined,
 }) {
@@ -38,7 +38,7 @@ export default function ({
     const { top } = paddingDiv.getBoundingClientRect();
     const scrollLeft = paddingDiv.offsetTop - top;
     container.scrollLeft = scrollLeft;
-    scrollCallback(scrollLeft, container.clientWidth);
+    onScroll(scrollLeft, container.clientWidth);
   }
 
   // Setup the intersection observer

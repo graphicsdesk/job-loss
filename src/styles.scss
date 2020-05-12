@@ -66,8 +66,7 @@ $step-max-width: 420px;
   z-index: 0;
 
   svg {
-    display: block;
-    margin: 0 auto;
+    // overflow: visible;
 
     circle.bigBusiness {
       fill-opacity: 0.5;

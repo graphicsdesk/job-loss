@@ -1,9 +1,12 @@
+import throttle from 'just-throttle';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { extent } from 'd3-array';
 import scrollHorizontally from './helpers/scroll-horizontally';
+
+/* Some data preprocessing */
 
 import { industryChanges as industryChangesRaw } from '../../data/postings.json';
 const industryChanges = Object.keys(industryChangesRaw)
@@ -21,69 +24,79 @@ const divContainer = select('#industry-impact-container');
 
 /* Initiation code */
 
-const svg = divContainer.append('svg');
-const container = svg.append('g');
-const barsContainer = container.append('g.bars-container');
-const axis = container.append('g.y-axis');
+const width = barWidth * industryChanges.length;
+let height;
 
 const margin = { top: 10, bottom: 25 };
 
-let width;
-let height;
+const svg = divContainer.append('svg').at({ width });
+const container = svg.append('g').translate([0, margin.top]);
+const barsContainer = container.append('g.bars-container');
+const axis = container.append('g.y-axis');
 
-const xScale = scaleBand().domain(industryChanges.map(d => d.industry));
+const xScale = scaleBand()
+  .domain(industryChanges.map(d => d.industry))
+  .rangeRound([0, width])
+  .paddingInner(0.04);
 const yScale = scaleLinear().domain(
   extent(industryChanges, d => d.percentChange),
 );
-const axisFn = axisLeft(yScale).tickFormat(format('.0%')).tickPadding(10);
 
-let bars;
-let barsNodes;
+const percentFormat = format('.0%');
+const axisFn = axisLeft(yScale)
+  .tickFormat(percentFormat)
+  .tickPadding(10)
+  .tickSize(-width);
 
-function initGraph() {
+// Join bars to data
+const bars = barsContainer
+  .selectAll('bars')
+  .data(industryChanges)
+  // Everything that doesn't depend on the yScale can be done on enter
+  .join(enter =>
+    enter.append('g').call(g => {
+      g.append('rect').at({
+        x: d => xScale(d.industry),
+        width: xScale.bandwidth(),
+      });
+      g.append('text.bar-label-name')
+        .text(d => d.industry)
+        .at({ x: d => xScale(d.industry) + barWidth / 2 });
+      g.append('text.bar-label-percentage')
+        .text(
+          d => percentFormat(d.percentChange).replace('-', '–'), // Use en dash
+        )
+        .at({ x: d => xScale(d.industry) + barWidth / 2 });
+    }),
+  );
+
+// Store nodes for easy indexing
+const barsNodes = bars.nodes();
+
+function updateGraph() {
   const svgHeight = window.innerHeight;
   height = svgHeight - margin.top - margin.bottom;
-  width = barWidth * industryChanges.length;
-  svg.at({ width, height: svgHeight });
-  container.at({ width, height });
+  svg.at({ height: svgHeight });
 
-  container.translate([0, margin.top]);
-
-  xScale.rangeRound([0, width]).paddingInner(0.04);
+  // Update yScale and its dependencies
   yScale.rangeRound([height, 0]);
+  axis.call(axisFn);
 
-  axis.call(axisFn.tickSize(-width));
-
-  // Join bars to data
-  bars = barsContainer
-    .selectAll('bars')
-    .data(industryChanges)
-    .join(enter =>
-      enter.append('g').call(s => {
-        s.append('rect');
-        s.append('text');
-      }),
-    );
-
-  // Configure rectangles
+  // Update bar heights and positions
   bars.select('rect').at({
-    x: d => xScale(d.industry),
     y: d => Math.min(yScale(0), yScale(d.percentChange)),
-    width: xScale.bandwidth(),
     height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
   });
 
-  // Configure text
-  bars
-    .select('text')
-    .at({
-      x: d => xScale(d.industry) + barWidth / 2,
-      y: d => yScale(0) + (d.percentChange / Math.abs(d.percentChange)) * 15,
-    })
-    .text(d => d.industry);
-
-  // Store nodes for easy indexing
-  barsNodes = bars.nodes();
+  // Update label positions
+  bars.select('text.bar-label-name').at({
+    y: d => yScale(0) + (d.percentChange / Math.abs(d.percentChange)) * 15,
+  });
+  bars.select('text.bar-label-percentage').at({
+    y: d =>
+      yScale(d.percentChange) -
+      (d.percentChange / Math.abs(d.percentChange)) * 15,
+  });
 }
 
 let highlightedBarIndex = null;
@@ -100,7 +113,7 @@ function highlightBar(index) {
   }
 }
 
-function scrollCallback(scrollDistance, containerWidth) {
+function onScroll(scrollDistance, containerWidth) {
   highlightBar(Math.round(scrollDistance / barWidth));
   // if (scrollDistance > containerWidth / 2) {
   // axis.translate([ scrollDistance - containerWidth / 2 + 30, 0 ]);
@@ -109,16 +122,19 @@ function scrollCallback(scrollDistance, containerWidth) {
 
 // Initialization function
 function init() {
-  initGraph();
+  updateGraph();
+
   scrollHorizontally({
     container: divContainer,
     padding: 'industry-impact-padding',
     topDetectorId: 'detect-graphic-top',
     bottomDetectorId: 'detect-graphic-bottom',
-    scrollCallback,
+    onScroll,
     exitLeft: () => highlightBar(0),
     exitRight: () => highlightBar(barsNodes.length - 1),
   });
 }
 
 init();
+
+window.addEventListener('resize', throttle(updateGraph, 500));

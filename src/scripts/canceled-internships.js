@@ -40,16 +40,47 @@ const industries = Object.keys(industriesProportions);
 /* Some constants */
 
 // SVG dimensions
-const width = document.body.clientWidth;
-const height = document.body.clientHeight;
-
-// SVG viewbox
-const vbWidth = Math.max(750, width);
-const vbHeight = height;
+let width, height;
+let vbWidth, vbHeight;
 const vbMinX = 0;
 const vbMinY = 0;
-const viewBox = `${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}`;
-const isShrunk = vbWidth > width;
+let viewBox;
+let isShrunk;
+
+// Spit target and initial radius
+let spitTarget;
+let desiredAngle;
+let initialRadius;
+
+/* Create the svg, and then create helpful container groups */
+
+// Create top-level group that translates and rotates everything
+const svg = select('#canceled-internships').insert('svg', ':first-child');
+const graphic = svg.append('g');
+
+// Create subgroup just for the bubbles
+const nodesContainer = graphic.append('g.node-container');
+
+/* Updates graphic elements when window resizes */
+
+function updateGraphic() {
+  width = document.body.clientWidth;
+  height = window.innerHeight;
+  vbWidth = Math.max(750, width);
+  vbHeight = height;
+
+  viewBox = `${vbMinX} ${vbMinY} ${vbWidth} ${vbHeight}`;
+  isShrunk = vbWidth > width;
+
+  spitTarget = vbWidth > width ? [0, -vbHeight / 3] : [-vbWidth / 3, 0];
+  desiredAngle = calcAngle(spitTarget);
+  initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
+
+  svg.at({ width, height, viewBox });
+  graphic.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
+}
+
+updateGraphic();
 
 /* Scales */
 
@@ -66,11 +97,6 @@ function industryColorsScale(industry) {
 }
 
 /* Generate initial array of nodes. Initial angle based on first split angle */
-
-const spitTarget = vbWidth > width ? [0, -vbHeight / 3] : [-vbWidth / 3, 0];
-const desiredAngle = calcAngle(spitTarget);
-
-const initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
 
 const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   // The angle an industry's employers should center themselve around
@@ -90,19 +116,8 @@ const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   };
 });
 
-/* Create the svg, and then create helpful container groups */
+/* Create the bubbles; partition them for discoloring */
 
-// Create top-level group that translates and rotates everything
-const svg = select('#canceled-internships')
-  .insert('svg', ':first-child')
-  .at({ width, height, viewBox })
-  .append('g')
-  .style('transform', `translate(50%, 50%)`);
-
-// Create subgroup just for the bubbles
-const nodesContainer = svg.append('g.node-container');
-
-// Create the bubbles
 const circles = nodesContainer
   .selectAll('circle')
   .data(companyData)
@@ -111,8 +126,6 @@ const circles = nodesContainer
     r: d => d.radius,
     fill: d => industryColorsScale(d.industry),
   });
-
-/* partition the circles for discoloring */
 
 const bigBusiness = circles.filter(d => d.size > 250);
 const softwareBig = circles.filter(
@@ -168,7 +181,7 @@ async function separateIndustries(industries) {
   // Calculate the rotation
   const initialAngle = calcAngle([cx, cy]); // angle of the industry cluster  // const desiredAngle = Math.PI; // angle we want industry cluster to point in
   const angle = desiredAngle - initialAngle; // angle we have to rotate in
-  await svg.rotate(angle); // rotate nodes
+  await graphic.rotate(angle); // rotate nodes
 
   // Calculate and apply separation forces
   const [xForce, yForce] = calculateSeparationForces(industries, angle);
@@ -220,7 +233,7 @@ async function enterHandle({ index, direction }) {
     softwareBig.classed('softwareBig', true);
   }
   if (index === 5 && direction === 'down') {
-    await svg.rotate(0);
+    await graphic.rotate(0);
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
@@ -248,20 +261,26 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#canceled-scrolly .step' })
+  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.7 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 
 // setup resize event
-window.addEventListener('resize', throttle(scroller.resize, 300));
+window.addEventListener(
+  'resize',
+  throttle(() => {
+    scroller.resize();
+    updateGraphic();
+  }),
+);
 
 /* Logic for adding an outline to circles we're hovering over */
 
 // Invisible background required for catching mouse movement events
-svg.insert('rect#invisible-background', ':first-child');
+graphic.insert('rect#invisible-background', ':first-child');
 
 // On mousemove, outline the hovered bubble and show the tooltip
-svg
+graphic
   .on('mousemove', () => outlineOnHover(event, industryColorsScale))
   .on('mouseout', hideTooltip);
 

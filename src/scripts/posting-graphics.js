@@ -256,4 +256,4 @@ scroller
   .onStepExit(existHandle);
 
 // setup resize event
-window.addEventListener('resize', throttle(scroller.resize, 300));
+window.addEventListener('resize', throttle(scroller.resize, 500));

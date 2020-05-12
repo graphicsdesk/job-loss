@@ -1,4 +1,3 @@
-import throttle from 'just-throttle';
 import { select } from 'd3-selection';
 
 let outlinedCircle;
@@ -36,7 +35,7 @@ export function hideTooltip() {
  * @param event The current event, see https://github.com/d3/d3-selection#event
  */
 
-export const outlineOnHover = throttle((event, industryColorsScale) => {
+export const outlineOnHover = (event, industryColorsScale) => {
   const { clientX, clientY, target } = event;
   const { __data__: d } = target;
 
@@ -57,4 +56,4 @@ export const outlineOnHover = throttle((event, industryColorsScale) => {
     // requires an invisible background rectangle.
     hideTooltip();
   }
-}, 0);
+};
