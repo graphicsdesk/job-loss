@@ -255,7 +255,7 @@ async function enterHandle({ index, direction }) {
     softwareBig.classed('softwareBig', true);
   }
   if (index === 5 && direction === 'down') {
-    await graphic.rotate(0);
+    // await graphic.rotate(0);
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
