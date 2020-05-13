@@ -73,7 +73,7 @@ for (let i = 0; i < postings.length; i++) {
 
 const margin = { left: 43, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
-const pauseStartDate = new Date('2020-03-22'); //PAUSE:effective at 8PM on Sunday, March 22
+const dateToNote = new Date('2020-03-07'); //PAUSE:effective at 8PM on Sunday, March 22
 
 /**
  * Initiation code. Creates DOM nodes and instantiates functions like scales
@@ -227,28 +227,29 @@ async function drawRemoteGraph() {
 const dateLineContainer = svg.append('g.dateLine');
 
 const dateLine = dateLineContainer.append('line').at({
-  x1: xScale(pauseStartDate),
-  x2: xScale(pauseStartDate),
+  x1: xScale(dateToNote),
+  x2: xScale(dateToNote),
   y1: yScale(-1),
   y2: yScale(0.8),
 });
 
 /* append text to dateLine */
-var formatTime = timeFormat('%B %d');
 const lineLabel = dateLineContainer
   .append('text')
   .at({
+    x: xScale(dateToNote) - 25,
     y: yScale(0.8) - 6,
   })
-  .tspans(
+  .text('March 7th')
+  /*.tspans(
     [
       'Governor Cuomo signed',
       'the PAUSE to be effective',
       'at 8PM on Sunday, March 22',
     ],
     20,
-  )
-  .attr('x', xScale(pauseStartDate) + 5);
+  )*/
+  //.attr('x', xScale(dateToNote) + 5);
 //.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
 
 // add legend
@@ -303,12 +304,12 @@ const legend3Text = legendContainer
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
-  if (index === 1 && direction === 'down') {
+  if (index === 0 && direction === 'down') {
     dateLine.classed('dateLine', true);
     lineLabel.classed('lineLabel', true);
   }
 
-  if (index === 2 && direction === 'down') {
+  if (index === 1 && direction === 'down') {
     linePath.classed('percentChange', false);
     meanPath.classed('rollingMean', false);
     legend1.classed('legend1', false);
@@ -322,12 +323,12 @@ function enterHandle({ index, direction }) {
 }
 
 function existHandle({ index, direction }) {
-  if (index === 1 && direction === 'up') {
+  if (index === 0 && direction === 'up') {
     dateLine.classed('dateLine', false);
     lineLabel.classed('lineLabel', false);
   }
 
-  if (index === 2 && direction === 'up') {
+  if (index === 1 && direction === 'up') {
     remotePath.classed('remotePostings', false);
     drawGraph();
     legend1.classed('legend1', true);
