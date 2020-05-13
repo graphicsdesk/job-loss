@@ -5,9 +5,10 @@ import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
+import 'd3-jetpack';
 import scrollama from 'scrollama';
 import throttle from 'just-throttle';
-import 'd3-transition';
+import { wordwrap } from 'd3-transition';
 
 import postingsData from '../../data/postings.json';
 
@@ -72,10 +73,7 @@ for (let i = 0; i < postings.length; i++) {
 
 const margin = { left: 43, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
-const universityClosingDate = new Date('2020-03-08'); //University announced canceled classes for 2 days
-const universityRemoteDate = new Date('2020-03-12');
 const pauseStartDate = new Date('2020-03-22'); //PAUSE:effective at 8PM on Sunday, March 22
-const dates = [universityClosingDate, universityRemoteDate, pauseStartDate];
 
 /**
  * Initiation code. Creates DOM nodes and instantiates functions like scales
@@ -226,29 +224,25 @@ async function drawRemoteGraph() {
 const dateLineContainer = svg.append('g.dateLine');
 
 const dateLine = dateLineContainer
-  .selectAll('line')
-  .data(dates)
-  .enter()
   .append('line')
   .at({
-    x1: d => xScale(d),
-    x2: d => xScale(d),
-    y1: (d, i) => yScale(-1),
-    y2: (d, i) => yScale(0.9 / (i + 1)),
+    x1: xScale(pauseStartDate),
+    x2: xScale(pauseStartDate),
+    y1: yScale(-1),
+    y2: yScale(0.8),
   });
 
 /* append text to dateLine */
 var formatTime = timeFormat('%B %d');
 const lineLabel = dateLineContainer
-  .selectAll('text')
-  .data(dates)
-  .enter()
   .append('text')
-  .text(d => formatTime(d))
   .at({
-    x: d => xScale(d),
-    y: (d, i) => yScale(0.9 / (i + 1)) - 6,
+    y: yScale(0.8) - 6,
   })
+  .tspans(['Governor Cuomo signed', 'the PAUSE to be effective', 'at 8PM on Sunday, March 22'], 20)
+  .attr('x', xScale(pauseStartDate)+5)
+  //.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
+  
 
 // add legend
 const legendContainer = svg.append('g.legend');
