@@ -113,7 +113,7 @@ function highlightBar(index, forever) {
   }
 
   if (forever) {
-    newNode.classList.add('highlight-bar-group-forever')
+    newNode.classList.add('highlight-bar-group-forever');
   }
 }
 

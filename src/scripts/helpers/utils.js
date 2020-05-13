@@ -28,3 +28,8 @@ export function centroid(nodes) {
 export function calcAngle([x, y]) {
   return Math.atan(y / x) + (x < 0 && Math.PI);
 }
+
+export function areArraysEqual(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  return a.sort().join() === b.sort().join();
+}

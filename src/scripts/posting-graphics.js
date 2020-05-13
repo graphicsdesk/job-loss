@@ -23,10 +23,10 @@ const postings = postingsData.postings
   .sort((a, b) => a.date - b.date);
 
 const standardPosting = postings[0].count;
-const percentChange = postings.map(({date, count, remoteCount}) => ({
+const percentChange = postings.map(({ date, count, remoteCount }) => ({
   date: date,
-  percentChange: (count - standardPosting)/standardPosting ,
-}))
+  percentChange: (count - standardPosting) / standardPosting,
+}));
 
 /* compute the rolling mean */
 const rollingMean = [];
@@ -47,7 +47,7 @@ for (let i = 0; i < percentChange.length; i++) {
   }
 }
 
-// percentage from rolling mean of remote postings 
+// percentage from rolling mean of remote postings
 const remoteRollingMean = [];
 
 for (let i = 0; i < postings.length; i++) {
@@ -62,10 +62,10 @@ for (let i = 0; i < postings.length; i++) {
       countSum += postings[i + j].count;
     }
     remoteMean = remoteSum / 7;
-    countMean = countSum / 7 ;
+    countMean = countSum / 7;
     remoteRollingMean.push({
       date: new Date(postings[i].date),
-      percentage: remoteMean/countMean ,
+      percentage: remoteMean / countMean,
     });
   }
 }
@@ -97,7 +97,7 @@ const yAxis = svg.append('g.y.axis');
 
 // Instantiate scales
 const xScale = scaleTime().domain(extent(percentChange, d => d.date));
-const yScale = scaleLinear().domain([-1,1]);
+const yScale = scaleLinear().domain([-1, 1]);
 const pScale = scaleLinear().domain([0, 1]);
 
 // Instantiate shape and axes generators
@@ -146,11 +146,12 @@ async function drawGraph() {
     // quickly between steps and the animation didn't have time to finish.
     console.error('Transition', error._name, 'was interrupted.');
   }
-   //change 0% tick 
-   yAxis.selectAll('g.tick')
-   .filter(d => d === 0)
-   .select('line')
-   .style('stroke', 'black');
+  //change 0% tick
+  yAxis
+    .selectAll('g.tick')
+    .filter(d => d === 0)
+    .select('line')
+    .style('stroke', 'black');
 
   // Set path d
   linePath.attr('d', lineFn(percentChange)).classed('percentChange', true);
@@ -205,7 +206,9 @@ async function drawRemoteGraph() {
   await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
-  remotePath.attr('d', lineFn(remoteRollingMean)).classed('remotePostings', true);
+  remotePath
+    .attr('d', lineFn(remoteRollingMean))
+    .classed('remotePostings', true);
 
   /* animation:
     1. get the length of the path */
@@ -223,14 +226,12 @@ async function drawRemoteGraph() {
 /* draw some lines for specfic dates */
 const dateLineContainer = svg.append('g.dateLine');
 
-const dateLine = dateLineContainer
-  .append('line')
-  .at({
-    x1: xScale(pauseStartDate),
-    x2: xScale(pauseStartDate),
-    y1: yScale(-1),
-    y2: yScale(0.8),
-  });
+const dateLine = dateLineContainer.append('line').at({
+  x1: xScale(pauseStartDate),
+  x2: xScale(pauseStartDate),
+  y1: yScale(-1),
+  y2: yScale(0.8),
+});
 
 /* append text to dateLine */
 var formatTime = timeFormat('%B %d');
@@ -239,63 +240,66 @@ const lineLabel = dateLineContainer
   .at({
     y: yScale(0.8) - 6,
   })
-  .tspans(['Governor Cuomo signed', 'the PAUSE to be effective', 'at 8PM on Sunday, March 22'], 20)
-  .attr('x', xScale(pauseStartDate)+5)
-  //.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
-  
+  .tspans(
+    [
+      'Governor Cuomo signed',
+      'the PAUSE to be effective',
+      'at 8PM on Sunday, March 22',
+    ],
+    20,
+  )
+  .attr('x', xScale(pauseStartDate) + 5);
+//.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
 
 // add legend
 const legendContainer = svg.append('g.legend');
 
-const legend1 = legendContainer
-  .append('line')
-  .attr('class','legend1')
-  .at({
-    x1: 20,
-    x2: 40,
-    y1: 20,
-    y2: 20,
-  });
-
-const legend1Text = legendContainer.append('text')
-  .attr('class','legend1')
-  .at({
-    x: 45,
-    y: 25,
-  })
-  .text('percent change since September 5th');
-
-const legend2 = legendContainer.append('line')
-  .attr('class','legend2')
-  .at({
-    x1: 300,
-    x2: 320,
-    y1: 20,
-    y2: 20,
-  });
-
-const legend2Text = legendContainer.append('text')
-  .attr('class','legend2')
-  .at({
-    x: 325,
-    y: 25,
-  })
-  .text('7 day rolling mean');
-
-const legend3 = legendContainer.append('line')
-.at({
+const legend1 = legendContainer.append('line').attr('class', 'legend1').at({
   x1: 20,
   x2: 40,
   y1: 20,
   y2: 20,
 });
 
-const legend3Text = legendContainer.append('text')
-.at({
-  x: 45,
-  y: 25,
-})
-.text('7 day rolling mean of percent remote postings per day')
+const legend1Text = legendContainer
+  .append('text')
+  .attr('class', 'legend1')
+  .at({
+    x: 45,
+    y: 25,
+  })
+  .text('percent change since September 5th');
+
+const legend2 = legendContainer.append('line').attr('class', 'legend2').at({
+  x1: 300,
+  x2: 320,
+  y1: 20,
+  y2: 20,
+});
+
+const legend2Text = legendContainer
+  .append('text')
+  .attr('class', 'legend2')
+  .at({
+    x: 325,
+    y: 25,
+  })
+  .text('7 day rolling mean');
+
+const legend3 = legendContainer.append('line').at({
+  x1: 20,
+  x2: 40,
+  y1: 20,
+  y2: 20,
+});
+
+const legend3Text = legendContainer
+  .append('text')
+  .at({
+    x: 45,
+    y: 25,
+  })
+  .text('7 day rolling mean of percent remote postings per day');
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {

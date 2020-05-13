@@ -30,7 +30,7 @@ async function rotate(radians) {
 
   // We should never rotate through an angle of more than π
   if (rotationDistance > Math.PI) {
-    radians -= radians / Math.abs(radians) * 2 * Math.PI;
+    radians -= (radians / Math.abs(radians)) * 2 * Math.PI;
   }
 
   this.style('transition-duration', animTime + 'ms');

@@ -139,7 +139,7 @@ $step-max-width: 420px;
     visibility: hidden;
     display: block;
     white-space: nowrap;
-}
+  }
 
   svg {
     display: block;
@@ -196,12 +196,12 @@ $step-max-width: 420px;
       text-align: left;
     }
 
-    line.legend2{
+    line.legend2 {
       stroke: red;
       stroke-width: 2px;
     }
-    
-    text.legend2{
+
+    text.legend2 {
       visibility: visible;
       font-family: Roboto;
       font-size: 14px;
@@ -209,13 +209,13 @@ $step-max-width: 420px;
       text-align: left;
     }
 
-    line.legend1{
+    line.legend1 {
       stroke: red;
       stroke-opacity: 0.2;
       stroke-width: 1px;
     }
-    
-    text.legend1{
+
+    text.legend1 {
       visibility: visible;
       font-family: Roboto;
       font-size: 14px;
@@ -223,12 +223,12 @@ $step-max-width: 420px;
       text-align: left;
     }
 
-    line.legend3{
+    line.legend3 {
       stroke: red;
       stroke-width: 2px;
     }
-    
-    text.legend3{
+
+    text.legend3 {
       visibility: visible;
       font-family: Roboto;
       font-size: 14px;

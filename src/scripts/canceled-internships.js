@@ -12,13 +12,28 @@ import {
   forceXFn,
   forceYFn,
 } from './helpers/forces';
-import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
+import {
+  inverseRotatePoint,
+  centroid,
+  calcAngle,
+  areArraysEqual,
+} from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
-  ['Tourism', 'Transportation & Logistics', 'Hotels & Accommodation'],
-  'Hotels & Accommodation',
+  null,
+  null,
+  [
+    'Tourism',
+    'Transportation & Logistics',
+    'Aerospace',
+    'Sports & Leisure',
+    'Hotels & Accommodation',
+  ],
   'Internet & Software',
+  'Internet & Software',
+  null,
+  null,
 ];
 
 /* Import data, derive some helpful values */
@@ -168,10 +183,20 @@ const greenCircle = svg
  * towards SPIT_TARGET.
  */
 
+let currentlySeparatedIndustries;
+
 async function separateIndustries(industries) {
+  if (industries === null) {
+    return (currentlySeparatedIndustries = industries);
+  }
   if (!Array.isArray(industries)) {
     industries = [industries];
   }
+  console.log(currentlySeparatedIndustries, industries);
+  if (areArraysEqual(currentlySeparatedIndustries, industries)) {
+    return;
+  }
+  currentlySeparatedIndustries = industries;
 
   // await unseparateIndustry();
   let { x: cx, y: cy } = centroid(
@@ -225,9 +250,6 @@ async function unseparateIndustry() {
 /* Scrolly stuff */
 
 async function enterHandle({ index, direction }) {
-  if (index === 1 && direction === 'down') {
-    softwareBig.classed('softwareBig', false);
-  }
   if (index === 4 && direction === 'down') {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
@@ -237,21 +259,20 @@ async function enterHandle({ index, direction }) {
     unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-  if (index > 0 && index < 4) {
-    await separateIndustries(industriesToShow[index - 1]);
-  }
+
+  await separateIndustries(industriesToShow[index]);
 }
 
 async function exitHandle({ index, direction }) {
-  if (index === 1 && direction === 'up') {
+  if (index === 0 && direction === 'up') {
     unseparateIndustry();
   }
 
-  if (index === 3 && direction === 'up') {
+  if (index === 4 && direction === 'up') {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', false);
   }
-  if (index === 4 && direction === 'up') {
+  if (index === 5 && direction === 'up') {
     bigBusiness.classed('bigBusiness', false);
   }
 }
@@ -288,4 +309,5 @@ graphic
 const industryList = document.querySelectorAll('c');
 for (let i = 0; i < industryList.length; i++) {
   industryList[i].style.color = industryColorsScale(industriesToShow[i]);
+  industryList[i].style.fontWeight = 700;
 }
