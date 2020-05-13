@@ -186,6 +186,31 @@ $step-max-width: 420px;
       width: 90px;
       text-align: left;
     }
+
+    line.legend2{
+      stroke: red;
+      stroke-width: 2px;
+    }
+    
+    text.legend2{
+      font-family: Roboto;
+      font-size: 14px;
+      width: 90px;
+      text-align: left;
+    }
+
+    line.legend1{
+      stroke: red;
+      stroke-opacity: 0.2;
+      stroke-width: 1px;
+    }
+    
+    text.legend1{
+      font-family: Roboto;
+      font-size: 14px;
+      width: 90px;
+      text-align: left;
+    }
   }
 }
 

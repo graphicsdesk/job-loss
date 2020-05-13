@@ -68,8 +68,6 @@ for (let i = 0; i < postings.length; i++) {
     });
   }
 }
-
-console.log(remoteRollingMean)
 /* Some constants */
 
 const margin = { left: 43, top: 20, bottom: 50, right: 20 };
@@ -252,6 +250,44 @@ const lineLabel = dateLineContainer
     y: (d, i) => yScale(0.9 / (i + 1)) - 6,
   })
   .classed('lineLabel', true);
+
+// add legend
+const legendContainer = svg.append('g.legend');
+
+const legend1 = legendContainer
+  .append('line')
+  .attr('class','legend1')
+  .at({
+    x1: 20,
+    x2: 40,
+    y1: 20,
+    y2: 20,
+  });
+
+  const legend1Text = legendContainer.append('text')
+    .attr('class','legend1')
+    .at({
+      x: 45,
+      y: 25,
+    })
+    .text('percent change since September 5th')
+
+  const legend2 = legendContainer.append('line')
+    .attr('class','legend2')
+    .at({
+      x1: 300,
+      x2: 320,
+      y1: 20,
+      y2: 20,
+    });
+
+  const legend2Text = legendContainer.append('text')
+    .attr('class','legend2')
+    .at({
+      x: 325,
+      y: 25,
+    })
+    .text('7 day rolling mean');
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
