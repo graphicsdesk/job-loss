@@ -181,6 +181,7 @@ $step-max-width: 420px;
     }
 
     text.lineLabel {
+      visibility: hidden;
       color: black;
       width: 90px;
       text-align: left;

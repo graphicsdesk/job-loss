@@ -225,7 +225,7 @@ async function drawRemoteGraph() {
 }
 
 /* draw some lines for specfic dates */
-const dateLineContainer = svg.append('g');
+const dateLineContainer = svg.append('g.dateLine');
 
 const dateLine = dateLineContainer
   .selectAll('line')
@@ -236,7 +236,7 @@ const dateLine = dateLineContainer
     x1: d => xScale(d),
     x2: d => xScale(d),
     y1: (d, i) => yScale(-1),
-    y2: (d, i) => yScale(550 / (i + 1)),
+    y2: (d, i) => yScale(0.9 / (i + 1)),
   });
 
 /* append text to dateLine */
@@ -249,18 +249,19 @@ const lineLabel = dateLineContainer
   .text(d => formatTime(d))
   .at({
     x: d => xScale(d),
-    y: (d, i) => yScale(550 / (i + 1)) - 6,
-  });
+    y: (d, i) => yScale(0.9 / (i + 1)) - 6,
+  })
+  .classed('lineLabel', true);
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
     dateLine.classed('dateLine', true);
-    lineLabel.classed('lineLabel', true);
+    lineLabel.classed('lineLabel', false);
   }
 
   if (index === 2 && direction === 'down') {
-    linePath.classed('rawCount', false);
+    linePath.classed('percentChange', false);
     meanPath.classed('rollingMean', false);
     drawRemoteGraph();
   }
@@ -269,7 +270,7 @@ function enterHandle({ index, direction }) {
 function existHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
-    lineLabel.classed('lineLabel', false);
+    lineLabel.classed('lineLabel', true);
   }
 
   if (index === 2 && direction === 'up') {
