@@ -16,8 +16,16 @@ transition.prototype.at = selection.prototype.at; // gives transitions .at!
  */
 
 const rotationRegex = /(rotate\()(-?[.\d]+)(?=deg\))/;
+let rejectOldPromise;
 
 function rotate(radians) {
+  if (rejectOldPromise) {
+    rejectOldPromise();
+  }
+  if (radians === undefined) {
+    return;
+  }
+
   let transform = this.style('transform');
   let rotation = transform.match(rotationRegex);
   const prevRotation = rotation ? (parseInt(rotation[2]) * Math.PI) / 180 : 0;
@@ -46,7 +54,8 @@ function rotate(radians) {
   this.style('transform', transform);
 
   const el = this.node();
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
+    rejectOldPromise = () => reject('Pending rotation interrupted.');
     const transitionEnded = e => {
       if (e.propertyName !== 'transform') return;
       el.removeEventListener('transitionend', transitionEnded);

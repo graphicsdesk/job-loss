@@ -72,23 +72,23 @@ $step-max-width: 420px;
   svg {
     // overflow: visible;
 
-    circle.bigBusiness {
-      fill-opacity: 0.5;
+    circle.softwareBig {
+      fill-opacity: 0.4;
     }
 
-    circle.softwareBig {
-      fill-opacity: 0.5;
+    circle.bigBusiness {
+      fill-opacity: 0.2;
     }
 
     g.node-container {
       circle {
         transition-duration: 0.1s;
         transition-property: stroke-opacity;
-        stroke: black;
-        stroke-width: 2px;
-        stroke-opacity: 0;
+        stroke-width: 1px;
+        stroke: white;
 
         &.hover-highlight {
+          stroke-width: 2px;
           stroke-opacity: 1;
         }
       }
@@ -99,6 +99,7 @@ $step-max-width: 420px;
         font-family: Roboto;
         text-anchor: middle;
         pointer-events: none;
+        text-anchor: middle;
         font-size: 17px;
         transition-duration: .2s;
         transition-property: opacity;
@@ -129,7 +130,7 @@ $step-max-width: 420px;
   position: fixed;
   pointer-events: none;
   opacity: 0;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
   transition-property: opacity;
 
   p {

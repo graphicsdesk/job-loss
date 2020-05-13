@@ -193,7 +193,9 @@ simulation.nodes(companyData).on('tick', () => {
   if (labeledIndustries) {
     labelNodes.each(function (industry) {
       if (industries.includes(industry)) {
-        const { x, y } = rotatePoint(centroids.get(industry), angle);
+        let { x, y } = rotatePoint(centroids.get(industry), angle);
+        if (industry === 'Hotels & Accommodation') y -= 35;
+        if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 45;
         select(this).at({ y }).selectAll('tspan').at({ x });
       }
     });
@@ -218,7 +220,9 @@ async function separateIndustries(industries) {
     return;
   }
   currentlySeparatedIndustries = industries;
+  showTextNodes(null);
   if (industries === null) {
+    graphic.rotate(); // An empty rotation just rejects the old rotation promise
     return unseparateIndustry();
   }
 
@@ -236,8 +240,13 @@ async function separateIndustries(industries) {
   simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
 
   showTextNodes(null);
-  await graphic.rotate(angle);
-  showTextNodes(industries, angle);
+  try {
+    await graphic.rotate(angle);
+    console.log('passed');
+    showTextNodes(industries, angle);
+  } catch (e) {
+    // Ignorable. Pending rotation was interrupted.
+  }
 }
 
 /** Calculates separation forces based on angle and spitTarget */
@@ -262,7 +271,7 @@ const labelNodes = labelsContainer
   .join(enter =>
     enter
       .append('text')
-      .style('opacity', 0)
+      .st({ opacity: 0})
       .tspansBackgrounds(splitAmpersand, 20),
   );
 
