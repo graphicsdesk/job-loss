@@ -1,13 +1,20 @@
 // Rotates a vector counterclockwise by theta radians
-export function rotatePoint([x, y], theta) {
+export function rotatePoint(coord, theta) {
+  let wasObject = false;
+  if (!Array.isArray(coord)) {
+    coord = [coord.x, coord.y];
+    wasObject = true;
+  }
+  const [x, y] = coord;
   const cos = Math.cos(theta);
   const sin = Math.sin(theta);
-  return [x * cos + y * -sin, x * sin + y * cos];
+  const newCoord = [x * cos + y * -sin, x * sin + y * cos];
+  return wasObject ? { x: newCoord[0], y: newCoord[1] } : newCoord;
 }
 
 // Rotates a vector clockwise by theta radians
-export function inverseRotatePoint([x, y], theta) {
-  return rotatePoint([x, y], -theta);
+export function inverseRotatePoint(coord, theta) {
+  return rotatePoint(coord, -theta);
 }
 
 // Calculates centroid for an array of nodes
@@ -29,7 +36,19 @@ export function calcAngle([x, y]) {
   return Math.atan(y / x) + (x < 0 && Math.PI);
 }
 
-export function areArraysEqual(a, b) {
+export function equalOrNull(a, b) {
+  if (a === null && b === null) return true;
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   return a.sort().join() === b.sort().join();
+}
+
+// Splits a string on its ampersand. Places ampersand back on the shortest line
+export function splitAmpersand(s) {
+  const lines = s.split(/\s?&\s?/);
+  if (lines.length === 1) {
+    return lines;
+  }
+
+  lines[0] += ' &';
+  return lines;
 }

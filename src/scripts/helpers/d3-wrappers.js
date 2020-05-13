@@ -6,6 +6,7 @@ import { selection } from 'd3-selection';
 import { transition } from 'd3-transition';
 
 selection.prototype.rotate = rotate;
+selection.prototype.tspansBackgrounds = tspansBackgrounds;
 transition.prototype.at = selection.prototype.at; // gives transitions .at!
 
 /**
@@ -16,7 +17,7 @@ transition.prototype.at = selection.prototype.at; // gives transitions .at!
 
 const rotationRegex = /(rotate\()(-?[.\d]+)(?=deg\))/;
 
-async function rotate(radians) {
+function rotate(radians) {
   let transform = this.style('transform');
   let rotation = transform.match(rotationRegex);
   const prevRotation = rotation ? (parseInt(rotation[2]) * Math.PI) / 180 : 0;
@@ -44,5 +45,41 @@ async function rotate(radians) {
 
   this.style('transform', transform);
 
-  // await new Promise(resolve => setTimeout(resolve, animTime));
+  const el = this.node();
+  return new Promise(resolve => {
+    const transitionEnded = e => {
+      if (e.propertyName !== 'transform') return;
+      el.removeEventListener('transitionend', transitionEnded);
+      resolve();
+    };
+    el.addEventListener('transitionend', transitionEnded);
+  });
+}
+
+// Same as d3-jetpack tspans, but adds background tspans
+function tspansBackgrounds(lines, lh) {
+  this.selectAll('tspan')
+    .data(function (d) {
+      const linesAry = typeof lines === 'function' ? lines(d) : lines;
+      return linesAry.reduce((acc, line) => {
+        const datum = { line, parent: d };
+        acc.push({ ...datum, isBackground: true });
+        acc.push(datum);
+        return acc;
+      }, []);
+    })
+    .join(
+      enter => enter.append('tspan'),
+      update => update,
+      exit => exit.remove(),
+    )
+    .text(d => d.line)
+    .at({
+      dy: ({ parent, line, isBackground }, i) => {
+        if (i < 2 || !isBackground) return 0;
+        return typeof lh === 'function' ? lh(parent, line) : lh;
+      },
+    })
+    .classed('background-tspan', d => d.isBackground);
+  return this;
 }

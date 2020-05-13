@@ -1,4 +1,4 @@
-@import 'styles/spectate';
+@import "styles/spectate";
 
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
@@ -91,6 +91,25 @@ $step-max-width: 420px;
         &.hover-highlight {
           stroke-opacity: 1;
         }
+      }
+    }
+
+    g.bubble-labels {
+      text {
+        font-family: Roboto;
+        text-anchor: middle;
+        pointer-events: none;
+        font-size: 17px;
+        transition-duration: .2s;
+        transition-property: opacity;
+      }
+
+      tspan.background-tspan {
+        stroke: #fff;
+        opacity: 0.9;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
     }
 

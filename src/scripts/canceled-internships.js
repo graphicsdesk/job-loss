@@ -13,10 +13,12 @@ import {
   forceYFn,
 } from './helpers/forces';
 import {
+  rotatePoint,
   inverseRotatePoint,
   centroid,
   calcAngle,
-  areArraysEqual,
+  equalOrNull,
+  splitAmpersand,
 } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
@@ -35,6 +37,7 @@ const industriesToShow = [
   null,
   null,
 ];
+const allIndustriesShown = industriesToShow.flat(1);
 
 /* Import data, derive some helpful values */
 
@@ -72,6 +75,7 @@ let initialRadius;
 // Create top-level group that translates and rotates everything
 const svg = select('#canceled-internships').insert('svg', ':first-child');
 const graphic = svg.append('g');
+const labelsContainer = svg.append('g.bubble-labels');
 
 // Create subgroup just for the bubbles
 const nodesContainer = graphic.append('g.node-container');
@@ -93,6 +97,10 @@ function updateGraphic() {
 
   svg.at({ width, height, viewBox });
   graphic.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
+  labelsContainer.style(
+    'transform',
+    `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`,
+  );
 }
 
 updateGraphic();
@@ -119,7 +127,7 @@ const companyData = companies.map(({ employer, industry, size, sizeText }) => {
   const angle = cumulativeProportion * 2 * Math.PI + desiredAngle / 2;
   // Place industries we will highlight in the future on the outsides
   const initRadius =
-    (industriesToShow.flat(1).includes(industry) ? 1.5 : 1) * initialRadius;
+    (allIndustriesShown.includes(industry) ? 1.5 : 1) * initialRadius;
   return {
     employer,
     industry,
@@ -153,28 +161,44 @@ const softwareBig = circles.filter(
 const forceXCenter = forceXFn(0);
 const forceYCenter = forceYFn(0);
 
+let centroids;
 const simulation = forceSimulation()
   .force('x', forceXCenter)
   .force('y', forceYCenter)
-  .force('cjCluster', cjClusterForce())
+  .force(
+    'cjCluster',
+    // The force calls this callback every time centroids update. We store
+    // the centroids so we can use them later for label positioning.
+    cjClusterForce(centroidsListener),
+  )
   .force('elonMuskCollide', elonMuskCollide());
 
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
+
+let labeledIndustries;
 
 simulation.nodes(companyData).on('tick', () => {
   circles.at({
     cx: d => d.x,
     cy: d => d.y,
   });
-});
 
-/*
-// Red circle shows the origin, green circle shows split target. For debugging.
-svg.append('circle').at({ r: 10, fill: 'red', cx: 0, cy: 0 });
-const greenCircle = svg
-  .append('circle')
-  .at({ r: 10, fill: 'green', cx: 0, cy: 0 });
-*/
+  // If there are industries that are labeled right now (i.e. industry labels
+  // that have been made opacity = 1 by showTextNodes()), move them with the
+  // centroids
+  // * `labeledIndustries` is a variable that showTextNodes updates to tell us
+  //   which industries it just made opacity = 1.
+  // * `centroids` is a variable that centroidsListener updates to make sure
+  //   we don't have to recompute centroids after cjClusterForce already did.
+  if (labeledIndustries) {
+    labelNodes.each(function (industry) {
+      if (industries.includes(industry)) {
+        const { x, y } = rotatePoint(centroids.get(industry), angle);
+        select(this).at({ y }).selectAll('tspan').at({ x });
+      }
+    });
+  }
+});
 
 /* Functions for interactivity */
 
@@ -183,35 +207,37 @@ const greenCircle = svg
  * towards SPIT_TARGET.
  */
 
-let currentlySeparatedIndustries;
+let currentlySeparatedIndustries = null;
+let angle;
 
 async function separateIndustries(industries) {
-  if (industries === null) {
-    return (currentlySeparatedIndustries = industries);
-  }
-  if (!Array.isArray(industries)) {
+  if (industries && !Array.isArray(industries)) {
     industries = [industries];
   }
-  if (areArraysEqual(currentlySeparatedIndustries, industries)) {
+  if (equalOrNull(currentlySeparatedIndustries, industries)) {
     return;
   }
   currentlySeparatedIndustries = industries;
+  if (industries === null) {
+    return unseparateIndustry();
+  }
 
   // await unseparateIndustry();
   let { x: cx, y: cy } = centroid(
     companyData.filter(d => industries.includes(d.industry)),
   );
 
-  // Calculate the rotation
+  // Calculate rotation and separataion forces
   const initialAngle = calcAngle([cx, cy]); // angle of the industry cluster  // const desiredAngle = Math.PI; // angle we want industry cluster to point in
-  const angle = desiredAngle - initialAngle; // angle we have to rotate in
-  await graphic.rotate(angle); // rotate nodes
-
-  // Calculate and apply separation forces
+  angle = desiredAngle - initialAngle; // angle we have to rotate in
   const [xForce, yForce] = calculateSeparationForces(industries, angle);
+
+  // Update forces and rotate, awaiting the rotate and animate labels around it
   simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
 
-  showTextNodes(industries);
+  showTextNodes(null);
+  await graphic.rotate(angle);
+  showTextNodes(industries, angle);
 }
 
 /** Calculates separation forces based on angle and spitTarget */
@@ -230,20 +256,39 @@ function calculateSeparationForces(industries, angle) {
   return [forceXFn(separate(x), strength), forceYFn(separate(y), strength)];
 }
 
-/** TODO: Show the text labels of certain industries */
+const labelNodes = labelsContainer
+  .selectAll('text')
+  .data(industries.filter(x => allIndustriesShown.includes(x)))
+  .join(enter =>
+    enter
+      .append('text')
+      .style('opacity', 0)
+      .tspansBackgrounds(splitAmpersand, 20),
+  );
 
-const labelNodes = null;
-function showTextNodes(industries) {}
+function showTextNodes(industries) {
+  labeledIndustries = industries;
+  if (industries === null) {
+    labelNodes.style('opacity', 0);
+  } else {
+    labelNodes.each(function (industry) {
+      select(this).style('opacity', industries.includes(industry) ? 1 : 0);
+    });
+  }
+}
 
-/** Brings everything back to the center. */
+function centroidsListener(c) {
+  centroids = c;
+}
+
+// Brings everything back to the center.
 async function unseparateIndustry() {
   simulation
     .force('x', forceXCenter)
     .force('y', forceYCenter)
     .alpha(0.6)
     .restart();
-
-  // await new Promise(r => setTimeout(r, 1000)); // Wait 1 second
+  showTextNodes(null);
 }
 
 /* Scrolly stuff */
@@ -254,19 +299,12 @@ async function enterHandle({ index, direction }) {
     softwareBig.classed('softwareBig', true);
   }
   if (index === 5 && direction === 'down') {
-    // await graphic.rotate(0);
-    unseparateIndustry();
     bigBusiness.classed('bigBusiness', true);
   }
-
   await separateIndustries(industriesToShow[index]);
 }
 
 async function exitHandle({ index, direction }) {
-  if (index === 0 && direction === 'up') {
-    unseparateIndustry();
-  }
-
   if (index === 4 && direction === 'up') {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', false);
