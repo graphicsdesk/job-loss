@@ -19,7 +19,7 @@ export const forceYFn = (y, strength = STRENGTH) =>
  * Adapted from https://observablehq.com/@d3/clustered-bubbles
  */
 
-export function cjClusterForce() {
+export function cjClusterForce(centroidListener) {
   const strength = 0.1;
   let nodes;
 
@@ -27,6 +27,10 @@ export function cjClusterForce() {
     // Group nodes by industry, then invoke a value aggregator that calculates
     // each group's centroid
     const centroids = rollup(nodes, centroid, d => d.industry);
+
+    // Allow other functions to listen in on centroid changes so centroids
+    // don't need to be recomputed
+    centroidListener(centroids);
 
     alpha *= strength;
     for (const d of nodes) {

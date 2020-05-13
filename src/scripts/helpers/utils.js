@@ -1,13 +1,16 @@
 // Rotates a vector counterclockwise by theta radians
-export function rotatePoint([x, y], theta) {
+export function rotatePoint(coord, theta) {
+  if (!Array.isArray(coord))
+    coord = [coord.x, coord.y];
+  const [x, y] = coord;
   const cos = Math.cos(theta);
   const sin = Math.sin(theta);
   return [x * cos + y * -sin, x * sin + y * cos];
 }
 
 // Rotates a vector clockwise by theta radians
-export function inverseRotatePoint([x, y], theta) {
-  return rotatePoint([x, y], -theta);
+export function inverseRotatePoint(coord, theta) {
+  return rotatePoint(coord, -theta);
 }
 
 // Calculates centroid for an array of nodes

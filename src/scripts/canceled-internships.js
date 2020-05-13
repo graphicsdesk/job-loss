@@ -12,7 +12,7 @@ import {
   forceXFn,
   forceYFn,
 } from './helpers/forces';
-import { inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
+import { rotatePoint, inverseRotatePoint, centroid, calcAngle } from './helpers/utils';
 import { outlineOnHover, hideTooltip } from './helpers/tooltip-hover';
 
 const industriesToShow = [
@@ -57,6 +57,7 @@ let initialRadius;
 // Create top-level group that translates and rotates everything
 const svg = select('#canceled-internships').insert('svg', ':first-child');
 const graphic = svg.append('g');
+const labelsContainer = svg.append('g.bubble-labels');
 
 // Create subgroup just for the bubbles
 const nodesContainer = graphic.append('g.node-container');
@@ -78,6 +79,7 @@ function updateGraphic() {
 
   svg.at({ width, height, viewBox });
   graphic.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
+  labelsContainer.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
 }
 
 updateGraphic();
@@ -141,7 +143,7 @@ const forceYCenter = forceYFn(0);
 const simulation = forceSimulation()
   .force('x', forceXCenter)
   .force('y', forceYCenter)
-  .force('cjCluster', cjClusterForce())
+  .force('cjCluster', cjClusterForce(centroidListener))
   .force('elonMuskCollide', elonMuskCollide());
 
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
@@ -168,6 +170,8 @@ const greenCircle = svg
  * towards SPIT_TARGET.
  */
 
+let angle = 0;
+
 async function separateIndustries(industries) {
   if (!Array.isArray(industries)) {
     industries = [industries];
@@ -180,7 +184,7 @@ async function separateIndustries(industries) {
 
   // Calculate the rotation
   const initialAngle = calcAngle([cx, cy]); // angle of the industry cluster  // const desiredAngle = Math.PI; // angle we want industry cluster to point in
-  const angle = desiredAngle - initialAngle; // angle we have to rotate in
+  angle = desiredAngle - initialAngle; // angle we have to rotate in
   await graphic.rotate(angle); // rotate nodes
 
   // Calculate and apply separation forces
@@ -208,8 +212,26 @@ function calculateSeparationForces(industries, angle) {
 
 /** TODO: Show the text labels of certain industries */
 
-const labelNodes = null;
+const labelNodes = labelsContainer
+  .selectAll('text')
+  .data(industries)
+  .join(enter =>
+    enter.append('text').call(s => {
+      s.append('tspan.background-tspan').text(d => d);
+      s.append('tspan').text(d => d);
+    }),
+  );
+
 function showTextNodes(industries) {}
+
+function centroidListener(c) {
+  labelNodes
+    .selectAll('tspan')
+    .at({
+      x: d => rotatePoint(c.get(d), angle)[0],
+      y: d => rotatePoint(c.get(d), angle)[1],
+    });
+}
 
 /** Brings everything back to the center. */
 async function unseparateIndustry() {
