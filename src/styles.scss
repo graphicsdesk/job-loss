@@ -207,7 +207,7 @@ $step-max-width: 420px;
       stroke-width: 1.5px;
     }
 
-    tspan.lineLabel {
+    text.lineLabel {
       font-family: Roboto;
       font-size: 14px;
       visibility: visible;
@@ -249,6 +249,14 @@ $step-max-width: 420px;
     }
 
     text.legend3 {
+      visibility: visible;
+      font-family: Roboto;
+      font-size: 14px;
+      width: 90px;
+      text-align: left;
+    }
+
+    tspan.legend3 {
       visibility: visible;
       font-family: Roboto;
       font-size: 14px;

@@ -26,8 +26,8 @@
               "steps": [
                 "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover over to see each company’s name, industry, and size range.",
                 "The impact of these job losses can be seen across all industries, but it is more apparent in some than others.",
-                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among the transportation and logistics; aerospace; sports and leisure; tourism; and hotels and accommodation industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
-                "The biggest industry reflected in the cancellation data is Internet and software.",
+                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among the <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
+                "The biggest industry reflected in the cancellation data is <c>Internet and software</c>.",
                 "But the cancellations largely do not affect the Internet giants—over 58 percent of software companies impacted are small, with less than 1,000 employees.",
                 "In fact, 40 percent of all lost jobs reflected here are from companies with 1,000 employees or fewer, which in some industries makes them small businesses.",
                 "By no means is this data a complete representation of the total job losses due to COVID-19, but it is a glimpse into just how wide-reaching this issue is."
@@ -156,11 +156,122 @@
           {
             "type": "text",
             "value": "Haile and King have been collecting testimonials from students in an effort to get rid of the student contribution, but the pandemic has added urgency to this push for reform. “It's really shitty that it took a pandemic to finally make some progress on this,” Haile says. As students lose jobs that would have helped pay their contribution, that cost will be even harder for some to afford this coming semester. Haile hopes that the pandemic will lead to the long-term abolishment of the student contribution, as well as to more changes in other aspects of financial aid."
+          },
+          {
+            "type": "text",
+            "value": "This reform could have a significant, positive impact on a large portion of students. Ana Barrios, a Columbia College junior, whose internship at the United Nations for the summer was postponed, will fortunately be able to complete her work remotely. But she explained that she relies on funding from that job to pay her student contribution and support her family. She adds, “For the summer, if I'm not able to do this, or if I don't get funding because it got postponed, then I'm going to have to see if I [can] get hired at Domino’s or something.”"
+          },
+          {
+            "type": "text",
+            "value": "On top of financial uncertainty, students might be missing essential career-building and networking opportunities. Jennie Yu, a Barnard sophomore, lost an internship at the United States Department of Homeland Security, where she had been working since September and was planning to continue there this summer, and talks about how it felt."
+          },
+          {
+            "type": "text",
+            "value": "“It was actually really disappointing, this was the first internship I’ve had that I could say I 100 percent enjoyed it even though I was getting up at 5:30 a.m. and had [to travel] an hour and a half,” says Yu."
+          },
+          {
+            "type": "text",
+            "value": "Other students share Yu’s feeling of disappointment. Paul Spezza, a junior in the School of Engineering and Applied Science, had planned to spend most of his summer sponsored by Columbia working with a nonprofit organization in Northern Uganda. This was meant to be an extension of his work with GlobeMed, a student organization on campus."
+          },
+          {
+            "type": "text",
+            "value": "This opportunity was especially unique for Spezza. “I was really looking forward to engaging with a new community, a new aspect of healthcare. And seeing how I could connect my engineering to more purposes for general humanity,” he shares."
+          },
+          {
+            "type": "text",
+            "value": "However, after University President Lee Bollinger’s announcement on April 23, Spezza learned that this internship, along with another Columbia-sponsored trip to Ecuador he was planning to attend, was canceled. Though Spezza recognized that traveling to Uganda would put the community that he intended to serve at risk, he was disappointed."
+          },
+          {
+            "type": "text",
+            "value": "“So much of what you can do in the labor market depends on the skills that you gained, the connections that you need, the work experiences that you had,” Hertel-Fernandez says, “and if you are missing that first or second or third stepping stone, it's really hard to rebuild that trajectory. It takes a long time.”"
+          },
+          {
+            "type": "text",
+            "value": "Barrios acknowledges the importance of her own connections in the context of her internship at the U.N. “Just through interacting with my bosses and other people that already work there, [this internship] makes getting an entry-level job a lot easier.” In Barrios’ eyes, her job will help her access multilateral and international organizations—an industry she hopes to work in after she graduates."
+          },
+          {
+            "type": "text",
+            "value": "Spezza views this summer as an opportunity for alternative forms of career advancement. For example, he found a COVID-19-related competition affiliated with Johns Hopkins University:  the Design COVID-19 Design Challenge. For this challenge, students and professionals formed teams to brainstorm immediate solutions to some of the largest issues the pandemic poses—a way to build skills and stay engaged from home."
+          },
+          {
+            "type": "text",
+            "value": "“I do recognize that the track of my professional development has changed significantly because of limitations placed on us and having travel restrictions,” Spezza shares. “So in terms of those experiences, I know that at least at this point I won't be able to get them back but maybe [some] time in the future, I'll be able to have that experience either over winter break or next year. Luckily I'm only a junior, so there is a bit more time for me.”"
+          },
+          {
+            "type": "subhed",
+            "value": "<b> Long term: The Class of COVID-19</b>"
+          },
+          {
+            "type": "text",
+            "value": "The time Spezza says he has to make up for this summer’s lost opportunities is not available to graduating students. Though the future is still uncertain, one way to understand the present situation is with insight from classes that graduated in similar situations."
+          },
+          {
+            "type": "text",
+            "value": "“I graduated from college in 2008. [It was] right at the top of the Great Recession, and I saw many of my friends and classmates really struggling initially to get jobs, to get even internships,” Hertel-Fernandez says. “It’s been heartbreaking to see how long it took for many of them to establish the sort of careers that I think they would have wanted.”"
+          },
+          {
+            "type": "text",
+            "value": "When Hertel-Fernandez graduated from Northwestern University with a degree in political science, he was lucky to secure an internship at a political think tank—which eventually became a full-time job. He felt especially grateful when he saw that many of his friends were not as fortunate."
+          },
+          {
+            "type": "text",
+            "value": "This, in a nutshell, is an example of the phenomenon known as scarring—long-term effects on people as the result of a particular economic or social experience. In this case, those unlucky enough to be entering the job market during a recession face outcomes that compound over time."
+          },
+          {
+            "type": "text",
+            "value": "<a href=\"https://www.sciencedirect.com/science/article/pii/S0927537109001018\">Research</a> shows that college graduates who enter the workforce during a recession earn less for at least 10 to 15 years than those who graduate with the same level of education during periods of economic growth. Additionally, at least one <a href=\"https://siepr.stanford.edu/research/publications/recession-graduates-effects-unlucky\">study</a> shows that those same graduates are less likely to have a stable family and are more likely to suffer from “deaths of despair,” or deaths related to substance abuse or other unhealthy habits."
+          },
+          {
+            "type": "text",
+            "value": "Data from Columbia graduates reflect this trend. According to data from the United States Department of Education’s College Scorecard, members of the classes of 2007, 2009, and 2011 who were employed six years after enrolling at the University had similar average incomes. But 10 years after enrolling at the University, the class of 2009 had a lower average income than the classes of 2007 and 2011."
+          },
+          {
+            "type": "graphic",
+            "value": {
+              "asset": "undergrads-income.html"
+            }
+          },
+          {
+            "type": "text",
+            "value": "At the start of a new recession, the classes of 2020 and 2021 could end up in a similar position as the classes of 2008 and 2009. However, it is not necessarily fair to compare these two periods of economic decline."
+          },
+          {
+            "type": "text",
+            "value": "“In some ways it’s hard to compare the two—the Great Recession to now—because folks that are graduating in May or in June may still well be in quarantine or social distancing,” Hertel-Fernandez says. “During the great recession, fewer companies were hiring, but ways to get your foot in the door are no longer an option during stay-at-home.”"
+          },
+          {
+            "type": "text",
+            "value": "Given the public health consequences of COVID-19, it is impossible to predict the severity of  the recession. “It’s quite possible the [recession] that we’re going through right now is going to be many times larger,” Hertel-Fernandez adds."
+          },
+          {
+            "type": "text",
+            "value": "In the International Monetary Fund’s  <a href=\"https://www.imf.org/en/Publications/WEO/Issues/2020/04/14/weo-april-2020\">World Economic Outlook for April, </a>experts projected world gross domestic product growth in 2020 to fall by 3%. This pales in comparison to the Great Recession’s 0.1% decline, making the crisis the world’s worst recession since the Great Depression."
+          },
+          {
+            "type": "text",
+            "value": "For students and graduates alike, this means tremendous uncertainty and fear of the future. Though it’s impossible to speculate the consequences of this recession entirely, the biggest  factor in determining the future is the policy decisions being made right now."
+          },
+          {
+            "type": "text",
+            "value": "“A lot of people are really focused on reopening the economy and what we really need to think about [is] how to do it in a situation where the underlying problem is not a demand driven problem or a lack of consumer demand. It's really this virus that we need to figure out how to manage” says Black. “I think a lot of the recovery depends on our responses now and how the government responds in terms of giving money to businesses and which businesses they target. So if we target big corporations, if we leave the small businesses, uh, suffering then as you might imagine, the small businesses will close and the largest will survive.”"
+          },
+          {
+            "type": "text",
+            "value": "Hertel-Fernandez adds that policy changes also impact the individual. “How much help the government gives to boost the economy is going to make a big difference in whether or not in 30 years young people are going to have good economic, good social prospects.”"
+          },
+          {
+            "type": "text",
+            "value": "<i>Enjoy leafing through our tenth issue!</i>"
+          },
+          {
+            "type": "text",
+            "value": "<a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/9/\"><i>Previous Issue</i></a><i> | </i><a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/10/\"><i>More In This Issue</i></a>"
           }
         ],
         "date": "May 12, 2020",
         "headline": "Uncertainty looms as Student Jobs are Disappear the Great Lockdown",
         "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Eve-Washington/\">Eve Washington</a>\nVisuals by <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a> and <a href=\"https://www.columbiaspectator.com/contributors/Jason-Kao/\">Jason Kao</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Claudia-Gohn/\">Claudia Gohn</a> and <a href=\"https://www.columbiaspectator.com/contributors/Paul-Hanna/\">Paul Hanna</a>",
+        "footer": "Data sources: Handshake, Crunchbase",
         "USE_NEWS_NAV": false,
         "USE_EYE_NAV": true,
         "USE_COVER_HED": false,

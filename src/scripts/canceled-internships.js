@@ -26,10 +26,10 @@ const industriesToShow = [
   null,
   null,
   [
-    'Tourism',
     'Transportation & Logistics',
     'Aerospace',
     'Sports & Leisure',
+    'Tourism',
     'Hotels & Accommodation',
   ],
   'Internet & Software',
@@ -352,8 +352,15 @@ graphic
   .on('mouseout', hideTooltip);
 
 /* set styles for text elements */
-const industryList = document.querySelectorAll('c');
-for (let i = 0; i < industryList.length; i++) {
-  industryList[i].style.color = industryColorsScale(industriesToShow[i]);
-  industryList[i].style.fontWeight = 700;
+const textList = document.querySelectorAll('c');
+const industryList = [
+  'Transportation & Logistics',
+  'Aerospace',
+  'Sports & Leisure',
+  'Tourism',
+  'Hotels & Accommodation',
+  'Internet & Software',]
+for (let i = 0; i < textList.length; i++) {
+  textList[i].style.color = industryColorsScale(industryList[i]);
+  textList[i].style.fontWeight = 700;
 }

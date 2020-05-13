@@ -73,7 +73,7 @@ for (let i = 0; i < postings.length; i++) {
 
 const margin = { left: 43, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
-const pauseStartDate = new Date('2020-03-22'); //PAUSE:effective at 8PM on Sunday, March 22
+const dateToNote = new Date('2020-03-07'); //PAUSE:effective at 8PM on Sunday, March 22
 
 /**
  * Initiation code. Creates DOM nodes and instantiates functions like scales
@@ -111,6 +111,18 @@ const meanPath = svg.append('path#rollingMean');
 
 const remoteContainer = svg.append('g.remote');
 const remotePath = remoteContainer.append('path');
+
+const dateLineContainer = svg.append('g.dateLine');
+const dateLine = dateLineContainer.append('line');
+const lineLabel = dateLineContainer.append('text');
+
+const legendContainer = svg.append('g.legend');
+const legend1 = legendContainer.append('line');
+const legend1Text = legendContainer.append('text');
+const legend2 = legendContainer.append('line');
+const legend2Text = legendContainer.append('text');
+const legend3 = legendContainer.append('line');
+const legend3Text = legendContainer.append('text');
 
 async function drawGraph() {
   // Update width and height
@@ -177,9 +189,6 @@ async function drawGraph() {
     .style('stroke-dasharray', `${rollingMeanLength}, ${rollingMeanLength}`);
 }
 
-drawGraph();
-window.addEventListener('resize', drawGraph);
-
 /* function for remote graph */
 async function drawRemoteGraph() {
   width = Math.min(1020, document.body.clientWidth);
@@ -223,92 +232,146 @@ async function drawRemoteGraph() {
     .style('stroke-dasharray', `${remotePathLength}, ${remotePathLength}`);
 }
 
-/* draw some lines for specfic dates */
-const dateLineContainer = svg.append('g.dateLine');
+/* function for drawing date line */
+async function drawDateLine() {
+  // Update width and height
+  width = Math.min(1020, document.body.clientWidth);
+  height = document.body.clientHeight;
+  const gWidth = width - margin.left - margin.right;
+  const gHeight = height - margin.top - margin.bottom;
 
-const dateLine = dateLineContainer.append('line').at({
-  x1: xScale(pauseStartDate),
-  x2: xScale(pauseStartDate),
-  y1: yScale(-1),
-  y2: yScale(0.8),
-});
+  container.select('svg').at({ width, height });
 
-/* append text to dateLine */
-var formatTime = timeFormat('%B %d');
-const lineLabel = dateLineContainer
-  .append('text')
-  .at({
-    y: yScale(0.8) - 6,
+  // Update scale ranges
+  xScale.range([0, gWidth]);
+  yScale.range([gHeight, 0]);
+
+  dateLine.at({
+    class: 'dateLine',
+    x1: xScale(dateToNote),
+    x2: xScale(dateToNote),
+    y1: yScale(-1),
+    y2: yScale(0.2),
+  });
+
+  /* append text to dateLine */
+  lineLabel.at({
+    x: xScale(dateToNote) - 25,
+    y: yScale(0.2) - 6,
   })
-  .tspans(
-    [
-      'Governor Cuomo signed',
-      'the PAUSE to be effective',
-      'at 8PM on Sunday, March 22',
-    ],
-    20,
-  )
-  .attr('x', xScale(pauseStartDate) + 5);
-//.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
+    .text('March 7th')
+    .attr('class','lineLabel');
+}
 
-// add legend
-const legendContainer = svg.append('g.legend');
+/* function for adding legend */
+async function addLegend() {
+  // Update width and height
+  width = Math.min(1020, document.body.clientWidth);
+  height = document.body.clientHeight;
+  const gWidth = width - margin.left - margin.right;
+  const gHeight = height - margin.top - margin.bottom;
+  const THRESHOLD = 375;
 
-const legend1 = legendContainer.append('line').attr('class', 'legend1').at({
-  x1: 20,
-  x2: 40,
-  y1: 20,
-  y2: 20,
-});
+  container.select('svg').at({ width, height });
 
-const legend1Text = legendContainer
-  .append('text')
-  .attr('class', 'legend1')
-  .at({
-    x: 45,
-    y: 25,
-  })
-  .text('percent change since September 5th');
+  if(gWidth > THRESHOLD){
+    legend1.attr('class', 'legend1')
+      .at({
+        x1: 20,
+        x2: 40,
+        y1: 20,
+        y2: 20,
+      });
 
-const legend2 = legendContainer.append('line').attr('class', 'legend2').at({
-  x1: 300,
-  x2: 320,
-  y1: 20,
-  y2: 20,
-});
+    legend1Text.attr('class', 'legend1')
+      .at({
+        x: 45,
+        y: 25,
+      })
+      .text('percent change since September 5th');
 
-const legend2Text = legendContainer
-  .append('text')
-  .attr('class', 'legend2')
-  .at({
-    x: 325,
-    y: 25,
-  })
-  .text('7 day rolling mean');
+    legend2.attr('class', 'legend2')
+      .at({
+        x1: 300,
+        x2: 320,
+        y1: 20,
+        y2: 20,
+      });
+      
+    legend2Text.attr('class', 'legend2')
+      .at({
+        x: 325,
+        y: 25,
+      })
+      .text('7 day rolling mean');
 
-const legend3 = legendContainer.append('line').at({
-  x1: 20,
-  x2: 40,
-  y1: 20,
-  y2: 20,
-});
+    legend3.classed('legend3',false)
+      .at({
+        x1: 20,
+        x2: 40,
+        y1: 20,
+        y2: 20,
+      });
+      
+    legend3Text.classed('legend3',false)
+      .at({
+        x: 45,
+        y: 25,
+      })
+      .text('7 day rolling mean of percent remote postings per day');
+  } else {
+    legend1.attr('class', 'legend1')
+      .at({
+        x1: 20,
+        x2: 40,
+        y1: 20,
+        y2: 20,
+      });
 
-const legend3Text = legendContainer
-  .append('text')
-  .at({
-    x: 45,
-    y: 25,
-  })
-  .text('7 day rolling mean of percent remote postings per day');
+    legend1Text.attr('class', 'legend1')
+      .at({
+        x: 45,
+        y: 25,
+      })
+      .text('percent change since September 5th');
+
+    legend2.attr('class', 'legend2')
+      .at({
+        x1: 20,
+        x2: 40,
+        y1: 40,
+        y2: 40,
+      });
+      
+    legend2Text.attr('class', 'legend2')
+      .at({
+        x: 45,
+        y: 45,
+      })
+      .text('7 day rolling mean');
+
+    legend3.classed('legend3',false)
+      .at({
+        x1: 20,
+        x2: 40,
+        y1: 20,
+        y2: 20,
+      });
+      
+    legend3Text.classed('legend3',false)
+      .attr('y', 25)
+      .tspans(
+        ['7 day rolling mean of percent', 'remote postings per day'], 20)
+      .attr('x', 45);
+  }
+}
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
-  if (index === 1 && direction === 'down') {
-    dateLine.classed('dateLine', true);
-    lineLabel.classed('lineLabel', true);
+  if (index === 0 && direction === 'down') {
+    drawDateLine();
   }
-
-  if (index === 2 && direction === 'down') {
+  if (index === 1 && direction === 'down') {
     linePath.classed('percentChange', false);
     meanPath.classed('rollingMean', false);
     legend1.classed('legend1', false);
@@ -322,14 +385,14 @@ function enterHandle({ index, direction }) {
 }
 
 function existHandle({ index, direction }) {
-  if (index === 1 && direction === 'up') {
+  if (index === 0 && direction === 'up') {
     dateLine.classed('dateLine', false);
     lineLabel.classed('lineLabel', false);
   }
 
-  if (index === 2 && direction === 'up') {
-    remotePath.classed('remotePostings', false);
+  if (index === 1 && direction === 'up') {
     drawGraph();
+    remotePath.classed('remotePostings', false);
     legend1.classed('legend1', true);
     legend1Text.classed('legend1', true);
     legend2.classed('legend2', true);
@@ -348,5 +411,11 @@ scroller
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
+// draw graph and legend when the page is loaded 
+drawGraph();
+addLegend();
+  
 // setup resize event
+window.addEventListener('resize', drawGraph);
+window.addEventListener('resize', addLegend);
 window.addEventListener('resize', throttle(scroller.resize, 500));
