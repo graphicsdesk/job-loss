@@ -112,6 +112,10 @@ const meanPath = svg.append('path#rollingMean');
 const remoteContainer = svg.append('g.remote');
 const remotePath = remoteContainer.append('path');
 
+const dateLineContainer = svg.append('g.dateLine');
+const dateLine = dateLineContainer.append('line');
+const lineLabel = dateLineContainer.append('text');
+
 async function drawGraph() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
@@ -223,34 +227,37 @@ async function drawRemoteGraph() {
     .style('stroke-dasharray', `${remotePathLength}, ${remotePathLength}`);
 }
 
-/* draw some lines for specfic dates */
-const dateLineContainer = svg.append('g.dateLine');
+/* function for drawing date line */
+async function drawDateLine() {
+  // Update width and height
+  width = Math.min(1020, document.body.clientWidth);
+  height = document.body.clientHeight;
+  const gWidth = width - margin.left - margin.right;
+  const gHeight = height - margin.top - margin.bottom;
 
-const dateLine = dateLineContainer.append('line').at({
-  x1: xScale(dateToNote),
-  x2: xScale(dateToNote),
-  y1: yScale(-1),
-  y2: yScale(0.8),
-});
+  container.select('svg').at({ width, height });
 
-/* append text to dateLine */
-const lineLabel = dateLineContainer
-  .append('text')
-  .at({
+  // Update scale ranges
+  xScale.range([0, gWidth]);
+  yScale.range([gHeight, 0]);
+
+  dateLine.at({
+    class: 'dateLine',
+    x1: xScale(dateToNote),
+    x2: xScale(dateToNote),
+    y1: yScale(-1),
+    y2: yScale(0.2),
+  });
+
+  /* append text to dateLine */
+  lineLabel.at({
     x: xScale(dateToNote) - 25,
-    y: yScale(0.8) - 6,
+    y: yScale(0.2) - 6,
   })
-  .text('March 7th')
-  /*.tspans(
-    [
-      'Governor Cuomo signed',
-      'the PAUSE to be effective',
-      'at 8PM on Sunday, March 22',
-    ],
-    20,
-  )*/
-  //.attr('x', xScale(dateToNote) + 5);
-//.text('Governor Cuomo signed the PAUSE to be effective at 8PM on Sunday, March 22.')
+    .text('March 7th')
+    .attr('class','lineLabel');
+
+}
 
 // add legend
 const legendContainer = svg.append('g.legend');
@@ -305,10 +312,8 @@ const legend3Text = legendContainer
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
   if (index === 0 && direction === 'down') {
-    dateLine.classed('dateLine', true);
-    lineLabel.classed('lineLabel', true);
+    drawDateLine();
   }
-
   if (index === 1 && direction === 'down') {
     linePath.classed('percentChange', false);
     meanPath.classed('rollingMean', false);
