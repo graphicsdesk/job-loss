@@ -17,7 +17,7 @@ const postings = postingsData.postings
   .map(({ date, count, remoteCount }) => ({
     date: new Date(date),
     count: count,
-    percentage: remoteCount / count,
+    remoteCount: remoteCount,
   }))
   .sort((a, b) => a.date - b.date);
 
@@ -26,7 +26,6 @@ const percentChange = postings.map(({date, count, remoteCount}) => ({
   date: date,
   percentChange: (count - standardPosting)/standardPosting ,
 }))
-  console.log(percentChange)
 
 /* compute the rolling mean */
 const rollingMean = [];
@@ -47,6 +46,30 @@ for (let i = 0; i < percentChange.length; i++) {
   }
 }
 
+// percentage from rolling mean of remote postings 
+const remoteRollingMean = [];
+
+for (let i = 0; i < postings.length; i++) {
+  let remoteSum = 0;
+  let countSum = 0;
+  let remoteMean = 0;
+  let countMean = 0;
+
+  if (i > 2 && i < postings.length - 3) {
+    for (let j = -3; j <= 3; j++) {
+      remoteSum += postings[i + j].remoteCount;
+      countSum += postings[i + j].count;
+    }
+    remoteMean = remoteSum / 7;
+    countMean = countSum / 7 ;
+    remoteRollingMean.push({
+      date: new Date(postings[i].date),
+      percentage: remoteMean/countMean ,
+    });
+  }
+}
+
+console.log(remoteRollingMean)
 /* Some constants */
 
 const margin = { left: 43, top: 20, bottom: 50, right: 20 };
@@ -186,7 +209,7 @@ async function drawRemoteGraph() {
   await yAxis.transition().duration(600).call(yAxisFn).end();
 
   // Set path d
-  remotePath.attr('d', lineFn(postings)).classed('remotePostings', true);
+  remotePath.attr('d', lineFn(remoteRollingMean)).classed('remotePostings', true);
 
   /* animation:
     1. get the length of the path */
