@@ -192,7 +192,6 @@ async function separateIndustries(industries) {
   if (!Array.isArray(industries)) {
     industries = [industries];
   }
-  console.log(currentlySeparatedIndustries, industries);
   if (areArraysEqual(currentlySeparatedIndustries, industries)) {
     return;
   }
