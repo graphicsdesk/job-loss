@@ -249,7 +249,6 @@ const lineLabel = dateLineContainer
     x: d => xScale(d),
     y: (d, i) => yScale(0.9 / (i + 1)) - 6,
   })
-  .classed('lineLabel', true);
 
 // add legend
 const legendContainer = svg.append('g.legend');
@@ -264,41 +263,62 @@ const legend1 = legendContainer
     y2: 20,
   });
 
-  const legend1Text = legendContainer.append('text')
-    .attr('class','legend1')
-    .at({
-      x: 45,
-      y: 25,
-    })
-    .text('percent change since September 5th')
+const legend1Text = legendContainer.append('text')
+  .attr('class','legend1')
+  .at({
+    x: 45,
+    y: 25,
+  })
+  .text('percent change since September 5th');
 
-  const legend2 = legendContainer.append('line')
-    .attr('class','legend2')
-    .at({
-      x1: 300,
-      x2: 320,
-      y1: 20,
-      y2: 20,
-    });
+const legend2 = legendContainer.append('line')
+  .attr('class','legend2')
+  .at({
+    x1: 300,
+    x2: 320,
+    y1: 20,
+    y2: 20,
+  });
 
-  const legend2Text = legendContainer.append('text')
-    .attr('class','legend2')
-    .at({
-      x: 325,
-      y: 25,
-    })
-    .text('7 day rolling mean');
+const legend2Text = legendContainer.append('text')
+  .attr('class','legend2')
+  .at({
+    x: 325,
+    y: 25,
+  })
+  .text('7 day rolling mean');
+
+const legend3 = legendContainer.append('line')
+.at({
+  x1: 20,
+  x2: 40,
+  y1: 20,
+  y2: 20,
+});
+
+const legend3Text = legendContainer.append('text')
+.at({
+  x: 45,
+  y: 25,
+})
+.text('7 day rolling mean of percent remote postings per day')
 
 /* scrolly stuffs */
 function enterHandle({ index, direction }) {
   if (index === 1 && direction === 'down') {
     dateLine.classed('dateLine', true);
-    lineLabel.classed('lineLabel', false);
+    lineLabel.classed('lineLabel', true);
   }
 
   if (index === 2 && direction === 'down') {
     linePath.classed('percentChange', false);
     meanPath.classed('rollingMean', false);
+    legend1.classed('legend1', false);
+    legend1Text.classed('legend1', false);
+    legend2.classed('legend2', false);
+    legend2Text.classed('legend2', false);
+    legend3.classed('legend3', true);
+    legend3Text.classed('legend3', true);
     drawRemoteGraph();
   }
 }
@@ -306,12 +326,18 @@ function enterHandle({ index, direction }) {
 function existHandle({ index, direction }) {
   if (index === 1 && direction === 'up') {
     dateLine.classed('dateLine', false);
-    lineLabel.classed('lineLabel', true);
+    lineLabel.classed('lineLabel', false);
   }
 
   if (index === 2 && direction === 'up') {
     remotePath.classed('remotePostings', false);
     drawGraph();
+    legend1.classed('legend1', true);
+    legend1Text.classed('legend1', true);
+    legend2.classed('legend2', true);
+    legend2Text.classed('legend2', true);
+    legend3.classed('legend3', false);
+    legend3Text.classed('legend3', false);
   }
 }
 

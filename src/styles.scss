@@ -135,6 +135,12 @@ $step-max-width: 420px;
   top: 0;
   z-index: 0;
 
+  text {
+    visibility: hidden;
+    display: block;
+    white-space: nowrap;
+}
+
   svg {
     display: block;
     margin: 0 auto;
@@ -165,7 +171,8 @@ $step-max-width: 420px;
       display: none;
     }
 
-    g text {
+    .tick text {
+      visibility: visible;
       font-family: Roboto;
       font-size: 14px;
     }
@@ -181,7 +188,9 @@ $step-max-width: 420px;
     }
 
     text.lineLabel {
-      visibility: hidden;
+      font-family: Roboto;
+      font-size: 14px;
+      visibility: visible;
       color: black;
       width: 90px;
       text-align: left;
@@ -193,6 +202,7 @@ $step-max-width: 420px;
     }
     
     text.legend2{
+      visibility: visible;
       font-family: Roboto;
       font-size: 14px;
       width: 90px;
@@ -206,6 +216,20 @@ $step-max-width: 420px;
     }
     
     text.legend1{
+      visibility: visible;
+      font-family: Roboto;
+      font-size: 14px;
+      width: 90px;
+      text-align: left;
+    }
+
+    line.legend3{
+      stroke: red;
+      stroke-width: 2px;
+    }
+    
+    text.legend3{
+      visibility: visible;
       font-family: Roboto;
       font-size: 14px;
       width: 90px;
