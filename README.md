@@ -23,4 +23,4 @@ $ node process/get-data.js
 
 #### `data/canceled-internships.json`
 
-Here's a [one-liner](https://github.com/graphicsdesk/canceled-internships#shortcuts) for generating the data using the [`canceled-internships`](https://github.com/graphicsdesk/canceled-internships) repository.
+Be careful when regenerating the `canceled-internships` data. It also regenerates the random index mapping that controls the color scale.
