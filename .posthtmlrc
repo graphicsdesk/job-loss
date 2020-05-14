@@ -26,7 +26,7 @@
               "steps": [
                 "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tapover to see each company’s name, industry, and size range.",
                 "The impact of these job losses can be seen across all industries, but it is more apparent in some than others.",
-                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among the <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
+                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among thesethe <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
                 "The biggest industry reflected in the cancellation data is <c>Internet and software</c>.",
                 "But the cancellations largely do not affect the Internet giants—over 58 percent of software companies impacted are small, with less than 1,000 employees.",
                 "In fact, 40 percent of all lost jobs reflected here are from companies with 1,000 employees or fewer, which in some industries makes them small businesses.",
@@ -142,6 +142,16 @@
           {
             "type": "text",
             "value": "“I think this is the case where we know that it's hard during the recession and you take less desirable jobs and it makes it harder to get caught up to people who start out their careers in better times. But this is the additional problem of, there aren't even really jobs to find because of the pandemic. And so I think we don't know what the consequences are going to be.”"
+          },
+          {
+            "type": "image",
+            "value": {
+              "width": "full-width",
+              "caption": "Illustration by Lisa Evseeva",
+              "url_lg": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/AVCDNKSRQFDAZIEZI55SLSHDL4.jpg",
+              "url_md": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/KU4IIBIYAJGOVFIBB4R5L5QTOI.jpg",
+              "url_sm": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/S5J2NENAOBGGZEC2N6XDULM6VM.jpg"
+            }
           },
           {
             "type": "subhed",
