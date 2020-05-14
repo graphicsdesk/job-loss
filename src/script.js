@@ -41,7 +41,11 @@ scroller
   })
   .onStepExit(({ index, direction }) => {
     if (index === 0 && direction === 'up') hideNav();
-    else if (index === 2 && direction === 'down' || index === 3 && direction === 'up') return;
+    else if (
+      (index === 2 && direction === 'down') ||
+      (index === 3 && direction === 'up')
+    )
+      return;
     else if (index > 0) showNav();
   });
 

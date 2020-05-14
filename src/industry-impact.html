@@ -8,7 +8,7 @@
   <div id="industry-impact-container">
     <div id="industry-content">
       <each loop="step in (item.value.steps || [])">
-        <p data-industries="{{ step.industries }}">{{{ step.text }}}</p>
+        <p class="step-box" data-industries="{{ step.industries }}">{{{ step.text }}}</p>
       </each>
     </div>
     <div id="scroll-down-message">

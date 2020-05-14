@@ -270,7 +270,7 @@ const labelNodes = labelsContainer
   .join(enter =>
     enter
       .append('text')
-      .st({ opacity: 0})
+      .st({ opacity: 0 })
       .tspansBackgrounds(splitAmpersand, 20),
   );
 
@@ -358,7 +358,8 @@ const industryList = [
   'Sports & Leisure',
   'Tourism',
   'Hotels & Accommodation',
-  'Internet & Software',]
+  'Internet & Software',
+];
 for (let i = 0; i < textList.length; i++) {
   textList[i].style.color = industryColorsScale(industryList[i]);
   textList[i].style.fontWeight = 700;

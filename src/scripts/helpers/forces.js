@@ -84,7 +84,8 @@ export function elonMuskCollide() {
       theQuadtree.visit((q, x1, y1, x2, y2) => {
         const { data: quadNode } = q;
 
-        if (!q.length && quadNode !== node) { // if this is false, no computation is done
+        if (!q.length && quadNode !== node) {
+          // if this is false, no computation is done
           // Calculate desired minimum distance and current distance
           const padding =
             node.industry === quadNode.industry ? padding1 : padding2;
@@ -119,9 +120,7 @@ export function elonMuskCollide() {
   };
 
   // Turn on or turn off the ghost state
-  force.ghost = () => {
-
-  };
+  force.ghost = () => {};
 
   return force;
 }

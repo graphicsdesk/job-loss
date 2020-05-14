@@ -255,12 +255,13 @@ async function drawDateLine() {
   });
 
   /* append text to dateLine */
-  lineLabel.at({
-    x: xScale(dateToNote) - 25,
-    y: yScale(0.2) - 6,
-  })
+  lineLabel
+    .at({
+      x: xScale(dateToNote) - 25,
+      y: yScale(0.2) - 6,
+    })
     .text('March 7th')
-    .attr('class','lineLabel');
+    .attr('class', 'lineLabel');
 }
 
 /* function for adding legend */
@@ -274,94 +275,93 @@ async function addLegend() {
 
   container.select('svg').at({ width, height });
 
-  if(gWidth > THRESHOLD){
-    legend1.attr('class', 'legend1')
-      .at({
-        x1: 20,
-        x2: 40,
-        y1: 20,
-        y2: 20,
-      });
+  if (gWidth > THRESHOLD) {
+    legend1.attr('class', 'legend1').at({
+      x1: 20,
+      x2: 40,
+      y1: 20,
+      y2: 20,
+    });
 
-    legend1Text.attr('class', 'legend1')
+    legend1Text
+      .attr('class', 'legend1')
       .at({
         x: 45,
         y: 25,
       })
       .text('percent change since September 5th');
 
-    legend2.attr('class', 'legend2')
-      .at({
-        x1: 300,
-        x2: 320,
-        y1: 20,
-        y2: 20,
-      });
-      
-    legend2Text.attr('class', 'legend2')
+    legend2.attr('class', 'legend2').at({
+      x1: 300,
+      x2: 320,
+      y1: 20,
+      y2: 20,
+    });
+
+    legend2Text
+      .attr('class', 'legend2')
       .at({
         x: 325,
         y: 25,
       })
       .text('7 day rolling mean');
 
-    legend3.classed('legend3',false)
-      .at({
-        x1: 20,
-        x2: 40,
-        y1: 20,
-        y2: 20,
-      });
-      
-    legend3Text.classed('legend3',false)
+    legend3.classed('legend3', false).at({
+      x1: 20,
+      x2: 40,
+      y1: 20,
+      y2: 20,
+    });
+
+    legend3Text
+      .classed('legend3', false)
       .at({
         x: 45,
         y: 25,
       })
       .text('7 day rolling mean of percent remote postings per day');
   } else {
-    legend1.attr('class', 'legend1')
-      .at({
-        x1: 20,
-        x2: 40,
-        y1: 20,
-        y2: 20,
-      });
+    legend1.attr('class', 'legend1').at({
+      x1: 20,
+      x2: 40,
+      y1: 20,
+      y2: 20,
+    });
 
-    legend1Text.attr('class', 'legend1')
+    legend1Text
+      .attr('class', 'legend1')
       .at({
         x: 45,
         y: 25,
       })
       .text('percent change since September 5th');
 
-    legend2.attr('class', 'legend2')
-      .at({
-        x1: 20,
-        x2: 40,
-        y1: 40,
-        y2: 40,
-      });
-      
-    legend2Text.attr('class', 'legend2')
+    legend2.attr('class', 'legend2').at({
+      x1: 20,
+      x2: 40,
+      y1: 40,
+      y2: 40,
+    });
+
+    legend2Text
+      .attr('class', 'legend2')
       .at({
         x: 45,
         y: 45,
       })
       .text('7 day rolling mean');
 
-    legend3.classed('legend3',false)
-      .at({
-        x1: 20,
-        x2: 40,
-        y1: 20,
-        y2: 20,
-      });
-      
-    legend3Text.classed('legend3',false)
+    legend3.classed('legend3', false).at({
+      x1: 20,
+      x2: 40,
+      y1: 20,
+      y2: 20,
+    });
+
+    legend3Text
+      .classed('legend3', false)
       .attr('y', 25)
-      .tspans(
-        ['7 day rolling mean of percent', 'remote postings per day'], 20)
+      .tspans(['7 day rolling mean of percent', 'remote postings per day'], 20)
       .attr('x', 45);
   }
 }
@@ -411,10 +411,10 @@ scroller
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
-// draw graph and legend when the page is loaded 
+// draw graph and legend when the page is loaded
 drawGraph();
 addLegend();
-  
+
 // setup resize event
 window.addEventListener('resize', drawGraph);
 window.addEventListener('resize', addLegend);
