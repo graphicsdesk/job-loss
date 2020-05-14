@@ -24,7 +24,7 @@
             "value": {
               "asset": "canceled-internships.html",
               "steps": [
-                "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover over to see each company’s name, industry, and size range.",
+                "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tapover to see each company’s name, industry, and size range.",
                 "The impact of these job losses can be seen across all industries, but it is more apparent in some than others.",
                 "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among the <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
                 "The biggest industry reflected in the cancellation data is <c>Internet and software</c>.",
@@ -228,7 +228,7 @@
           {
             "type": "graphic",
             "value": {
-              "asset": "undergrads-income.html"
+              "asset": "incomeovertime.html"
             }
           },
           {

@@ -242,7 +242,6 @@ async function separateIndustries(industries) {
   showTextNodes(null);
   try {
     await graphic.rotate(angle);
-    console.log('passed');
     showTextNodes(industries, angle);
   } catch (e) {
     // Ignorable. Pending rotation was interrupted.
