@@ -114,7 +114,8 @@ const radiusScale = scaleSqrt()
   .range([2, maxRadius]);
 
 // Accepts both an index and the industry name
-function industryColorsScale(industry) {
+
+export function industryColorsScale(industry) {
   if (!Number.isInteger(industry)) {
     industry = industries.indexOf(industry);
   }
@@ -197,7 +198,7 @@ simulation.nodes(companyData).on('tick', () => {
   //   we don't have to recompute centroids after cjClusterForce already did.
   if (labeledIndustries) {
     labelNodes.each(function (industry) {
-      if (industries.includes(industry)) {
+      if (labeledIndustries.includes(industry)) {
         let { x, y } = rotatePoint(centroids.get(industry), angle);
         if (industry === 'Hotels & Accommodation') y -= 30;
         if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 50;

@@ -4,6 +4,8 @@ import { scaleLinear, scaleBand } from 'd3-scale';
 import { axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
 import { extent } from 'd3-array';
+
+import { industryColorsScale } from './canceled-internships';
 import scrollHorizontally from './helpers/scroll-horizontally';
 
 /* Some data preprocessing */
@@ -23,7 +25,7 @@ function IndustryChart(divContainer, fullLength) {
 
   let height;
 
-  const margin = { left: 0, top: 30, bottom: 25 };
+  const margin = { left: 0, top: 50, bottom: 45 };
   if (!fullLength) margin.left = 54;
 
   /* Initiation code */
@@ -33,10 +35,11 @@ function IndustryChart(divContainer, fullLength) {
   const barsContainer = container.append('g.bars-container');
   const axis = container.append('g.y-axis');
   const barLabelsContainer = container.append('g.bar-labels-container');
+  const barHighlightersContainer = container.append(
+    'g.bar-highlighters-container',
+  );
 
-  const xScale = scaleBand()
-    .domain(industryChanges.map(d => d.industry))
-    .paddingInner(0.04);
+  const xScale = scaleBand().domain(industryChanges.map(d => d.industry));
   const yScale = scaleLinear().domain(
     extent(industryChanges, d => d.percentChange),
   );
@@ -49,13 +52,19 @@ function IndustryChart(divContainer, fullLength) {
     .selectAll('rect')
     .data(industryChanges)
     .join('rect');
+  const barHighlighters = barHighlightersContainer
+    .selectAll('rect')
+    .data(industryChanges)
+    .join('rect');
   const barsLabels = barLabelsContainer
     .selectAll('g.bar-label')
     .data(industryChanges)
     .join(enter =>
       enter.append('g.bar-label').call(g => {
         const name = g.append('text');
-        name.append('tspan.bar-label-name.background-tspan').text(d => d.industry);
+        name
+          .append('tspan.bar-label-name.background-tspan')
+          .text(d => d.industry);
         name.append('tspan.bar-label-name').text(d => d.industry);
         g.append('text.bar-label-percentage').text(
           d => percentFormat(d.percentChange).replace('-', '–'), // Use en dash
@@ -65,11 +74,12 @@ function IndustryChart(divContainer, fullLength) {
 
   // Store nodes for easy indexing
   const barsNodes = bars.nodes();
+  const barHighlightersNodes = barHighlighters.nodes();
   const labelsNodes = barsLabels.nodes();
 
   this.updateGraph = function () {
     const svgWidth = fullLength
-      ? 36 * industryChanges.length
+      ? 38 * industryChanges.length
       : Math.min(document.body.clientWidth - 40, 600);
     width = svgWidth - margin.left;
     const svgHeight = fullLength
@@ -100,6 +110,12 @@ function IndustryChart(divContainer, fullLength) {
       width: xScale.bandwidth(),
       height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
     });
+    barHighlighters.at({
+      x: d => xScale(d.industry),
+      y: d => Math.min(yScale(0), yScale(d.percentChange)),
+      width: xScale.bandwidth(),
+      height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
+    });
 
     // Update label positions
     barsLabels.selectAll('tspan.bar-label-name').at({
@@ -116,29 +132,38 @@ function IndustryChart(divContainer, fullLength) {
 
   this.updateGraph();
 
-  let highlightedBarIndex = null;
-  this.highlightBar = function (index, forever) {
+  let highlightedIndex = null;
+  this.highlightBar = function (index, forever, fill) {
     if (index < 0 || index >= barsNodes.length) {
       return;
     }
     if (forever) {
-      barsNodes[index].classList.add('bright-bar-forever');
-    } else if (highlightedBarIndex !== index) {
-      if (highlightedBarIndex !== null) {
-        barsNodes[highlightedBarIndex].classList.remove('bright-bar');
-        labelsNodes[highlightedBarIndex].classList.remove('bright-bar-label');
+      barsNodes[index].style.fill = fill;
+      labelsNodes[index].classList.add('always-bright');
+    } else if (highlightedIndex !== index) {
+      if (highlightedIndex !== null) {
+        barHighlightersNodes[highlightedIndex].classList.remove('bright');
+        labelsNodes[highlightedIndex].classList.remove('bright');
       }
-      barsNodes[index].classList.add('bright-bar');
-      labelsNodes[index].classList.add('bright-bar-label');
-      highlightedBarIndex = index;
+      barHighlightersNodes[index].classList.add('bright');
+      labelsNodes[index].classList.add('bright');
+      highlightedIndex = index;
     }
   };
 
   this.highlightLastBar = () => this.highlightBar(barsNodes.length - 1);
 
+  const defaultColor = '#2AAF7F';
+
   this.highlightIndustriesForever = industries => {
     industryChanges.forEach(({ industry }, i) => {
-      if (industries.includes(industry)) this.highlightBar(i, true);
+      if (industries.includes(industry)) {
+        this.highlightBar(
+          i,
+          true,
+          industryColorsScale(industry) || defaultColor,
+        );
+      }
     });
   };
 
@@ -150,12 +175,25 @@ function IndustryChart(divContainer, fullLength) {
   // Parses data-industries from paragraph blocks
   let paragraphs;
 
-  function generateParagraphs() {
-    return Array.from(document.querySelectorAll('#industry-content p'), p => ({
-      node: p,
-      industries: p.getAttribute('data-industries').split(/;\s?/),
-    }));
-  }
+  const generateParagraphs = () => {
+    return Array.from(document.querySelectorAll('#industry-content p'), p => {
+      const industries = p.getAttribute('data-industries').split(/;\s?/);
+      this.highlightIndustriesForever(industries);
+
+      // Terms to highlight
+      const terms = p.querySelectorAll('j');
+      terms.forEach((t, i) => {
+        const color = industryColorsScale(industries[i]) || defaultColor;
+        t.classList.add('padding-highlight');
+        t.style.color = color;
+      });
+
+      return {
+        node: p,
+        industries,
+      };
+    });
+  };
 
   this.positionText = function () {
     (paragraphs || (paragraphs = generateParagraphs())).forEach(
@@ -175,7 +213,6 @@ function IndustryChart(divContainer, fullLength) {
             width - node.clientWidth - 20,
           ) + 'px';
         node.style.top = pctAvg < -0.2 ? yScale(0.45) : yScale(-0.3) + 'px';
-        this.highlightIndustriesForever(industries);
       },
     );
   };
@@ -209,13 +246,13 @@ function init() {
     exitRight: () => largeChart.highlightLastBar(),
   });
 
-  const smallChart = new IndustryChart(select('#smol-industry-impact'));
+  // const smallChart = new IndustryChart(select('#smol-industry-impact'));
 
   window.addEventListener(
     'resize',
     throttle(() => {
       largeChart.updateGraph();
-      smallChart.updateGraph();
+      // smallChart.updateGraph();
     }, 500),
   );
 }

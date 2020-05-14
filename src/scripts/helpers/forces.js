@@ -20,7 +20,7 @@ export const forceYFn = (y, strength = STRENGTH) =>
  */
 
 export function cjClusterForce(centroidListener) {
-  const strength = 0.1;
+  const strength = 0.08;
   let nodes;
 
   function force(alpha) {

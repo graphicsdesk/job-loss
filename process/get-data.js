@@ -82,16 +82,12 @@ function aggregatePostings(cursor) {
         postings: postingsDatesArray,
         industryChanges: Object.keys(industryChanges).reduce((acc, industry) => {
           const { before, after } = industryChanges[industry];
+          if (before + after < 50) {
+            return acc;
+          }
           const beforeNorm = before / daysBetween(lowerBound, dateSplit);
           const afterNorm = after / daysBetween(dateSplit, upperBound);
           const percentChange = (afterNorm - beforeNorm) / beforeNorm;
-          /* acc[industry] = {
-            percentChange,
-            before,
-            after,
-            beforeWeekly: beforeNorm * 7,
-            afterWeekly: afterNorm * 7,
-          } */
           acc[industry] = percentChange;
           return acc;
         }, {}),
