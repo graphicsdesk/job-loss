@@ -29,12 +29,25 @@ export function cjClusterForce(centroidListener) {
     const centroids = rollup(nodes, centroid, d => d.industry);
 
     // Allow other functions to listen in on centroid changes so centroids
-    // don't need to be recomputed
+    // don't need to be recomputed in other places
     centroidListener(centroids);
 
     alpha *= strength;
     for (const d of nodes) {
-      const { x: cx, y: cy } = centroids.get(d.industry);
+      const { industry } = d;
+
+      // If the industry is Hotels, use the Aerospace centroid and then and
+      // then space it out a bit. This ensures that, after the ghost
+      // transition, Hotels isn't stuck in some random place separate from
+      // the other industries it should be with in the first separation.
+      let { x: cx, y: cy } = centroids.get(
+        industry === 'Hotels & Accommodation' ? 'Aerospace' : industry,
+      );
+      if (industry === 'Hotels & Accommodation') {
+        cx -= 80;
+        cy += 80;
+      }
+
       d.vx -= (d.x - cx) * alpha;
       d.vy -= (d.y - cy) * alpha;
     }
@@ -57,7 +70,7 @@ export function cjClusterForce(centroidListener) {
 export function elonMuskCollide() {
   const alpha = 0.4; // fixed for greater rigidity!
   const padding1 = 1; // separation between same-color nodes
-  const padding2 = 17; // separation between different-color nodes
+  let padding2 = 17; // separation between different-color nodes
   let nodes;
   let maxRadius;
 
@@ -98,7 +111,8 @@ export function elonMuskCollide() {
         }
         // if ghosting is truth, we only collide nodes of the same size class
         // if ghosting is false, we do the following:
-        function calculation() { // if this is false, no computation is done
+        function calculation() {
+          // if this is false, no computation is done
           // if this is false, no computation is done
           // Calculate desired minimum distance and current distance
           const padding =
@@ -133,8 +147,11 @@ export function elonMuskCollide() {
     maxRadius = max(nodes, d => d.radius) + Math.max(padding1, padding2);
   };
 
+  let noGhostTimeout;
+
   // Turn on or turn off the ghost state
   force.ghost = () => {
+    clearTimeout(noGhostTimeout); // Cancel any pending noGhosts
     isGhosting = true;
     return force;
   };
@@ -142,6 +159,11 @@ export function elonMuskCollide() {
   force.noGhostingIWillDivorceYou = () => {
     isGhosting = false;
     return force;
+  };
+
+  // This function waits a certain time before turning ghosting off
+  force.deferNoGhost = milliseconds => {
+    noGhostTimeout = setTimeout(force.noGhostingIWillDivorceYou, milliseconds);
   };
 
   return force;

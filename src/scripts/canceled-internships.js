@@ -113,9 +113,12 @@ const radiusScale = scaleSqrt()
   .domain(extent(companies, d => d.size))
   .range([2, maxRadius]);
 
+// Accepts both an index and the industry name
 function industryColorsScale(industry) {
-  const t =
-    randomIndexMapping[industries.indexOf(industry)] / industries.length;
+  if (!Number.isInteger(industry)) {
+    industry = industries.indexOf(industry);
+  }
+  const t = randomIndexMapping[industry] / industries.length;
   return interpolateViridis(t);
 }
 
@@ -206,6 +209,15 @@ simulation.nodes(companyData).on('tick', () => {
 
 /* Functions for interactivity */
 
+// Utility function that sets a simulation's alpha and restarts it.
+// Does nothing if the simulation's alpha is already higher (like when
+// we refresh in the middle of a step).
+function alphaRestart(a) {
+  if (simulation.alpha() < a) {
+    simulation.alpha(a).restart();
+  }
+}
+
 /**
  * Spits out an industry cluster. Rotates graphic so the cluster is always spit
  * towards SPIT_TARGET.
@@ -218,7 +230,10 @@ async function separateIndustries(industries, justUnseparatedSizes) {
   if (industries && !Array.isArray(industries)) {
     industries = [industries];
   }
-  if (equalOrNull(currentlySeparatedIndustries, industries) && !justUnseparatedSizes) {
+  if (
+    equalOrNull(currentlySeparatedIndustries, industries) &&
+    !justUnseparatedSizes
+  ) {
     return;
   }
   currentlySeparatedIndustries = industries;
@@ -239,9 +254,9 @@ async function separateIndustries(industries, justUnseparatedSizes) {
   const [xForce, yForce] = calculateSeparationForces(industries, angle);
 
   // Update forces and rotate, awaiting the rotate and animate labels around it
-  simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
+  simulation.force('x', xForce).force('y', yForce);
+  alphaRestart(0.6);
 
-  showTextNodes(null);
   try {
     await graphic.rotate(angle);
     showTextNodes(industries, angle);
@@ -289,17 +304,15 @@ function showTextNodes(industries) {
 
 // Brings everything back to the center.
 async function unseparateIndustry() {
-  simulation
-    .force('x', forceXCenter)
-    .force('y', forceYCenter)
-    .alpha(0.8)
-    .restart();
+  simulation.force('x', forceXCenter).force('y', forceYCenter);
+  alphaRestart(0.8);
   showTextNodes(null);
 }
 
 let areSizesSeparated = false;
 
 function separateSize() {
+  graphic.rotate();
   showTextNodes(null);
 
   // Use the spit target while accounting for the current rotation
@@ -319,9 +332,8 @@ function separateSize() {
     .force(
       'y',
       forceYFn(d => (d.size > 1000 ? -y : y), 0.04),
-    )
-    .alpha(0.9)
-    .restart();
+    );
+  alphaRestart(0.9);
 
   areSizesSeparated = true;
 }
@@ -332,12 +344,12 @@ function unseparateSize() {
     simulation
       .force('cjCluster', clusterForce)
       .force('x', forceXCenter)
-      .force('y', forceYCenter)
-      .alpha(0.69)
-      .restart();
+      .force('y', forceYCenter);
+    alphaRestart(0.69);
+
     // Wait a bit for the circles to go back to their industry clusters
     // before adding back the collide force
-    setTimeout(collideForce.noGhostingIWillDivorceYou, 600);
+    collideForce.deferNoGhost(1200);
 
     areSizesSeparated = false;
     return true;
@@ -401,15 +413,10 @@ graphic
   .on('mouseout', hideTooltip);
 
 /* set styles for text elements */
+
 const textList = document.querySelectorAll('c');
-const industryList = [
-  'Transportation & Logistics',
-  'Aerospace',
-  'Sports & Leisure',
-  'Tourism',
-  'Hotels & Accommodation',
-  'Internet & Software',
-];
+const industryList = ['Internet & Software'];
+
 for (let i = 0; i < textList.length; i++) {
   textList[i].style.color = industryColorsScale(industryList[i]);
   textList[i].style.fontWeight = 700;
