@@ -1,6 +1,6 @@
 import { select, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceCollide } from 'd3-force';
+import { forceSimulation } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import throttle from 'just-throttle';
@@ -163,7 +163,7 @@ const forceYCenter = forceYFn(0);
 
 // Our cluster force calls this callback every time centroids update. We store
 // the centroids so we can use them later for label positioning.
-const clusterForce = cjClusterForce(c => centroids = c);
+const clusterForce = cjClusterForce(c => (centroids = c));
 
 // Store the collide force so we can configure its settings (e.g. ghost state)
 const collideForce = elonMuskCollide();
@@ -214,11 +214,11 @@ simulation.nodes(companyData).on('tick', () => {
 let currentlySeparatedIndustries = null;
 let angle;
 
-async function separateIndustries(industries) {
+async function separateIndustries(industries, justUnseparatedSizes) {
   if (industries && !Array.isArray(industries)) {
     industries = [industries];
   }
-  if (equalOrNull(currentlySeparatedIndustries, industries)) {
+  if (equalOrNull(currentlySeparatedIndustries, industries) && !justUnseparatedSizes) {
     return;
   }
   currentlySeparatedIndustries = industries;
@@ -297,7 +297,11 @@ async function unseparateIndustry() {
   showTextNodes(null);
 }
 
+let areSizesSeparated = false;
+
 function separateSize() {
+  showTextNodes(null);
+
   // Use the spit target while accounting for the current rotation
   const [x, y] = inverseRotatePoint(spitTarget, angle);
 
@@ -308,10 +312,36 @@ function separateSize() {
   simulation
     // Remove the cluster force because it's too confusing w 2 centers
     .force('cjCluster', null)
-    .force('x', forceXFn(d => (d.size>1000) ? -x : x, 0.04))
-    .force('y', forceYFn(d => (d.size>1000) ? -y : y, 0.04))
+    .force(
+      'x',
+      forceXFn(d => (d.size > 1000 ? -x : x), 0.04),
+    )
+    .force(
+      'y',
+      forceYFn(d => (d.size > 1000 ? -y : y), 0.04),
+    )
     .alpha(0.9)
     .restart();
+
+  areSizesSeparated = true;
+}
+
+// Undo the size separation. Returns true if we actually did something
+function unseparateSize() {
+  if (areSizesSeparated) {
+    simulation
+      .force('cjCluster', clusterForce)
+      .force('x', forceXCenter)
+      .force('y', forceYCenter)
+      .alpha(0.69)
+      .restart();
+    // Wait a bit for the circles to go back to their industry clusters
+    // before adding back the collide force
+    setTimeout(collideForce.noGhostingIWillDivorceYou, 600);
+
+    areSizesSeparated = false;
+    return true;
+  }
 }
 
 /* Scrolly stuff */
@@ -323,11 +353,12 @@ async function enterHandle({ index, direction }) {
   }
   if (index === 5 && direction === 'down') {
     bigBusiness.classed('bigBusiness', true);
-    separateSize();
   }
 
-  if(index != 5){
-    await separateIndustries(industriesToShow[index]);
+  if (index != 5) {
+    await separateIndustries(industriesToShow[index], unseparateSize());
+  } else {
+    separateSize();
   }
 }
 
