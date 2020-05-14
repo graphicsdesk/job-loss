@@ -161,17 +161,19 @@ const softwareBig = circles.filter(
 const forceXCenter = forceXFn(0);
 const forceYCenter = forceYFn(0);
 
+// Our cluster force calls this callback every time centroids update. We store
+// the centroids so we can use them later for label positioning.
+const clusterForce = cjClusterForce(c => centroids = c);
+
+// Store the collide force so we can configure its settings (e.g. ghost state)
+const collideForce = elonMuskCollide();
+
 let centroids;
 const simulation = forceSimulation()
   .force('x', forceXCenter)
   .force('y', forceYCenter)
-  .force(
-    'cjCluster',
-    // The force calls this callback every time centroids update. We store
-    // the centroids so we can use them later for label positioning.
-    cjClusterForce(c => centroids = c),
-  )
-  .force('elonMuskCollide', elonMuskCollide());
+  .force('cjCluster', clusterForce)
+  .force('elonMuskCollide', collideForce);
 
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
 
@@ -296,8 +298,20 @@ async function unseparateIndustry() {
 }
 
 function separateSize() {
-  simulation.force('elonMuskCollide', elonMuskCollide().ghost())
-    .force('x', forceXFn(d => (d.size>1000) ? width/4 : -width/4 ))
+  // Use the spit target while accounting for the current rotation
+  const [x, y] = inverseRotatePoint(spitTarget, angle);
+
+  // Since the simulation stores the address and not a copy of the collide
+  // force, we can call ghost() without re-adding the force to the simulation
+  collideForce.ghost();
+
+  simulation
+    // Remove the cluster force because it's too confusing w 2 centers
+    .force('cjCluster', null)
+    .force('x', forceXFn(d => (d.size>1000) ? -x : x, 0.04))
+    .force('y', forceYFn(d => (d.size>1000) ? -y : y, 0.04))
+    .alpha(0.9)
+    .restart();
 }
 
 /* Scrolly stuff */
