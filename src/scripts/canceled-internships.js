@@ -1,6 +1,6 @@
 import { select, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation } from 'd3-force';
+import { forceSimulation, forceCollide } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import throttle from 'just-throttle';
@@ -150,7 +150,7 @@ const circles = nodesContainer
     fill: d => industryColorsScale(d.industry),
   });
 
-const bigBusiness = circles.filter(d => d.size > 250);
+const bigBusiness = circles.filter(d => d.size > 1000);
 const softwareBig = circles.filter(
   d => d.industry === 'Internet & Software' && d.size > 1000,
 );
@@ -294,9 +294,14 @@ async function unseparateIndustry() {
   simulation
     .force('x', forceXCenter)
     .force('y', forceYCenter)
-    .alpha(0.6)
+    .alpha(0.8)
     .restart();
   showTextNodes(null);
+}
+
+function separateSize() {
+  simulation.force('elonMuskCollide', elonMuskCollide().ghost())
+    .force('x', forceXFn(d => (d.size>1000) ? width/4 : -width/4 ))
 }
 
 /* Scrolly stuff */
@@ -308,8 +313,12 @@ async function enterHandle({ index, direction }) {
   }
   if (index === 5 && direction === 'down') {
     bigBusiness.classed('bigBusiness', true);
+    separateSize();
   }
-  await separateIndustries(industriesToShow[index]);
+
+  if(index != 5){
+    await separateIndustries(industriesToShow[index]);
+  }
 }
 
 async function exitHandle({ index, direction }) {
