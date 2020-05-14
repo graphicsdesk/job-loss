@@ -169,7 +169,7 @@ const simulation = forceSimulation()
     'cjCluster',
     // The force calls this callback every time centroids update. We store
     // the centroids so we can use them later for label positioning.
-    cjClusterForce(centroidsListener),
+    cjClusterForce(c => centroids = c),
   )
   .force('elonMuskCollide', elonMuskCollide());
 
@@ -194,8 +194,8 @@ simulation.nodes(companyData).on('tick', () => {
     labelNodes.each(function (industry) {
       if (industries.includes(industry)) {
         let { x, y } = rotatePoint(centroids.get(industry), angle);
-        if (industry === 'Hotels & Accommodation') y -= 35;
-        if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 45;
+        if (industry === 'Hotels & Accommodation') y -= 30;
+        if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 50;
         select(this).at({ y }).selectAll('tspan').at({ x });
       }
     });
@@ -283,10 +283,6 @@ function showTextNodes(industries) {
       select(this).style('opacity', industries.includes(industry) ? 1 : 0);
     });
   }
-}
-
-function centroidsListener(c) {
-  centroids = c;
 }
 
 // Brings everything back to the center.
