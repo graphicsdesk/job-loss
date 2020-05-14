@@ -61,6 +61,8 @@ export function elonMuskCollide() {
   let nodes;
   let maxRadius;
 
+  let isGhosting; // boolean variable that tells us whether to ghost nodes of different classes
+
   function force() {
     // A quadtree recursively partitions 2D space into squares. Distinct points
     // are leaf nodes; conincident ones are linked lists.
@@ -81,7 +83,8 @@ export function elonMuskCollide() {
       // are the lower and upper bounds of the node.
       theQuadtree.visit((q, x1, y1, x2, y2) => {
         const { data: quadNode } = q;
-        if (!q.length && quadNode !== node) {
+
+        if (!q.length && quadNode !== node) { // if this is false, no computation is done
           // Calculate desired minimum distance and current distance
           const padding =
             node.industry === quadNode.industry ? padding1 : padding2;
@@ -113,6 +116,11 @@ export function elonMuskCollide() {
   force.initialize = _ => {
     nodes = _;
     maxRadius = max(nodes, d => d.radius) + Math.max(padding1, padding2);
+  };
+
+  // Turn on or turn off the ghost state
+  force.ghost = () => {
+
   };
 
   return force;

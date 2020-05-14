@@ -82,14 +82,14 @@ $step-max-width: 420px;
 
     g.node-container {
       circle {
-        transition-duration: 0.1s;
-        transition-property: stroke-opacity;
+        transition-duration: 0.15s;
+        transition-property: stroke, fill-opacity;
         stroke-width: 1px;
         stroke: white;
 
         &.hover-highlight {
           stroke-width: 2px;
-          stroke-opacity: 1;
+          stroke: black;
         }
       }
     }
@@ -347,6 +347,19 @@ $step-max-width: 420px;
     padding: 18px;
     background: hsla(0, 0%, 100%, 0.93);
     box-shadow: 0 2px 5px 0 #ccc;
+  }
+}
+
+#scroll-down-message {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition-duration: .3s;
+
+  p {
+    font-size: 20px;
   }
 }
 

@@ -35,10 +35,23 @@ export default function ({
 
   // Shifts the graphic horizontally based on the progress of paddingDiv.
 
+  let fixLeft;
+  let attemptsToUnfix = 0;
+
+  container.addEventListener('scroll', () => {
+    container.scrollLeft = fixLeft;
+    attemptsToUnfix += 1;
+    if (attemptsToUnfix > 20) {
+      showScrollDown();
+      attemptsToUnfix = 0;
+    }
+  });
+
   function shiftGraphic() {
     const { top } = paddingDiv.getBoundingClientRect();
     const scrollLeft = paddingDiv.offsetTop - top;
-    container.scrollLeft = scrollLeft;
+    container.scrollLeft = fixLeft = scrollLeft;
+    attemptsToUnfix = 0;
     onScroll(scrollLeft, container.clientWidth);
   }
 
@@ -93,4 +106,16 @@ export default function ({
   // Call shiftGraphic once on initiation to ensure that the graphic's horizontal
   // horizontal position is correct wherever in the page we refresh at
   shiftGraphic();
+}
+
+const scrollDownMsg = document.getElementById('scroll-down-message');
+
+let messageTimeout;
+
+function showScrollDown() {
+  if (messageTimeout) {
+    clearTimeout(messageTimeout);
+  }
+  scrollDownMsg.style.opacity = 1;
+  messageTimeout = setTimeout(() => (scrollDownMsg.style.opacity = 0), 2500);
 }
