@@ -109,14 +109,6 @@ p.step-box {
         transition-duration: 0.2s;
         transition-property: opacity;
       }
-
-      tspan.background-tspan {
-        stroke: #fff;
-        opacity: 0.9;
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
     }
 
     rect#invisible-background {
@@ -127,6 +119,14 @@ p.step-box {
       y: -50%;
     }
   }
+}
+
+tspan.background-tspan {
+  stroke: #fff;
+  opacity: 0.9;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 #bubble-tooltip {
@@ -296,6 +296,8 @@ p.step-box {
 }
 
 svg.industry-impact-svg {
+  overflow: visible;
+
   g.y-axis {
     .domain {
       display: none;
@@ -313,36 +315,33 @@ svg.industry-impact-svg {
   }
 
   .bars-container {
-    g {
-      rect {
-        fill: #62aee5;
-        transition-duration: 0.1s;
-      }
-      text {
-        fill: black;
-        fill-opacity: 0;
-        transition-duration: 0.1s;
-        text-anchor: middle;
-        alignment-baseline: middle;
-        font-family: Roboto;
-        font-size: 16px;
-      }
+    rect {
+      fill: #62aee5;
+      transition-duration: 0.1s;
     }
+  }
 
-    g.highlight-bar-group {
-      rect {
-        fill: #0282fa;
-      }
-      text {
-        fill-opacity: 1;
-      }
-    }
+  .bar-label text {
+    fill: black;
+    opacity: 0;
+    transition-duration: 0.1s;
+    text-anchor: middle;
+    alignment-baseline: middle;
+    dominant-baseline: middle;
+    font-family: Roboto;
+    font-size: 16px;
+  }
 
-    g.highlight-bar-group-forever {
-      rect {
-        fill: #0282fa;
-      }
-    }
+  rect.bright-bar {
+    fill: #0282fa;
+  }
+
+  .bright-bar-label text {
+    opacity: 1;
+  }
+
+  rect.bright-bar-forever {
+    fill: #0282fa;
   }
 }
 
@@ -387,6 +386,10 @@ svg.industry-impact-svg {
   svg {
     display: block;
     margin: 0 auto;
+
+    .tick line {
+      stroke: #888;
+    }
   }
 }
 

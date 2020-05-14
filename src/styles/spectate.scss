@@ -511,6 +511,10 @@ header {
   .image {
     padding: 0 $gbody-padding;
   }
+
+  .image.width-full-width {
+    padding: 0;
+  }
 }
 
 .graphic {

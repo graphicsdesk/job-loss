@@ -24,9 +24,9 @@
             "value": {
               "asset": "canceled-internships.html",
               "steps": [
-                "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tapover to see each company’s name, industry, and size range.",
+                "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tap to see each company’s name, industry, and size range.",
                 "The impact of these job losses can be seen across all industries, but it is more apparent in some than others.",
-                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among thesethe <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
+                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among these industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
                 "The biggest industry reflected in the cancellation data is <c>Internet and software</c>.",
                 "But the cancellations largely do not affect the Internet giants—over 58 percent of software companies impacted are small, with less than 1,000 employees.",
                 "In fact, 40 percent of all lost jobs reflected here are from companies with 1,000 employees or fewer, which in some industries makes them small businesses.",
@@ -97,7 +97,7 @@
                   "industries": "Tourism; Hotels & Accommodation; Restaurants & Food Service"
                 },
                 {
-                  "text": "Comment about medical TK",
+                  "text": "Nor are those least impacted ______",
                   "industries": "Medical Devices; Biotech & Life Sciences; Research"
                 }
               ]
@@ -105,7 +105,7 @@
           },
           {
             "type": "text",
-            "value": "These are industries that Alexander Hertel-Fernadez, a political economist and associate professor who studies relationships between business, labor, and public policy at the School of International and Public Affairs, thinks will face some of the largest changes over time."
+            "value": "Service Sector  industries  are some that Alexander Hertel-Fernadez, a political economist and associate professor who studies relationships between business, labor, and public policy at the School of International and Public Affairs, thinks will face some of the largest changes over time."
           },
           {
             "type": "text",

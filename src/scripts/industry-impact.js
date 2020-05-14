@@ -23,8 +23,8 @@ function IndustryChart(divContainer, fullLength) {
 
   let height;
 
-  const margin = { left: 0, top: 10, bottom: 25 };
-  if (!fullLength) margin.left = 60;
+  const margin = { left: 0, top: 30, bottom: 25 };
+  if (!fullLength) margin.left = 54;
 
   /* Initiation code */
 
@@ -32,6 +32,7 @@ function IndustryChart(divContainer, fullLength) {
   const container = svg.append('g').translate([margin.left, margin.top]);
   const barsContainer = container.append('g.bars-container');
   const axis = container.append('g.y-axis');
+  const barLabelsContainer = container.append('g.bar-labels-container');
 
   const xScale = scaleBand()
     .domain(industryChanges.map(d => d.industry))
@@ -45,13 +46,17 @@ function IndustryChart(divContainer, fullLength) {
 
   // Join bars to data
   const bars = barsContainer
-    .selectAll('bars')
+    .selectAll('rect')
     .data(industryChanges)
-    // Everything that doesn't depend on the yScale can be done on enter
+    .join('rect');
+  const barsLabels = barLabelsContainer
+    .selectAll('g.bar-label')
+    .data(industryChanges)
     .join(enter =>
-      enter.append('g').call(g => {
-        g.append('rect');
-        g.append('text.bar-label-name').text(d => d.industry);
+      enter.append('g.bar-label').call(g => {
+        const name = g.append('text');
+        name.append('tspan.bar-label-name.background-tspan').text(d => d.industry);
+        name.append('tspan.bar-label-name').text(d => d.industry);
         g.append('text.bar-label-percentage').text(
           d => percentFormat(d.percentChange).replace('-', '–'), // Use en dash
         );
@@ -60,23 +65,36 @@ function IndustryChart(divContainer, fullLength) {
 
   // Store nodes for easy indexing
   const barsNodes = bars.nodes();
+  const labelsNodes = barsLabels.nodes();
 
   this.updateGraph = function () {
-    const svgWidth = fullLength ? 36 * industryChanges.length : 600;
+    const svgWidth = fullLength
+      ? 36 * industryChanges.length
+      : Math.min(document.body.clientWidth - 40, 600);
     width = svgWidth - margin.left;
-    const svgHeight = fullLength ? window.innerHeight : 400;
+    const svgHeight = fullLength
+      ? window.innerHeight
+      : Math.max(300, (width * 2) / 3);
     height = svgHeight - margin.top - margin.bottom;
+
+    if (
+      svg.at('width') === svgWidth + '' &&
+      svg.at('height') === svgHeight + ''
+    )
+      return;
+
     svg.at({ width: svgWidth, height: svgHeight });
 
     barWidth = width / industryChanges.length;
 
     // Update yScale and its dependencies
-    xScale.rangeRound([0, width]);
+    xScale.range([0, width]);
     yScale.rangeRound([height, 0]);
-    axis.call(axisFn.tickSize(-width));
+    if (fullLength) axisFn.tickSize(-width);
+    axis.call(axisFn);
 
     // Update bar heights and positions
-    bars.select('rect').at({
+    bars.at({
       x: d => xScale(d.industry),
       y: d => Math.min(yScale(0), yScale(d.percentChange)),
       width: xScale.bandwidth(),
@@ -84,11 +102,11 @@ function IndustryChart(divContainer, fullLength) {
     });
 
     // Update label positions
-    bars.select('text.bar-label-name').at({
+    barsLabels.selectAll('tspan.bar-label-name').at({
       x: d => xScale(d.industry) + barWidth / 2,
       y: d => yScale(0) + (d.percentChange / Math.abs(d.percentChange)) * 15,
     });
-    bars.select('text.bar-label-percentage').at({
+    barsLabels.select('text.bar-label-percentage').at({
       x: d => xScale(d.industry) + barWidth / 2,
       y: d =>
         yScale(d.percentChange) -
@@ -96,21 +114,23 @@ function IndustryChart(divContainer, fullLength) {
     });
   };
 
+  this.updateGraph();
+
   let highlightedBarIndex = null;
   this.highlightBar = function (index, forever) {
     if (index < 0 || index >= barsNodes.length) {
       return;
     }
-    const oldNode = barsNodes[highlightedBarIndex];
-    const newNode = barsNodes[index];
-    if (highlightedBarIndex !== index) {
-      oldNode && oldNode.classList.remove('highlight-bar-group');
-      newNode.classList.add('highlight-bar-group');
-      highlightedBarIndex = index;
-    }
-
     if (forever) {
-      newNode.classList.add('highlight-bar-group-forever');
+      barsNodes[index].classList.add('bright-bar-forever');
+    } else if (highlightedBarIndex !== index) {
+      if (highlightedBarIndex !== null) {
+        barsNodes[highlightedBarIndex].classList.remove('bright-bar');
+        labelsNodes[highlightedBarIndex].classList.remove('bright-bar-label');
+      }
+      barsNodes[index].classList.add('bright-bar');
+      labelsNodes[index].classList.add('bright-bar-label');
+      highlightedBarIndex = index;
     }
   };
 
@@ -131,13 +151,10 @@ function IndustryChart(divContainer, fullLength) {
   let paragraphs;
 
   function generateParagraphs() {
-    return Array.from(
-      document.querySelectorAll('#industry-content p'),
-      p => ({
-        node: p,
-        industries: p.getAttribute('data-industries').split(/;\s?/),
-      }),
-    );
+    return Array.from(document.querySelectorAll('#industry-content p'), p => ({
+      node: p,
+      industries: p.getAttribute('data-industries').split(/;\s?/),
+    }));
   }
 
   this.positionText = function () {
@@ -169,14 +186,18 @@ function IndustryChart(divContainer, fullLength) {
       divContainer.node().getAttribute('data-industries').split(/;\s?/),
     );
   };
+
+  if (fullLength) {
+    this.positionText();
+  } else {
+    this.generateAndHighlightIndustries();
+  }
 }
 
 // Initialization function
 function init() {
   const largeContainer = select('#industry-impact-container');
   const largeChart = new IndustryChart(largeContainer, true);
-  largeChart.updateGraph();
-  largeChart.positionText();
 
   scrollHorizontally({
     container: largeContainer,
@@ -188,12 +209,15 @@ function init() {
     exitRight: () => largeChart.highlightLastBar(),
   });
 
-  const smallContainer = select('#smol-industry-impact');
-  const smallChart = new IndustryChart(smallContainer);
-  smallChart.updateGraph();
-  smallChart.generateAndHighlightIndustries();
+  const smallChart = new IndustryChart(select('#smol-industry-impact'));
 
-  window.addEventListener('resize', throttle(largeChart.updateGraph, 500));
+  window.addEventListener(
+    'resize',
+    throttle(() => {
+      largeChart.updateGraph();
+      smallChart.updateGraph();
+    }, 500),
+  );
 }
 
 init();
