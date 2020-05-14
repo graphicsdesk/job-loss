@@ -1,0 +1,1695 @@
+{
+  "employers": [
+    {
+      "employer": "23andMe",
+      "industry": "Research",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "A&E Network",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "ABB",
+      "industry": "Civil Engineering",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "ABC",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Accion Systems",
+      "industry": "Aerospace",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Ad Council",
+      "industry": "Non-Profit - Other",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "ADTRAN",
+      "industry": "Telecommunications",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "AF Group",
+      "industry": "Insurance",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "AGS Automotive",
+      "industry": "Automotive",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Airbnb",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "AKQA",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Alaska Airlines",
+      "industry": "Tourism",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Alexander Group",
+      "industry": "Management Consulting",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "AlphaSights",
+      "industry": "Management Consulting",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "American Airlines",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Amtrak",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Anaplan",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Ancestry",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Apache Corporation",
+      "industry": "Oil & Gas",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "APCO Worldwide",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Applied Materials",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Applied Medical",
+      "industry": "Medical Devices",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "ArcelorMittal",
+      "industry": "Manufacturing - Other",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Argonne National Laboratory",
+      "industry": "Research",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Arista Networks",
+      "industry": "Computer Networking",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Arthrex",
+      "industry": "Medical Devices",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "atVenu",
+      "industry": "Internet & Software",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "AXS",
+      "industry": "Movies, TV, Music",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Baker Hughes",
+      "industry": "Oil & Gas",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Bartle Bogle Hegarty",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "BECU",
+      "industry": "Non-Profit - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Belvedere trading",
+      "industry": "Investment Banking",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Bently Systems",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Best Buy",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Big Spaceship",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Blackbaud",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "BluJay Solutions",
+      "industry": "Transportation & Logistics",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Boar's Head Brand",
+      "industry": "Food & Beverage",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Boom Supersonic",
+      "industry": "Aerospace",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Booz Allen Hamilton",
+      "industry": "Management Consulting",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Bosch",
+      "industry": "Scientific and Technical Consulting",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Boston Scientific",
+      "industry": "Biotech & Life Sciences",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Bright Health",
+      "industry": "Healthcare",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "British Airways",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Broadsign",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Brookings Institution",
+      "industry": "Politics",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "BuzzFeed",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Callaway Golf",
+      "industry": "Manufacturing - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Calvin Klein",
+      "industry": "Fashion",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Cantor Fitzgerald",
+      "industry": "Investment Banking",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Cannon",
+      "industry": "Civil Engineering",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Capitol Music Group",
+      "industry": "Movies, TV, Music",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Captify",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Carfax",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "CB Insights",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "CBIZ",
+      "industry": "Accounting",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "CenturyLink",
+      "industry": "Telecommunications",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "CF Industries",
+      "industry": "Manufacturing - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "CGI",
+      "industry": "Scientific and Technical Consulting",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Chesapeake Energy",
+      "industry": "Oil & Gas",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Checkr",
+      "industry": "Internet & Software",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "CH Robinson",
+      "industry": "Transportation & Logistics",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Civis Analytics",
+      "industry": "Management Consulting",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Comcast",
+      "industry": "Telecommunications",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Commonwealth Care Alliance",
+      "industry": "Healthcare",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "ConocoPhillips",
+      "industry": "Oil & Gas",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Continental",
+      "industry": "Manufacturing - Other",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Crayola",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Cruise Automation",
+      "industry": "Automotive",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Cummins",
+      "industry": "Automotive",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Custom Ink",
+      "industry": "Design",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "DAAD-WISE",
+      "industry": "Higher Education",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Dassault Systems",
+      "industry": "Automotive",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "DataScan",
+      "industry": "Computer Networking",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Datto",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Defense Counterintelligence and Security Agency",
+      "industry": "Defense",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Delta Airline",
+      "industry": "Transportation & Logistics",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Designer Brands",
+      "industry": "Retail Stores",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "DigitalOcean",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Dillards",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Discovery Inc.",
+      "industry": "Movies, TV, Music",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Disney",
+      "industry": "Movies, TV, Music",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "DNAnexus",
+      "industry": "Biotech & Life Sciences",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Dow Jones",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Draper Laboratory",
+      "industry": "Non-Profit - Other",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "DriveTime",
+      "industry": "Retail Stores",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Duff & Phelps",
+      "industry": "Other Industries",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Echostar",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "EF Education First",
+      "industry": "Other Education",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Esri",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "EVERFI",
+      "industry": "Other Education",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Excellus Blue Cross Blue Shield",
+      "industry": "Insurance",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "ExtraHop",
+      "industry": "Computer Networking",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Fedex",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "First American",
+      "industry": "Real Estate",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Flipp",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Forbes",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Formlabs",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Foursquare",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Freeport-McMoRan",
+      "industry": "Natural Resources",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Funding Circle",
+      "industry": "Investment Banking",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "FX",
+      "industry": "Internet & Software",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Gallagher",
+      "industry": "Insurance",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Gap Inc.",
+      "industry": "Fashion",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Garmin",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Gartner",
+      "industry": "Research",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Genuine Parts Company",
+      "industry": "Automotive",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Georgia Pacific",
+      "industry": "Manufacturing - Other",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "GE Transportation-Wabtec",
+      "industry": "Manufacturing - Other",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Gildan",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Globe Life",
+      "industry": "Insurance",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "GoCanvas",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Golden 1 Credit Union",
+      "industry": "Commercial Banking & Credit",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Green Dot",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Group Nine Media",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Groupon",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Guideline",
+      "industry": "Investment / Portfolio Management",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Gulfstream Aerospace",
+      "industry": "Aerospace",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Halff Associates",
+      "industry": "Civil Engineering",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Halliburton",
+      "industry": "Oil & Gas",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "HARMAN International",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Hawaiian Airlines",
+      "industry": "Aerospace",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "HCA Healthcare",
+      "industry": "Healthcare",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Healthfirst",
+      "industry": "Healthcare",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Helen of Troy",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Hendrickson",
+      "industry": "Automotive",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Hess Corporation",
+      "industry": "Oil & Gas",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Hill Holliday",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Hughes",
+      "industry": "Civil Engineering",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Huhtamaki",
+      "industry": "Manufacturing - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Husky Energy",
+      "industry": "Oil & Gas",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "iCIMS",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "IDEMIA",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "IDEO",
+      "industry": "Design",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "IDEX",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Idexx Laboratories",
+      "industry": "Veterinary",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "IGN",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "iHeartMedia",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "IHS Markit",
+      "industry": "Management Consulting",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Indeed",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "InterSystems",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Interbrand",
+      "industry": "Management Consulting",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "IPG MediaBrands",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "IQVIA",
+      "industry": "Healthcare",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "JetBlue",
+      "industry": "Transportation & Logistics",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Jordan Blanchard Capital",
+      "industry": "Investment / Portfolio Management",
+      "sizeText": "1 - 10"
+    },
+    {
+      "employer": "Kabbage",
+      "industry": "Investment Banking",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Kaiser Permanente",
+      "industry": "Healthcare",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Kayak",
+      "industry": "Tourism",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Kearney",
+      "industry": "Management Consulting",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Keen",
+      "industry": "Sports & Leisure",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Kepler Group",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Klick Health",
+      "industry": "Healthcare",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Kin and Carta",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Kitty Hawk",
+      "industry": "Transportation & Logistics",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Kohler Engines",
+      "industry": "Manufacturing - Other",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Lands' End",
+      "industry": "Retail Stores",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "L Brands",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "LEK consulting",
+      "industry": "Management Consulting",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "LendingClub",
+      "industry": "Commercial Banking & Credit",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Leo Burnett",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Lifeway Christian Resources",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Lime",
+      "industry": "Transportation & Logistics",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "LLamasoft",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "L.L. Bean",
+      "industry": "Retail Stores",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "L'Or\u00e9al",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Lowe's",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "M&T Bank",
+      "industry": "Commercial Banking & Credit",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Macy's",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Magnopus",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Manhattan Associates",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Mattel",
+      "industry": "Manufacturing - Other",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Marathon Oil",
+      "industry": "Oil & Gas",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Marriot",
+      "industry": "Hotels & Accommodation",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Marsh and Mclennan Agency",
+      "industry": "Insurance",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Mayo Clinic",
+      "industry": "Healthcare",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "M Booth",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "McCann",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Medicus Healthcare Solutions",
+      "industry": "Other Industries",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Medline Industries",
+      "industry": "Medical Devices",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Mercedez Benz",
+      "industry": "Automotive",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Mercer",
+      "industry": "Management Consulting",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Micron",
+      "industry": "Biotech & Life Sciences",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "MIT Lincoln Laboratory",
+      "industry": "Research",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "MullenLowe",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "National Geographic",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "National Institutes of Health",
+      "industry": "Research",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "National Security Agency",
+      "industry": "Defense",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Naval Research Enterprise Internship Program",
+      "industry": "Defense",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "NBC Olympic",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Newell Brands",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "New York Air Brake",
+      "industry": "Manufacturing - Other",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Nielsen",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Nissan",
+      "industry": "Automotive",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "No Kid Hungry",
+      "industry": "K-12 Education",
+      "sizeText": "1 - 10"
+    },
+    {
+      "employer": "Norfolk Southern",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Nordstrom ",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Northwest Permanente",
+      "industry": "Healthcare",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Novo Nordisk",
+      "industry": "Pharmaceuticals",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "NPR",
+      "industry": "Manufacturing - Other",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Occidental Petroleum",
+      "industry": "Oil & Gas",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Oliver Wyman",
+      "industry": "Management Consulting",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "OneWeb",
+      "industry": "Aerospace",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "OpenTable",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Outlier",
+      "industry": "Investment / Portfolio Management",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Owens Corning",
+      "industry": "Manufacturing - Other",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Paccar",
+      "industry": "Automotive",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Pariveda Solutions",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Paycom",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "PBS",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Pearson VUE",
+      "industry": "Higher Education",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Phoenix Children's Hospital",
+      "industry": "Healthcare",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Ping Identity",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Pixar Animation Studios",
+      "industry": "Movies, TV, Music",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "PluralSight",
+      "industry": "Other Industries",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Pratt & Whitney",
+      "industry": "Aerospace",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Primer",
+      "industry": "Internet & Software",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "PROCEPT BioRobotics",
+      "industry": "Medical Devices",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "PSB",
+      "industry": "Research",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Quantcast",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "QuantumScope",
+      "industry": "Utilities and Renewable Energy",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Quora",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Ramboll",
+      "industry": "Scientific and Technical Consulting",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Randa Accessories",
+      "industry": "Fashion",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Raytheon",
+      "industry": "Aerospace",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Redfin",
+      "industry": "Real Estate",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Regeneron Pharmaceuticals",
+      "industry": "Pharmaceuticals",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "REI",
+      "industry": "Sports & Leisure",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Rent The Runway",
+      "industry": "Fashion",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "R/GA",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Robert Half",
+      "industry": "Human Resources",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Roche",
+      "industry": "Biotech & Life Sciences",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Roku",
+      "industry": "Telecommunications",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Saatchi & Saatchi",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Salem Red Sox",
+      "industry": "Sports & Leisure",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Samsung Research America",
+      "industry": "Electronic & Computer Hardware",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Schlumberger",
+      "industry": "Oil & Gas",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Schneider Electric",
+      "industry": "Utilities and Renewable Energy",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Secret Mission Software",
+      "industry": "Internet & Software",
+      "sizeText": "1 - 10"
+    },
+    {
+      "employer": "Seattle Genetics, Inc.",
+      "industry": "Biotech & Life Sciences",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Shamrock Foods",
+      "industry": "Food & Beverage",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Sherwin Williams",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Showpass",
+      "industry": "Sports & Leisure",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Simon Kucher & Partners",
+      "industry": "Management Consulting",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Skip Hop",
+      "industry": "CPG - Consumer Packaged Goods",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Sleep Number",
+      "industry": "Retail Stores",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Sling TV",
+      "industry": "Movies, TV, Music",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "SnapTravel",
+      "industry": "Hotels & Accommodation",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Softheon",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Sonder",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Sony",
+      "industry": "Movies, TV, Music",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Sony Music",
+      "industry": "Movies, TV, Music",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Southwest Airlines",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Springbuk",
+      "industry": "Internet & Software",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Stanford Health Care",
+      "industry": "Healthcare",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "StitchFix",
+      "industry": "Fashion",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "St. Jude Children's Research Hospital",
+      "industry": "Healthcare",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Strategic Education",
+      "industry": "Higher Education",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Strategy&",
+      "industry": "Management Consulting",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Stryker",
+      "industry": "Medical Devices",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Stubhub",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Stuller",
+      "industry": "Manufacturing - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "STV Inc",
+      "industry": "Civil Engineering",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "SUEZ Water Technologies & Solutions",
+      "industry": "Manufacturing - Other",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Sumo Logic",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Sysco",
+      "industry": "Food & Beverage",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Team One",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Tegna Inc.",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Tenable",
+      "industry": "Legal & Law Enforcement",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "The Boston Globe",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "The Good Year Tire & Rubber Company",
+      "industry": "Automotive",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "The Hut Group",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Thermo Fisher Scientific",
+      "industry": "Healthcare",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Thomson Reuters",
+      "industry": "Internet & Software",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Thumbtack",
+      "industry": "Other Industries",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Ticketmaster",
+      "industry": "Sports & Leisure",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "TJX",
+      "industry": "Retail Stores",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Toast",
+      "industry": "Fashion",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Tower Research Capital",
+      "industry": "Investment / Portfolio Management",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Toyota Connected",
+      "industry": "Internet & Software",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "TPRI",
+      "industry": "Scientific and Technical Consulting",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "Transamerica",
+      "industry": "Insurance",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "TransUnion",
+      "industry": "Commercial Banking & Credit",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Trexquant",
+      "industry": "Investment / Portfolio Management",
+      "sizeText": "10 - 50"
+    },
+    {
+      "employer": "TripAdvisor",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Ugam Solutions",
+      "industry": "Other Industries",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Ultimate Software",
+      "industry": "Internet & Software",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Under Armour",
+      "industry": "Fashion",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "United Airlines",
+      "industry": "Transportation & Logistics",
+      "sizeText": "25,000+"
+    },
+    {
+      "employer": "Universal McCann",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Universal Music Group",
+      "industry": "Movies, TV, Music",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Uplift",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Uponor",
+      "industry": "Manufacturing - Other",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Urban Outfitters (URBN)",
+      "industry": "Fashion",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "USTA 2020 D&I",
+      "industry": "Sports & Leisure",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Vectorworks Inc.",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Verily",
+      "industry": "Medical Devices",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Vergin Hyperloop One",
+      "industry": "Civil Engineering",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Verso Booksv",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Vimeo",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Virgin Orbit",
+      "industry": "Aerospace",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "VMLY&R",
+      "industry": "Advertising, PR & Marketing",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "Volvo",
+      "industry": "Automotive",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Vox",
+      "industry": "Journalism, Media & Publishing",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Wagner Spraytech",
+      "industry": "Manufacturing - Other",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Warner",
+      "industry": "Movies, TV, Music",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Warner Music Group",
+      "industry": "Movies, TV, Music",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "Wayfair",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "WeRide.ai",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "William Morris Endeavor",
+      "industry": "Movies, TV, Music",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Wisk",
+      "industry": "Aerospace",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "WillowTree",
+      "industry": "Internet & Software",
+      "sizeText": "250 - 1,000"
+    },
+    {
+      "employer": "WME/Endeavor",
+      "industry": "Movies, TV, Music",
+      "sizeText": "50 - 100"
+    },
+    {
+      "employer": "Workday",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Xcel Energy",
+      "industry": "Utilities and Renewable Energy",
+      "sizeText": "10,000 - 25,000"
+    },
+    {
+      "employer": "Yelp",
+      "industry": "Internet & Software",
+      "sizeText": "5,000 - 10,000"
+    },
+    {
+      "employer": "Yubico",
+      "industry": "Internet & Software",
+      "sizeText": "100 - 250"
+    },
+    {
+      "employer": "Zenith Insurance",
+      "industry": "Insurance",
+      "sizeText": "1,000 - 5,000"
+    },
+    {
+      "employer": "ZS",
+      "industry": "Management Consulting",
+      "sizeText": "5,000 - 10,000"
+    }
+  ],
+  "industriesProportions": {
+    "Tourism": 0.003,
+    "Transportation & Logistics": 0.027,
+    "Aerospace": 0.061,
+    "Hotels & Accommodation": 0.078,
+    "Research": 0.091,
+    "Advertising, PR & Marketing": 0.138,
+    "Civil Engineering": 0.185,
+    "Journalism, Media & Publishing": 0.216,
+    "Non-Profit - Other": 0.243,
+    "Telecommunications": 0.254,
+    "Insurance": 0.271,
+    "Automotive": 0.299,
+    "Internet & Software": 0.392,
+    "Management Consulting": 0.487,
+    "Oil & Gas": 0.524,
+    "Electronic & Computer Hardware": 0.552,
+    "Medical Devices": 0.574,
+    "Manufacturing - Other": 0.608,
+    "Computer Networking": 0.638,
+    "Movies, TV, Music": 0.663,
+    "Investment Banking": 0.69,
+    "Retail Stores": 0.715,
+    "Food & Beverage": 0.738,
+    "Scientific and Technical Consulting": 0.749,
+    "Biotech & Life Sciences": 0.763,
+    "Healthcare": 0.792,
+    "Politics": 0.813,
+    "Fashion": 0.828,
+    "Accounting": 0.842,
+    "CPG - Consumer Packaged Goods": 0.856,
+    "Design": 0.871,
+    "Higher Education": 0.879,
+    "Defense": 0.889,
+    "Other Industries": 0.901,
+    "Other Education": 0.912,
+    "Real Estate": 0.918,
+    "Natural Resources": 0.923,
+    "Commercial Banking & Credit": 0.931,
+    "Investment / Portfolio Management": 0.945,
+    "Veterinary": 0.955,
+    "Sports & Leisure": 0.966,
+    "K-12 Education": 0.976,
+    "Pharmaceuticals": 0.981,
+    "Utilities and Renewable Energy": 0.989,
+    "Human Resources": 0.995,
+    "Legal & Law Enforcement": 0.998
+  },
+  "randomIndexMapping": [
+    9,
+    44,
+    42,
+    3,
+    38,
+    5,
+    6,
+    28,
+    18,
+    37,
+    33,
+    25,
+    32,
+    26,
+    16,
+    19,
+    4,
+    7,
+    31,
+    35,
+    40,
+    8,
+    11,
+    29,
+    10,
+    1,
+    23,
+    27,
+    2,
+    41,
+    24,
+    0,
+    45,
+    30,
+    39,
+    22,
+    34,
+    15,
+    12,
+    14,
+    17,
+    21,
+    20,
+    36,
+    13,
+    43
+  ]
+}
