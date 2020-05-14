@@ -23,6 +23,7 @@ const scroller = scrollama();
 const elements = [
   'h1.headline',
   '#postings-scrolly',
+  '.industry-impact-lead',
   '#industry-impact-container',
 ].map(document.querySelector.bind(document));
 if (elements.includes(null)) {
@@ -36,10 +37,15 @@ scroller
   })
   .onStepEnter(({ index, direction }) => {
     if (index === 0 && direction === 'down') showNav();
-    else if (index > 0) hideNav(true);
+    else if (index !== 0) hideNav(true);
   })
   .onStepExit(({ index, direction }) => {
     if (index === 0 && direction === 'up') hideNav();
+    else if (
+      (index === 2 && direction === 'down') ||
+      (index === 3 && direction === 'up')
+    )
+      return;
     else if (index > 0) showNav();
   });
 

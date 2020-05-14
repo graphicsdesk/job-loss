@@ -83,6 +83,7 @@ export function elonMuskCollide() {
       // are the lower and upper bounds of the node.
       theQuadtree.visit((q, x1, y1, x2, y2) => {
         const { data: quadNode } = q;
+<<<<<<< HEAD
         const CUTOFFSIZE = 1000;
         if(isGhosting){
           if(!q.length&&(quadNode.size>CUTOFFSIZE&&node.size>CUTOFFSIZE)||(quadNode.size<CUTOFFSIZE&&node.size<CUTOFFSIZE)){
@@ -94,6 +95,11 @@ export function elonMuskCollide() {
         // if ghosting is truth, we only collide nodes of the same size class
         // if ghosting is false, we do the following:
         function calculation() { // if this is false, no computation is done
+=======
+
+        if (!q.length && quadNode !== node) {
+          // if this is false, no computation is done
+>>>>>>> e7142eb2e776de39b748c3843d84f267b2a2a1f1
           // Calculate desired minimum distance and current distance
           const padding =
             node.industry === quadNode.industry ? padding1 : padding2;
@@ -128,6 +134,7 @@ export function elonMuskCollide() {
   };
 
   // Turn on or turn off the ghost state
+<<<<<<< HEAD
   force.ghost = () => {
     isGhosting = true;
   };
@@ -135,6 +142,9 @@ export function elonMuskCollide() {
   force.noGhostingIWillDivorceYou = () => {
     isGhosting = false;
   };
+=======
+  force.ghost = () => {};
+>>>>>>> e7142eb2e776de39b748c3843d84f267b2a2a1f1
 
   return force;
 }

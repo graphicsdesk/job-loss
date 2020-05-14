@@ -1,4 +1,4 @@
-@import "styles/spectate";
+@import 'styles/spectate';
 
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
@@ -10,27 +10,32 @@
 $step-margin-side: 120px;
 $step-max-width: 420px;
 
+p.step-box {
+  font-family: Georgia, serif;
+  font-size: 18px;
+  line-height: 30px;
+  max-width: $step-max-width;
+  padding: 18px;
+  background: hsla(0, 0%, 100%, 0.93);
+  box-shadow: 0 2px 5px 0 #ccc;
+  margin: 0;
+}
+
 .step {
   padding-top: 0;
   padding-bottom: 80vh;
   z-index: 1;
 
   p {
-    padding: 18px;
     margin: 0 $step-margin-side 0 auto;
-    font-family: Georgia, serif;
-    font-size: 18px;
-    line-height: 30px;
-    background: hsla(0, 0%, 100%, 0.93);
     box-shadow: 0 2px 5px 0 #e4e4e4;
     width: calc(100% - 70px);
-    max-width: $step-max-width;
     pointer-events: all;
   }
 }
 
 @media (max-width: $step-max-width + 2 * $step-margin-side) {
-  .step p {
+  p.step-box {
     padding: 15px;
     font-size: 16px;
     line-height: 26px;
@@ -101,7 +106,7 @@ $step-max-width: 420px;
         pointer-events: none;
         text-anchor: middle;
         font-size: 17px;
-        transition-duration: .2s;
+        transition-duration: 0.2s;
         transition-property: opacity;
       }
 
@@ -270,6 +275,15 @@ $step-max-width: 420px;
  * Styles for horizontal scroll thing
  */
 
+.industry-impact-lead {
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+
+  p {
+    margin: 0 auto;
+  }
+}
+
 #industry-impact-container {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -338,15 +352,9 @@ $step-max-width: 420px;
   position: absolute;
 
   p {
-    font-family: Georgia, serif;
-    font-size: 18px;
-    line-height: 30px;
-    width: $step-max-width;
     position: absolute;
-    margin: 0;
-    padding: 18px;
-    background: hsla(0, 0%, 100%, 0.93);
-    box-shadow: 0 2px 5px 0 #ccc;
+    width: $step-max-width;
+    max-width: $step-max-width;
   }
 }
 
@@ -356,7 +364,7 @@ $step-max-width: 420px;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 
   p {
     font-size: 20px;

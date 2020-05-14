@@ -117,5 +117,5 @@ function showScrollDown() {
     clearTimeout(messageTimeout);
   }
   scrollDownMsg.style.opacity = 1;
-  messageTimeout = setTimeout(() => (scrollDownMsg.style.opacity = 0), 2500);
+  messageTimeout = setTimeout(() => (scrollDownMsg.style.opacity = 0), 2000);
 }
