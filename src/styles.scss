@@ -1,4 +1,4 @@
-@import 'styles/spectate';
+@import "styles/spectate";
 
 // Uncomment the next line if this project is a News story
 // @import 'styles/news-ellipsis';
@@ -293,11 +293,9 @@ p.step-box {
   padding-left: 50%;
   // padding-left: max(30%, calc(50% - #{$gbody-width / 2}));
   padding-right: 50%;
+}
 
-  svg {
-    overflow: visible;
-  }
-
+svg.industry-impact-svg {
   g.y-axis {
     .domain {
       display: none;
@@ -383,6 +381,13 @@ p.step-box {
 }
 #industry-impact-container::-webkit-scrollbar {
   display: none; // Safari and Chrome
+}
+
+#smol-industry-impact {
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
 }
 
 /**

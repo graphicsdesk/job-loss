@@ -95,6 +95,10 @@
                 {
                   "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the bottom three are restaurants and food service, hotels and accommodation, and tourism.",
                   "industries": "Tourism; Hotels & Accommodation; Restaurants & Food Service"
+                },
+                {
+                  "text": "Comment about medical TK",
+                  "industries": "Medical Devices; Biotech & Life Sciences; Research"
                 }
               ]
             }
@@ -125,7 +129,19 @@
           },
           {
             "type": "text",
-            "value": "Other health-related jobs seem to be relatively less impacted than some of those in the service industry. The medical devices industry is one of the few with a positive percent change in postings. Biotech and life sciences and research, while impacted, have not experienced a drastic change relative to the data for other industries."
+            "value": "Other health-related jobs seem to be relatively less impacted than some of those in the service industry."
+          },
+          {
+            "type": "graphic",
+            "value": {
+              "asset": "industry-impact.html",
+              "is_smol": "true",
+              "industries": "Medical Devices; Biotech & Life Sciences; Research"
+            }
+          },
+          {
+            "type": "text",
+            "value": "The medical devices industry is one of the few with a positive percent change in postings. Biotech and life sciences and research, while impacted, have not experienced a drastic change relative to the data for other industries."
           },
           {
             "type": "text",

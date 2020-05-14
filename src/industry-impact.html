@@ -1,21 +1,29 @@
-<div class="industry-impact-lead">
-  <p class="paragraph step-box">{{ item.value.lead }}</p>
-</div>
+<if condition="item.value.is_smol">
+  <div id="smol-industry-impact" data-industries="{{ item.value.industries }}"></div>
+</if>
 
-<div id="detect-graphic-top"></div>
-
-<div style="position: relative;">
-  <div id="industry-impact-container">
-    <div id="industry-content">
-      <each loop="step in (item.value.steps || [])">
-        <p class="step-box" data-industries="{{ step.industries }}">{{{ step.text }}}</p>
-      </each>
-    </div>
-    <div id="scroll-down-message">
-      <p>Scroll up or down, not sideways</p>
-    </div>
+<else>
+  <div class="industry-impact-lead">
+    <p class="paragraph step-box">{{ item.value.lead }}</p>
   </div>
-  <div id="industry-impact-padding"></div>
-</div>
 
-<div id="detect-graphic-bottom"></div>
+  <div id="detect-graphic-top"></div>
+
+  <div style="position: relative;">
+    <div id="industry-impact-container">
+      <div id="industry-content">
+        <each loop="step in (item.value.steps || [])">
+          <p class="step-box" data-industries="{{ step.industries }}">
+            {{{ step.text }}}
+          </p>
+        </each>
+      </div>
+      <div id="scroll-down-message">
+        <p>Scroll up or down, not sideways</p>
+      </div>
+    </div>
+    <div id="industry-impact-padding"></div>
+  </div>
+
+  <div id="detect-graphic-bottom"></div>
+</else>
