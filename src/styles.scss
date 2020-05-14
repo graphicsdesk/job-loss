@@ -101,7 +101,7 @@ $step-max-width: 420px;
         pointer-events: none;
         text-anchor: middle;
         font-size: 17px;
-        transition-duration: .2s;
+        transition-duration: 0.2s;
         transition-property: opacity;
       }
 
@@ -270,6 +270,22 @@ $step-max-width: 420px;
  * Styles for horizontal scroll thing
  */
 
+.industry-impact-lead {
+  padding-top: 20vh;
+  padding-bottom: 20vh;
+
+  p {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 30px;
+    width: $step-max-width;
+    padding: 18px;
+    background: hsla(0, 0%, 100%, 0.93);
+    box-shadow: 0 2px 5px 0 #ccc;
+    margin: 0 auto;
+  }
+}
+
 #industry-impact-container {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -356,7 +372,7 @@ $step-max-width: 420px;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 
   p {
     font-size: 20px;

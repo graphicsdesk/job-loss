@@ -90,10 +90,8 @@
             "type": "graphic",
             "value": {
               "asset": "industry-impact.html",
+              "lead": "In order to examine that question, we can also look at Handshake posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings.",
               "steps": [
-                {
-                  "text": "In order to examine that question, we can also look at Handshake posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings."
-                },
                 {
                   "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the bottom three are restaurants and food service, hotels and accommodation, and tourism.",
                   "industries": "Tourism; Hotels & Accommodation; Restaurants & Food Service"
