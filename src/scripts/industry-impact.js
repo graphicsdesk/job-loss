@@ -199,15 +199,14 @@ function IndustryChart(divContainer, fullLength) {
     const x =
       Math.min(maxScroll, scrollDistance) -
       window.innerWidth / 2 + 50;
+    const minX = -10;
     if (x > 0) {
-      const transform = `translate(${x}px, 0)`;
-      axisTexts.forEach(text => (text.style.transform = transform));
-      title && title.st({ transform });
+      axisTexts.forEach(text => (text.setAttribute('x', minX + x)));
+      title && title.selectAll('tspan').at({ x });
       justTranslated = true;
     } else if (justTranslated) {
-      const transform = '';
-      axisTexts.forEach(text => (text.style.transform = transform));
-      title && title.st({ transform });
+      axisTexts.forEach(text => (text.setAttribute('x', minX)));
+      title && title.selectAll('tspan').at({ x: 0 });
       justTranslated = false;
     }
   };
