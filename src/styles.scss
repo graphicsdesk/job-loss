@@ -326,6 +326,7 @@ tspan.background-tspan {
   overflow-y: hidden;
   height: 100vh;
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   padding-left: 50%;
   // padding-left: max(30%, calc(50% - #{$gbody-width / 2}));

@@ -72,13 +72,15 @@ function rotate(radians) {
  * transformations (which only is rotations right now).
  */
 
-function safeTranslate([ x, y ]) {
+function safeTranslate([x, y]) {
   const transform = this.style('transform');
   const translate = `translate(${x}px, ${y}px)`;
   if (transform === 'none' || !transform.includes('rotate')) {
     return this.st({ transform: translate });
   }
-  return this.st({ transform: transform.replace(/translate\([\d.]+px, [\d.]+px\)/, translate) });
+  return this.st({
+    transform: transform.replace(/translate\([\d.]+px, [\d.]+px\)/, translate),
+  });
 }
 
 // Same as d3-jetpack tspans, but adds background tspans

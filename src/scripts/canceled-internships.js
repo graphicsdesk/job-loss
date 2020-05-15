@@ -280,9 +280,9 @@ function calculateSeparationForces(industries, angle) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   // greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = isShrunk ? 0.05 : 0.02;
+  const strength = isShrunk ? 0.055 : 0.02;
   const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
-  const scaleSeparation = isShrunk ? 3.8 / 2 : 1; // how separate others are
+  const scaleSeparation = isShrunk ? 4 / 2 : 1; // how separate others are
 
   const separate = val => d =>
     industries.includes(d.industry)

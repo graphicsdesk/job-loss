@@ -192,20 +192,23 @@ function IndustryChart(divContainer, fullLength) {
     title.selectAll('tspan').at({ x: 0 });
   }
 
+  const isSafari = window.safari !== undefined;
+
   // Horizontal scroll callback to highlight middle bar and stick axis
   let justTranslated = false;
   this.onScroll = (scrollDistance, maxScroll) => {
     this.highlightBar(Math.round(scrollDistance / barWidth));
     const x =
       Math.min(maxScroll, scrollDistance) -
-      window.innerWidth / 2 + 50;
+      window.innerWidth / 2 +
+      (isSafari ? 57 : 50);
     const minX = -10;
     if (x > 0) {
-      axisTexts.forEach(text => (text.setAttribute('x', minX + x)));
+      axisTexts.forEach(text => text.setAttribute('x', minX + x));
       title && title.selectAll('tspan').at({ x });
       justTranslated = true;
     } else if (justTranslated) {
-      axisTexts.forEach(text => (text.setAttribute('x', minX)));
+      axisTexts.forEach(text => text.setAttribute('x', minX));
       title && title.selectAll('tspan').at({ x: 0 });
       justTranslated = false;
     }
@@ -251,7 +254,8 @@ function IndustryChart(divContainer, fullLength) {
             Math.max(xAvg - node.clientWidth / 2, 20),
             width - node.clientWidth - 20,
           ) + 'px';
-        node.style.top = (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.4)) + 'px';
+        node.style.top =
+          (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.4) + margin.top - 20) + 'px';
       },
     );
   };
