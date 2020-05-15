@@ -6,7 +6,7 @@
 </if>
 
 <else>
-  <div class="industry-impact-lead">
+  <div id="industry-impact-lead">
     <p class="paragraph step-box">{{ item.value.lead }}</p>
     <p class="scroll-warning keep-scrolling">Keep scrolling down</p>
   </div>
@@ -14,7 +14,7 @@
   <div id="detect-graphic-top"></div>
 
   <div style="position: relative;">
-    <div id="industry-impact-container">
+    <div id="industry-impact-container" data-title="{{ item.value.chartTitle }}"">
       <div id="industry-content">
         <each loop="step in (item.value.steps || [])">
           <p class="step-box" data-industries="{{ step.industries }}">

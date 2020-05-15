@@ -22,7 +22,7 @@ const scroller = scrollama();
 const elements = [
   'h1.headline',
   '#postings-scrolly',
-  '.industry-impact-lead',
+  '#industry-impact-lead',
   '#industry-impact-container',
 ].map(document.querySelector.bind(document));
 if (elements.includes(null)) {

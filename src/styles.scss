@@ -292,8 +292,8 @@ tspan.background-tspan {
   font-size: 16px;
 }
 
-.industry-impact-lead {
-  padding: 12vh 0;
+#industry-impact-lead {
+  padding: 8vh 0;
 
   p {
     margin: 0 auto;
@@ -320,26 +320,35 @@ tspan.background-tspan {
 svg.industry-impact-svg {
   overflow: visible;
 
+  text {
+    font-family: Roboto;
+    pointer-events: none;
+  }
+
+  text.chart-title {
+    dominant-baseline: middle;
+    font-size: 17px;
+    font-weight: 700;
+  }
+
   g.y-axis {
     .domain {
       display: none;
     }
     .tick {
       text {
-        font-family: Roboto;
         font-size: 14px;
         color: #666;
       }
       line {
-        stroke: #eee;
+        stroke: #ddd;
       }
     }
   }
 
   .bars-container {
     rect {
-      // fill: #ddd;
-      fill-opacity: 0.3;
+      fill-opacity: 0.25;
       transition-duration: 0.1s;
       stroke: #fff;
     }
@@ -366,7 +375,6 @@ svg.industry-impact-svg {
     text-anchor: middle;
     alignment-baseline: middle;
     dominant-baseline: middle;
-    font-family: Roboto;
     font-size: 16px;
   }
 

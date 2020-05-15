@@ -47,9 +47,8 @@ function IndustryChart(divContainer, fullLength) {
   );
 
   const xScale = scaleBand().domain(industryChanges.map(d => d.industry));
-  const yScale = scaleLinear().domain(
-    extent(industryChanges, d => d.percentChange),
-  );
+  const min = Math.min(...industryChanges.map(d => d.percentChange))
+  const yScale = scaleLinear().domain([min, -min]);
 
   const percentFormat = format('.0%');
   const axisFn = axisLeft(yScale).tickFormat(percentFormat).tickPadding(10);
@@ -85,6 +84,9 @@ function IndustryChart(divContainer, fullLength) {
   const barHighlightersNodes = barHighlighters.nodes();
   const labelsNodes = barsLabels.nodes();
 
+  // Store axis ticks nodes so we can fake horizontal sticky positioning
+  let axisTexts;
+
   this.updateGraph = function () {
     const svgWidth = fullLength
       ? 38 * industryChanges.length
@@ -105,11 +107,14 @@ function IndustryChart(divContainer, fullLength) {
 
     barWidth = width / industryChanges.length;
 
-    // Update yScale and its dependencies
+    // Update scales
     xScale.range([0, width]);
     yScale.rangeRound([height, 0]);
+
+    // Update axes
     if (fullLength) axisFn.tickSize(-width);
     axis.call(axisFn);
+    if (!axisTexts) axisTexts = axis.node().querySelectorAll('text');
 
     // Update bar heights and positions
     const barAttrs = {
@@ -166,9 +171,31 @@ function IndustryChart(divContainer, fullLength) {
     });
   };
 
+  const titleText = divContainer.node().getAttribute('data-title');
+  let title;
+  if (titleText) {
+    title = container.append('text.chart-title').at({ y: yScale(0.8) });
+    title.append('tspan.background-tspan');
+    title.append('tspan');
+    title.selectAll('tspan').at({ x: 0 }).text(titleText);
+  }
+
   // Horizontal scroll callback to highlight middle bar and stick axis
-  this.onScroll = scrollDistance => {
+  let justTranslated = false;
+  this.onScroll = (scrollDistance, maxScroll) => {
     this.highlightBar(Math.round(scrollDistance / barWidth));
+    const x = Math.min(maxScroll, scrollDistance) - window.innerWidth / 2 + 50;
+    if (x > 0) {
+      const transform = `translate(${x}px, 0)`;
+      axisTexts.forEach(text => (text.style.transform = transform));
+      title && title.st({ transform });
+      justTranslated = true;
+    } else if (justTranslated) {
+      const transform = '';
+      axisTexts.forEach(text => (text.style.transform = transform));
+      title && title.st({ transform });
+      justTranslated = false;
+    }
   };
 
   // Parses data-industries from paragraph blocks
@@ -211,7 +238,7 @@ function IndustryChart(divContainer, fullLength) {
             Math.max(xAvg - node.clientWidth / 2, 20),
             width - node.clientWidth - 20,
           ) + 'px';
-        node.style.top = pctAvg < -0.2 ? yScale(0.45) : yScale(-0.3) + 'px';
+        node.style.top = pctAvg < -0.2 ? yScale(0.5) : yScale(-0.3) + 'px';
       },
     );
   };

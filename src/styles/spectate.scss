@@ -266,6 +266,7 @@ header {
 
   #nav-links {
     opacity: 0;
+    pointer-events: none;
   }
 
   .hamburger-btn {
@@ -275,6 +276,7 @@ header {
 }
 
 #navbar.not-even-eye-logo {
+  pointer-events: none;
   #eye-logo-container {
     opacity: 0;
   }
