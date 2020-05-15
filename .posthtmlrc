@@ -9,15 +9,7 @@
         "top": [
           {
             "type": "text",
-            "value": "When Chaitanya Reddy Gurijala, a student pursuing his master’s degree in computer science at Stony Brook University lost his internship, he knew he was not the only one looking for answers about job availability."
-          },
-          {
-            "type": "text",
-            "value": "Looking to help others in a similar position, he took to Twitter and started the account @hiring2020. The account’s Twitter bio explains its simple mission: to provide “information about internships and full-time jobs for college students.” Gurijala is on a mission to collect and distribute information about which student internships and jobs are hiring amid the pandemic."
-          },
-          {
-            "type": "text",
-            "value": "Since March 22, Gurijala has updated the Twitter account that now boasts over 3,500 followers and has created a Facebook page, LinkedIn, GitHub, and a website with crowdsourced information about the hiring status of internships and jobs. This is what Gurijala found:"
+            "value": "When Chaitanya Reddy Gurijala, a student pursuing his master’s degree in computer science at Stony Brook University lost his internship, he knew he was not the only one looking for answers about job availability. Looking to help others in a similar position, he started <a href=\"https://hiring20.com/\">Hiring2020</a>, and has since been collecting information about the hiring status of jobs and companies."
           },
           {
             "type": "graphic",
@@ -285,7 +277,7 @@
           }
         ],
         "date": "May 12, 2020",
-        "headline": "Uncertainty looms as Student Jobs are Disappear the Great Lockdown",
+        "headline": "Uncertainty looms as Student Jobs are Disappearing the Great Lockdown",
         "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Eve-Washington/\">Eve Washington</a>\nVisuals by <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a> and <a href=\"https://www.columbiaspectator.com/contributors/Jason-Kao/\">Jason Kao</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Claudia-Gohn/\">Claudia Gohn</a> and <a href=\"https://www.columbiaspectator.com/contributors/Paul-Hanna/\">Paul Hanna</a>",
         "footer": "Data sources: Handshake, Crunchbase",
         "USE_NEWS_NAV": false,

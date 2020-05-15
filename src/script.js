@@ -6,7 +6,6 @@ import './scripts/helpers/d3-wrappers';
 import './scripts/page';
 import './scripts/posting-graphics';
 import './scripts/canceled-internships';
-import './scripts/industry-impact';
 
 /* Navbar fade ins */
 

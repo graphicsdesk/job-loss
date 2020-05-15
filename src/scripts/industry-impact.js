@@ -18,6 +18,13 @@ const industryChanges = Object.keys(industryChangesRaw)
   }))
   .sort((a, b) => a.percentChange - b.percentChange);
 
+function colorScale(industry) {
+  return (
+    industryColorsScale(industry) ||
+    (industry === 'Restaurants & Food Service' ? '#2AAF7F' : '#297B8E')
+  );
+}
+
 function IndustryChart(divContainer, fullLength) {
   /* Some constants and containers */
 
@@ -51,7 +58,8 @@ function IndustryChart(divContainer, fullLength) {
   const bars = barsContainer
     .selectAll('rect')
     .data(industryChanges)
-    .join('rect');
+    .join('rect')
+    .attr('fill', d => colorScale(d.industry));
   const barHighlighters = barHighlightersContainer
     .selectAll('rect')
     .data(industryChanges)
@@ -104,26 +112,23 @@ function IndustryChart(divContainer, fullLength) {
     axis.call(axisFn);
 
     // Update bar heights and positions
-    bars.at({
+    const barAttrs = {
       x: d => xScale(d.industry),
       y: d => Math.min(yScale(0), yScale(d.percentChange)),
       width: xScale.bandwidth(),
       height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
-    });
-    barHighlighters.at({
-      x: d => xScale(d.industry),
-      y: d => Math.min(yScale(0), yScale(d.percentChange)),
-      width: xScale.bandwidth(),
-      height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
-    });
+    }
+    bars.at(barAttrs);
+    barHighlighters.at(barAttrs);
 
     // Update label positions
+    const getLabelX = d => xScale(d.industry) + barWidth / 2;
     barsLabels.selectAll('tspan.bar-label-name').at({
-      x: d => xScale(d.industry) + barWidth / 2,
+      x: getLabelX,
       y: d => yScale(0) + (d.percentChange / Math.abs(d.percentChange)) * 15,
     });
     barsLabels.select('text.bar-label-percentage').at({
-      x: d => xScale(d.industry) + barWidth / 2,
+      x: getLabelX,
       y: d =>
         yScale(d.percentChange) -
         (d.percentChange / Math.abs(d.percentChange)) * 15,
@@ -133,12 +138,12 @@ function IndustryChart(divContainer, fullLength) {
   this.updateGraph();
 
   let highlightedIndex = null;
-  this.highlightBar = function (index, forever, fill) {
+  this.highlightBar = function (index, forever) {
     if (index < 0 || index >= barsNodes.length) {
       return;
     }
     if (forever) {
-      barsNodes[index].style.fill = fill;
+      barsNodes[index].style.fillOpacity = 1;
       labelsNodes[index].classList.add('always-bright');
     } else if (highlightedIndex !== index) {
       if (highlightedIndex !== null) {
@@ -153,16 +158,10 @@ function IndustryChart(divContainer, fullLength) {
 
   this.highlightLastBar = () => this.highlightBar(barsNodes.length - 1);
 
-  const defaultColor = '#2AAF7F';
-
   this.highlightIndustriesForever = industries => {
     industryChanges.forEach(({ industry }, i) => {
       if (industries.includes(industry)) {
-        this.highlightBar(
-          i,
-          true,
-          industryColorsScale(industry) || defaultColor,
-        );
+        this.highlightBar(i, true);
       }
     });
   };
@@ -183,7 +182,7 @@ function IndustryChart(divContainer, fullLength) {
       // Terms to highlight
       const terms = p.querySelectorAll('j');
       terms.forEach((t, i) => {
-        const color = industryColorsScale(industries[i]) || defaultColor;
+        const color = colorScale(industries[i]);
         t.classList.add('padding-highlight');
         t.style.color = color;
       });
@@ -231,8 +230,8 @@ function IndustryChart(divContainer, fullLength) {
   }
 }
 
-// Initialization function
-function init() {
+// Initialization function to be called in page.js
+export function init() {
   const largeContainer = select('#industry-impact-container');
   const largeChart = new IndustryChart(largeContainer, true);
 
@@ -256,5 +255,3 @@ function init() {
     }, 500),
   );
 }
-
-init();

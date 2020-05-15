@@ -270,10 +270,7 @@ async function addLegend() {
   width = Math.min(1020, document.body.clientWidth);
   height = document.body.clientHeight;
   const gWidth = width - margin.left - margin.right;
-  const gHeight = height - margin.top - margin.bottom;
   const THRESHOLD = 375;
-
-  container.select('svg').at({ width, height });
 
   if (gWidth > THRESHOLD) {
     legend1.attr('class', 'legend1').at({
@@ -416,6 +413,8 @@ drawGraph();
 addLegend();
 
 // setup resize event
-window.addEventListener('resize', drawGraph);
-window.addEventListener('resize', addLegend);
-window.addEventListener('resize', throttle(scroller.resize, 500));
+window.addEventListener('resize', throttle(() => {
+  drawGraph();
+  addLegend();
+  scroller.resize();
+}, 500));

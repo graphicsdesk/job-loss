@@ -31,7 +31,7 @@ client.connect(function (err) {
 
 // Date should be between September and today
 const lowerBound = '2019-09-06';
-const upperBound = new Date().toISOString().split('T')[0];
+const upperBound = '2020-05-14'; // new Date().toISOString().split('T')[0];
 
 const postingsByDate = {};
 function incrementPostings(date, remote) {
@@ -80,17 +80,20 @@ function aggregatePostings(cursor) {
 
       const output = {
         postings: postingsDatesArray,
-        industryChanges: Object.keys(industryChanges).reduce((acc, industry) => {
-          const { before, after } = industryChanges[industry];
-          if (before + after < 50) {
+        industryChanges: Object.keys(industryChanges).reduce(
+          (acc, industry) => {
+            const { before, after } = industryChanges[industry];
+            if (before + after < 50) {
+              return acc;
+            }
+            const beforeNorm = before / daysBetween(lowerBound, dateSplit);
+            const afterNorm = after / daysBetween(dateSplit, upperBound);
+            const percentChange = (afterNorm - beforeNorm) / beforeNorm;
+            acc[industry] = percentChange;
             return acc;
-          }
-          const beforeNorm = before / daysBetween(lowerBound, dateSplit);
-          const afterNorm = after / daysBetween(dateSplit, upperBound);
-          const percentChange = (afterNorm - beforeNorm) / beforeNorm;
-          acc[industry] = percentChange;
-          return acc;
-        }, {}),
+          },
+          {},
+        ),
       };
 
       // Write the output to data/postings.json
@@ -110,5 +113,7 @@ function aggregatePostings(cursor) {
 function daysBetween(first, second) {
   // Take the difference between the dates and divide by milliseconds per day.
   // Round to nearest whole number to deal with DST.
-  return Math.round((Date.parse(second) - Date.parse(first))/(1000*60*60*24));
+  return Math.round(
+    (Date.parse(second) - Date.parse(first)) / (1000 * 60 * 60 * 24),
+  );
 }
