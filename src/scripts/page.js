@@ -23,9 +23,9 @@ const isOnSpectatorPage = window.location.host === 'www.columbiaspectator.com';
 const isOnContributorPage =
   window.location.pathname.indexOf('/contributors') === 0;
 
-const SECTION_MAIN_SELECTOR = 'section#main';
+const SECTION_MAIN_SELECTOR = '.pb-c-default-chain';
 const ARTICLE_SELECTOR =
-  '.pb-f-eye-article-article-body > .row > .col-xs-12 > .ab-article-body > .ab-article-content > article';
+  '.pb-f-eye-lead-template-article-text > .row.tli-wrapper';
 
 // Replaces section#main with article
 function hoistArticle() {
@@ -36,7 +36,7 @@ function hoistArticle() {
 
   // Arc SSRs elements like links and meta tags in Spectate's index.html <head>
   // into a paragraph, which takes up unwanted space thanks to Arc's CSS
-  const suspectParagraph = article.firstElementChild;
+  const suspectParagraph = article.firstElementChild.nextElementSibling;
   if (
     [...suspectParagraph.children].some(el =>
       ['META', 'LINK'].includes(el.tagName),
@@ -44,6 +44,10 @@ function hoistArticle() {
   ) {
     suspectParagraph.style.margin = 0;
   }
+
+  article.className = '';
+  article.style.padding = 0;
+  article.style.overflow = 'visible';
 
   init();
 }
