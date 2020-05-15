@@ -3,6 +3,7 @@ import { spectate as spectateConfig } from '../../package.json';
 
 import initAi2html from './helpers/ai2html-resizer';
 import { init as industryImpactInit } from './industry-impact';
+import initNavScrolls from './nav-scrolls';
 
 /**
  * Put all initializer scripts into this init() function
@@ -10,6 +11,7 @@ import { init as industryImpactInit } from './industry-impact';
 
 function init() {
   industryImpactInit();
+  initNavScrolls();
   initAi2html();
 }
 

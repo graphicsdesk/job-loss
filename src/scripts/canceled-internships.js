@@ -84,7 +84,7 @@ const nodesContainer = graphic.append('g.node-container');
 
 function updateGraphic() {
   width = document.body.clientWidth;
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   vbWidth = Math.max(750, width);
   vbHeight = height;
 

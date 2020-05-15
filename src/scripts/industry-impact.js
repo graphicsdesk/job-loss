@@ -98,7 +98,7 @@ function IndustryChart(divContainer, fullLength) {
       : Math.min(document.body.clientWidth - 40, 600);
     width = svgWidth - margin.left;
     const svgHeight = fullLength
-      ? document.body.clientHeight
+      ? window.innerHeight
       : Math.max(300, (width * 2) / 3);
     height = svgHeight - margin.top - margin.bottom;
 
@@ -252,7 +252,7 @@ function IndustryChart(divContainer, fullLength) {
             Math.max(xAvg - node.clientWidth / 2, 20),
             width - node.clientWidth - 20,
           ) + 'px';
-        node.style.top = pctAvg < -0.2 ? yScale(0.5) : yScale(-0.3) + 'px';
+        node.style.top = (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.3)) + 'px';
       },
     );
   };

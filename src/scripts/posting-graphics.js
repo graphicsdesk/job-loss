@@ -125,7 +125,7 @@ const legend3Text = legendContainer.append('text');
 async function drawGraph() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -190,7 +190,7 @@ async function drawGraph() {
 /* function for remote graph */
 async function drawRemoteGraph() {
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -234,7 +234,7 @@ async function drawRemoteGraph() {
 async function drawDateLine() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -266,7 +266,7 @@ async function drawDateLine() {
 async function addLegend() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const THRESHOLD = 375;
 

@@ -62,14 +62,14 @@
           },
           {
             "type": "text",
-            "value": "With data from LionSHARE, a job posting site for Columbia students hosted by Handshake, we can see where some of this uncertainty is coming from."
+            "value": "With data from LionSHARE, a job posting site for Columbia students hosted by Handshake, we can see where some of this uncertainty is coming from. Postings rates right now, are among the lowest of this academic year. The only other time of year that experienced similar lows was late December—an annual period with historically low job openings and, <a href=\"https://www.forbes.com/sites/billconerly/2019/11/26/hiring-slows-during-the-holidays-but-some-opportunities-remain/#26128dc776a4\">according to Forbes</a>, with 26 percent fewer new hires than any typical month."
           },
           {
             "type": "graphic",
             "value": {
               "asset": "posting-graphics.html",
               "steps": [
-                "Since March 7, the average job postings on , has been consistently low, as compared to average posting rates since September 2019. The only other time of year that experienced similar lows was late December—an annual period with historically low job openings and, <a href=\"https://www.forbes.com/sites/billconerly/2019/11/26/hiring-slows-during-the-holidays-but-some-opportunities-remain/#26128dc776a4\">according to Forbes</a>, with 26 percent fewer new hires than any typical month.",
+                "Since March 7, the average job postings on LionSHARE has been consistently low, as compared to average posting rates since September 2019.",
                 "Of the job postings that remain, a larger percentage of them will be remote. Even so, the number of remote postings is still relatively small compared to all of the jobs advertised on LionSHARE. Further, not all industries can transfer to remote jobs."
               ]
             }
@@ -88,7 +88,7 @@
           },
           {
             "type": "text",
-            "value": "These figures are likely to change because of how COVID-19 has pushed workers who would not ordinarily have the opportunity to work from home find creative ways to do so. They also reflect the pandemic’s disproportionate impact on certain industries."
+            "value": "These figures are likely to change because of how COVID-19 has pushed workers who would not ordinarily have the opportunity to work from home find creative ways to do so, they do reflect the pandemic’s disproportionate impact on certain industries."
           },
           {
             "type": "text",
@@ -102,12 +102,12 @@
               "chartTitle": "Percent change in average daily job postings",
               "steps": [
                 {
-                  "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the bottom three are <j>hotels and accommodation</j>, <j>restaurants and food service</j>, and <j>tourism</j>.",
+                  "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the among them service sector staples: <j>hotels and accommodation</j>, <j>restaurants and food service</j>, and <j>tourism</j>.",
                   "industries": "Hotels & Accommodation; Restaurants & Food Service; Tourism"
                 },
                 {
-                  "text": "Nor are those least impacted ______",
-                  "industries": "Medical Devices; Biotech & Life Sciences; Research"
+                  "text": "Nor are those least impacted, many of them relate to the health sector: <j>Biotech & Life Sciences</j>; <j>Medical Devices</j>; <j>Research</j>.",
+                  "industries": "Biotech & Life Sciences; Medical Devices; Research"
                 }
               ]
             }
@@ -159,16 +159,6 @@
           {
             "type": "text",
             "value": "Hertel-Fernadez cautions what the consequences could be: “Graduating in a recession has very deep economic and social costs for individuals over their entire lives,” says Hertel-Fernandez. “In good times, the jobs that you get immediately after graduating from college are very important because they set you up for the trajectory that you're going to have going forward.”"
-          },
-          {
-            "type": "image",
-            "value": {
-              "width": "full-width",
-              "caption": "Illustration by Lisa Evseeva.",
-              "url_lg": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/AVCDNKSRQFDAZIEZI55SLSHDL4.jpg",
-              "url_md": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/KU4IIBIYAJGOVFIBB4R5L5QTOI.jpg",
-              "url_sm": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/S5J2NENAOBGGZEC2N6XDULM6VM.jpg"
-            }
           },
           {
             "type": "subhed",
