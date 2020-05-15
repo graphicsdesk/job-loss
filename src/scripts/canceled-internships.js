@@ -204,7 +204,7 @@ simulation.nodes(companyData).on('tick', () => {
           y += isShrunk ? 40 : -30;
         }
         if (['Tourism', 'Sports & Leisure'].includes(industry)) {
-          y += 60;
+          y += 50;
         }
         if (isShrunk) {
           if (industry === 'Aerospace') y -= 20;
@@ -297,7 +297,7 @@ const labelNodes = labelsContainer
     enter
       .append('text')
       .st({ opacity: 0 })
-      .tspansBackgrounds(splitAmpersand, 30),
+      .tspansBackgrounds(splitAmpersand, 26),
   );
 
 function showTextNodes(industries) {
