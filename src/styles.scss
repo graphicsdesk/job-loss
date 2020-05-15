@@ -8,6 +8,10 @@ h1.headline {
   font-style: normal;
 }
 
+#navbar {
+  display: none;
+}
+
 /**
  * Styles for the text that goes over scrolly things
  */
@@ -72,6 +76,7 @@ p.step-box {
 
 #canceled-scrolly #text {
   margin-top: -50vh;
+  visibility: hidden;
 }
 
 #canceled-internships {
@@ -110,7 +115,7 @@ p.step-box {
         text-anchor: middle;
         pointer-events: none;
         text-anchor: middle;
-        font-size: 17px;
+        font-size: 30px;
         transition-duration: 0.2s;
         transition-property: opacity;
       }

@@ -30,7 +30,7 @@ const industriesToShow = [
     'Aerospace',
     'Sports & Leisure',
     'Tourism',
-    'Hotels & Accommodation',
+    // 'Hotels & Accommodation',
   ],
   'Internet & Software',
   'Internet & Software',
@@ -204,7 +204,7 @@ simulation.nodes(companyData).on('tick', () => {
           y += isShrunk ? 40 : -30;
         }
         if (['Tourism', 'Sports & Leisure'].includes(industry)) {
-          y += 50;
+          y += 60;
         }
         if (isShrunk) {
           if (industry === 'Aerospace') y -= 20;
@@ -279,9 +279,9 @@ function calculateSeparationForces(industries, angle) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   // greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = isShrunk ? 0.04 : 0.02;
-  const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
-  const scaleSeparation = isShrunk ? 3.5 / 2 : 1; // how separate others are
+  const strength = isShrunk ? 0.04 : 0.015;
+  const scaleIsolation = isShrunk ? 3 / 4 : 0.9; // how isolated an industry is
+  const scaleSeparation = isShrunk ? 3.5 / 2 : 1.2; // how separate others are
 
   const separate = val => d =>
     industries.includes(d.industry)
@@ -297,7 +297,7 @@ const labelNodes = labelsContainer
     enter
       .append('text')
       .st({ opacity: 0 })
-      .tspansBackgrounds(splitAmpersand, isShrunk ? 33 : 20),
+      .tspansBackgrounds(splitAmpersand, 38),
   );
 
 function showTextNodes(industries) {

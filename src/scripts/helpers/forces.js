@@ -44,7 +44,7 @@ export function cjClusterForce(centroidListener) {
         industry === 'Hotels & Accommodation' ? 'Aerospace' : industry,
       );
       if (industry === 'Hotels & Accommodation') {
-        cx -= 80;
+        cx += 80;
         cy += 80;
       }
 
