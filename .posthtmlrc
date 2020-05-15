@@ -70,13 +70,13 @@
               "asset": "posting-graphics.html",
               "steps": [
                 "Since March 7, the average job postings on , has been consistently low, as compared to average posting rates since September 2019. The only other time of year that experienced similar lows was late December—an annual period with historically low job openings and, <a href=\"https://www.forbes.com/sites/billconerly/2019/11/26/hiring-slows-during-the-holidays-but-some-opportunities-remain/#26128dc776a4\">according to Forbes</a>, with 26 percent fewer new hires than any typical month.",
-                "Of the job postings that remain, a larger percentage of them will be remote. Even so, the number of remote postings is still relatively small compared to all of the jobs advertised on Handshake. Further, not all industries can transfer to remote jobs."
+                "Of the job postings that remain, a larger percentage of them will be remote. Even so, the number of remote postings is still relatively small compared to all of the jobs advertised on LionSHARE. Further, not all industries can transfer to remote jobs."
               ]
             }
           },
           {
             "type": "text",
-            "value": "There are not enough remote jobs on Handshake to draw a conclusion on the national availability of remote opportunities. The pre-quarantine norm for remote work, however, only included a minority of most jobs.<a href=\"https://www.theguardian.com/world/2020/mar/27/coronavirus-working-from-home-privilege\"> According</a> to the 2017-18 American Time Use Survey from the Bureau of Labor Statistics, only 29 percent of workers were able to work from home."
+            "value": "There are not enough remote jobs on LionSHARE to draw a conclusion on the national availability of remote opportunities. The pre-quarantine norm for remote work, however, only included a minority of most jobs. <a href=\"https://www.theguardian.com/world/2020/mar/27/coronavirus-working-from-home-privilege\">According</a> to the 2017-18 American Time Use Survey from the Bureau of Labor Statistics, only 29 percent of workers were able to work from home."
           },
           {
             "type": "text",
@@ -84,7 +84,7 @@
           },
           {
             "type": "text",
-            "value": "At Columbia, economics and computer science are the most popular fields of study, so jobs in finance, business, and technology are common pathways for graduates. In fact, software engineering, business analytics, and management consulting are among the most common fields for jobs posted on Handshake."
+            "value": "At Columbia, economics and computer science are the most popular fields of study, so jobs in finance, business, and technology are common pathways for graduates. In fact, software engineering, business analytics, and management consulting are among the most common fields for jobs posted on LionSHARE."
           },
           {
             "type": "text",
@@ -98,7 +98,7 @@
             "type": "graphic",
             "value": {
               "asset": "industry-impact.html",
-              "lead": "In order to examine that question, we can also look at Handshake posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings.",
+              "lead": "In order to examine that question, we can also look at LionSHARE posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings.",
               "chartTitle": "Percent change in average daily job postings",
               "steps": [
                 {
@@ -118,7 +118,7 @@
           },
           {
             "type": "text",
-            "value": "“Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that., Wwill people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
+            "value": "“Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that. Will people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
           },
           {
             "type": "text",
@@ -134,7 +134,7 @@
           },
           {
             "type": "text",
-            "value": "Telemedicine answers some of the questions of what healthcare will look like in the future. Healthcare has been harder hit in the number of Handshake postings, but as Zaloom notes, it might be more appreciated than ever. “There are certain professions, it seems to me, that are going to be seen as more and more essential, but which also happened to be professions that were already on the rise, and particularly in healthcare.”"
+            "value": "Telemedicine answers some of the questions of what healthcare will look like in the future. Healthcare has been harder hit in the number of LionSHARE postings, but as Zaloom notes, it might be more appreciated than ever. “There are certain professions, it seems to me, that are going to be seen as more and more essential, but which also happened to be professions that were already on the rise, and particularly in healthcare.”"
           },
           {
             "type": "text",
