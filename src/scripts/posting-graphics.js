@@ -255,7 +255,7 @@ async function drawDateLine() {
       x: xScale(dateToNote) - 25,
       y: yScale(423) - 6,
     })
-    .text('March 7th')
+    .text('March 7')
     .attr('class', 'lineLabel');
 }
 
@@ -296,7 +296,7 @@ async function addLegend() {
         x: 225,
         y: 25,
       })
-      .text('7 day rolling mean');
+      .text('Seven-day rolling mean');
 
     legend3.classed('legend3', false).at({
       x1: 20,
@@ -311,7 +311,7 @@ async function addLegend() {
         x: 45,
         y: 25,
       })
-      .text('7 day rolling mean of percent remote postings per day');
+      .text('Seven-day rolling mean of percent remote postings per day');
   } else {
     legend1.attr('class', 'legend1').at({
       x1: 20,
@@ -341,7 +341,7 @@ async function addLegend() {
         x: 45,
         y: 45,
       })
-      .text('7 day rolling mean');
+      .text('Seven-day rolling mean');
 
     legend3.classed('legend3', false).at({
       x1: 20,
@@ -354,7 +354,7 @@ async function addLegend() {
       .classed('legend3', false)
       .attr('y', 25)
       .tspans(
-        ['7 day rolling mean of daily percentage', 'of remote postings'],
+        ['Seven-day rolling mean of daily percentage', 'of remote postings'],
         20,
       )
       .attr('x', 45);
