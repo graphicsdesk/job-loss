@@ -1,14 +1,12 @@
-import { select, selectAll } from 'd3-selection';
+import { select } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-import { timeFormat } from 'd3-time-format';
 import 'd3-jetpack';
 import scrollama from 'scrollama';
 import throttle from 'just-throttle';
-import { wordwrap } from 'd3-transition';
 
 import postingsData from '../../data/postings.json';
 
@@ -23,7 +21,7 @@ const postings = postingsData.postings
   .sort((a, b) => a.date - b.date);
 
 const standardPosting = postings[0].count;
-const percentChange = postings.map(({ date, count, remoteCount }) => ({
+const percentChange = postings.map(({ date, count }) => ({
   date: date,
   percentChange: (count - standardPosting) / standardPosting,
 }));
@@ -71,7 +69,7 @@ for (let i = 0; i < postings.length; i++) {
 }
 /* Some constants */
 
-const margin = { left: 43, top: 20, bottom: 50, right: 20 };
+const margin = { left: 47, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
 const dateToNote = new Date('2020-03-07'); //PAUSE:effective at 8PM on Sunday, March 22
 
@@ -272,25 +270,24 @@ async function addLegend() {
   const gWidth = width - margin.left - margin.right;
   const THRESHOLD = 375;
 
+  legend1.attr('class', 'legend1').at({
+    x1: 20,
+    x2: 40,
+    y1: 20,
+    y2: 20,
+  });
+  legend1Text
+    .attr('class', 'legend1')
+    .at({
+      x: 45,
+      y: 25,
+    })
+    .text('Percent change in postings since Sept. 5');
+
   if (gWidth > THRESHOLD) {
-    legend1.attr('class', 'legend1').at({
-      x1: 20,
-      x2: 40,
-      y1: 20,
-      y2: 20,
-    });
-
-    legend1Text
-      .attr('class', 'legend1')
-      .at({
-        x: 45,
-        y: 25,
-      })
-      .text('percent change since September 5th');
-
     legend2.attr('class', 'legend2').at({
-      x1: 300,
-      x2: 320,
+      x1: 325,
+      x2: 345,
       y1: 20,
       y2: 20,
     });
@@ -298,7 +295,7 @@ async function addLegend() {
     legend2Text
       .attr('class', 'legend2')
       .at({
-        x: 325,
+        x: 350,
         y: 25,
       })
       .text('7 day rolling mean');
@@ -318,21 +315,6 @@ async function addLegend() {
       })
       .text('7 day rolling mean of percent remote postings per day');
   } else {
-    legend1.attr('class', 'legend1').at({
-      x1: 20,
-      x2: 40,
-      y1: 20,
-      y2: 20,
-    });
-
-    legend1Text
-      .attr('class', 'legend1')
-      .at({
-        x: 45,
-        y: 25,
-      })
-      .text('percent change since September 5th');
-
     legend2.attr('class', 'legend2').at({
       x1: 20,
       x2: 40,
@@ -358,7 +340,10 @@ async function addLegend() {
     legend3Text
       .classed('legend3', false)
       .attr('y', 25)
-      .tspans(['7 day rolling mean of percent', 'remote postings per day'], 20)
+      .tspans(
+        ['7 day rolling mean of daily percentage', 'of remote postings'],
+        20,
+      )
       .attr('x', 45);
   }
 }

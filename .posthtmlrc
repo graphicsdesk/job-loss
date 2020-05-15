@@ -118,7 +118,7 @@
           },
           {
             "type": "text",
-            "value": "“And the question is: Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that, will people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
+            "value": "“Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that., Wwill people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
           },
           {
             "type": "text",
@@ -308,7 +308,7 @@
         "date": "May 12, 2020",
         "headline": "Uncertainty looms as Student Jobs are Disappearing in the Great Lockdown",
         "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Eve-Washington/\">Eve Washington</a>\nVisuals by <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a> and <a href=\"https://www.columbiaspectator.com/contributors/Jason-Kao/\">Jason Kao</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Claudia-Gohn/\">Claudia Gohn</a> and <a href=\"https://www.columbiaspectator.com/contributors/Paul-Hanna/\">Paul Hanna</a>",
-        "footer": "Data sources: Handshake for postings counts; Handshake and Crunchbase for employer industries and sizes.\n\nThe code for this story’s graphics and data analysis is open source on <a href=\"https://github.com/graphicsdesk/job-loss/\">GitHub</a>.",
+        "footer": "Data sources: Handshake for postings counts; Handshake and Crunchbase for employer industries and sizes.\n\nThe code for this story’s graphics and data analysis is <a href=\"https://github.com/graphicsdesk/job-loss/\">open source on GitHub</a>.",
         "USE_NEWS_NAV": false,
         "USE_EYE_NAV": true,
         "USE_COVER_HED": false,

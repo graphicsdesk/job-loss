@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import { scaleLinear, scaleBand } from 'd3-scale';
 import { axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-import { extent } from 'd3-array';
+import wordwrap from 'd3-jetpack/src/wordwrap';
 
 import { industryColorsScale } from './canceled-internships';
 import scrollHorizontally from './helpers/scroll-horizontally';
@@ -39,30 +39,35 @@ function IndustryChart(divContainer, fullLength) {
 
   const svg = divContainer.append('svg.industry-impact-svg');
   const container = svg.append('g').translate([margin.left, margin.top]);
+
   const barsContainer = container.append('g.bars-container');
   const axis = container.append('g.y-axis');
+
   const barLabelsContainer = container.append('g.bar-labels-container');
   const barHighlightersContainer = container.append(
     'g.bar-highlighters-container',
   );
 
   const xScale = scaleBand().domain(industryChanges.map(d => d.industry));
-  const min = Math.min(...industryChanges.map(d => d.percentChange))
+  const min = Math.min(...industryChanges.map(d => d.percentChange));
   const yScale = scaleLinear().domain([min, -min]);
 
   const percentFormat = format('.0%');
   const axisFn = axisLeft(yScale).tickFormat(percentFormat).tickPadding(10);
 
   // Join bars to data
+
   const bars = barsContainer
     .selectAll('rect')
     .data(industryChanges)
     .join('rect')
     .attr('fill', d => colorScale(d.industry));
+
   const barHighlighters = barHighlightersContainer
     .selectAll('rect')
     .data(industryChanges)
     .join('rect');
+
   const barsLabels = barLabelsContainer
     .selectAll('g.bar-label')
     .data(industryChanges)
@@ -171,20 +176,29 @@ function IndustryChart(divContainer, fullLength) {
     });
   };
 
+  let isSmall = document.body.clientWidth < 500;
+
   const titleText = divContainer.node().getAttribute('data-title');
   let title;
   if (titleText) {
-    title = container.append('text.chart-title').at({ y: yScale(0.8) });
-    title.append('tspan.background-tspan');
-    title.append('tspan');
-    title.selectAll('tspan').at({ x: 0 }).text(titleText);
+    title = container
+      .append('text.chart-title')
+      .at({ y: yScale(0.8) })
+      .tspansBackgrounds(
+        wordwrap(titleText, isSmall ? 30 : titleText.length),
+        24,
+      );
+    title.selectAll('tspan').at({ x: 0 });
   }
 
   // Horizontal scroll callback to highlight middle bar and stick axis
   let justTranslated = false;
   this.onScroll = (scrollDistance, maxScroll) => {
     this.highlightBar(Math.round(scrollDistance / barWidth));
-    const x = Math.min(maxScroll, scrollDistance) - window.innerWidth / 2 + 50;
+    const x =
+      Math.min(maxScroll, scrollDistance) -
+      window.innerWidth / 2 +
+      (isSmall ? 42 : 50);
     if (x > 0) {
       const transform = `translate(${x}px, 0)`;
       axisTexts.forEach(text => (text.style.transform = transform));

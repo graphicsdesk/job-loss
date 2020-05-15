@@ -206,8 +206,9 @@ simulation.nodes(companyData).on('tick', () => {
         if (['Tourism', 'Sports & Leisure'].includes(industry)) {
           y += 50;
         }
-        if (industry === 'Aerospace') {
-          y += isShrunk ? -20 : 0;
+        if (isShrunk) {
+          if (industry === 'Aerospace') y -= 20;
+          if (industry === 'Internet & Software') y -= 75;
         }
         select(this).at({ y }).selectAll('tspan').at({ x });
       }
@@ -332,17 +333,17 @@ function separateSize() {
   // force, we can call ghost() without re-adding the force to the simulation
   collideForce.ghost();
 
+  // const scale
+  const scaleIsolation = isShrunk ? 4 / 3 : 1; // how isolated the small biz are
+  const scaleSeparation = isShrunk ? 4 / 3 : 1; // how separated the big biz are
+  const getValue = val => d =>
+    d.size > 1000 ? -val * scaleSeparation : val * scaleIsolation;
+
   simulation
     // Remove the cluster force because it's too confusing w 2 centers
     .force('cjCluster', null)
-    .force(
-      'x',
-      forceXFn(d => (d.size > 1000 ? -x : x), 0.04),
-    )
-    .force(
-      'y',
-      forceYFn(d => (d.size > 1000 ? -y : y), 0.04),
-    );
+    .force('x', forceXFn(getValue(x), 0.04))
+    .force('y', forceYFn(getValue(y), 0.04));
   alphaRestart(0.9);
 
   areSizesSeparated = true;
