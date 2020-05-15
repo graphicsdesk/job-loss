@@ -421,6 +421,7 @@ svg.industry-impact-svg {
     position: absolute;
     width: $step-max-width;
     max-width: $step-max-width;
+    box-shadow: 0 1px 5px 0 #ccc;
   }
 
   j.padding-highlight {

@@ -7,6 +7,7 @@ import wordwrap from 'd3-jetpack/src/wordwrap';
 
 import { industryColorsScale } from './canceled-internships';
 import scrollHorizontally from './helpers/scroll-horizontally';
+import { IS_MOBILE } from './helpers/utils';
 
 /* Some data preprocessing */
 
@@ -197,8 +198,7 @@ function IndustryChart(divContainer, fullLength) {
     this.highlightBar(Math.round(scrollDistance / barWidth));
     const x =
       Math.min(maxScroll, scrollDistance) -
-      window.innerWidth / 2 +
-      (isSmall ? 42 : 50);
+      window.innerWidth / 2 + 50;
     if (x > 0) {
       const transform = `translate(${x}px, 0)`;
       axisTexts.forEach(text => (text.style.transform = transform));
@@ -252,7 +252,7 @@ function IndustryChart(divContainer, fullLength) {
             Math.max(xAvg - node.clientWidth / 2, 20),
             width - node.clientWidth - 20,
           ) + 'px';
-        node.style.top = (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.3)) + 'px';
+        node.style.top = (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.4)) + 'px';
       },
     );
   };
@@ -288,11 +288,18 @@ export function init() {
 
   // const smallChart = new IndustryChart(select('#smol-industry-impact'));
 
+  let oldWidth = window.innerWidth;
   window.addEventListener(
     'resize',
     throttle(() => {
-      largeChart.updateGraph();
-      // smallChart.updateGraph();
+      if (IS_MOBILE) {
+        if (oldWidth !== window.innerWidth) {
+          largeChart.updateGraph();
+          oldWidth = window.innerWidth;
+        }
+      } else {
+        largeChart.updateGraph();
+      }
     }, 500),
   );
 }
