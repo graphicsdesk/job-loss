@@ -96,7 +96,7 @@ function updateGraphic() {
   initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
 
   svg.at({ width, height, viewBox });
-  graphic.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
+  graphic.safeTranslate([ vbWidth / 2, vbHeight / 2 ]);
   labelsContainer.style(
     'transform',
     `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`,

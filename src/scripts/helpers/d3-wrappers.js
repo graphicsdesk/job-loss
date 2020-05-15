@@ -6,7 +6,9 @@ import { selection } from 'd3-selection';
 import { transition } from 'd3-transition';
 
 selection.prototype.rotate = rotate;
+selection.prototype.safeTranslate = safeTranslate;
 selection.prototype.tspansBackgrounds = tspansBackgrounds;
+
 transition.prototype.at = selection.prototype.at; // gives transitions .at!
 
 /**
@@ -63,6 +65,20 @@ function rotate(radians) {
     };
     el.addEventListener('transitionend', transitionEnded);
   });
+}
+
+/**
+ * Sets the translation. Does not step on the toes of a pre-existing
+ * transformations (which only is rotations right now).
+ */
+
+function safeTranslate([ x, y ]) {
+  const transform = this.style('transform');
+  const translate = `translate(${x}px, ${y}px)`;
+  if (transform === 'none' || !transform.includes('rotate')) {
+    return this.st({ transform: translate });
+  }
+  return this.st({ transform: transform.replace(/translate\([\d.]+px, [\d.]+px\)/, translate) });
 }
 
 // Same as d3-jetpack tspans, but adds background tspans

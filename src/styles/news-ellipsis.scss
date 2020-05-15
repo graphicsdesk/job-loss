@@ -67,3 +67,7 @@ html {
 .pb-f-global-leaderboard-ad {
   display: none;
 }
+
+.pb-container .pb-c-default-chain:first-child > .pb-layout-item {
+  display: none;
+}
