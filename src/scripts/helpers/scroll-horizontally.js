@@ -31,6 +31,7 @@ export default function ({
   function updatePadding() {
     paddingDiv.style.height =
       container.scrollWidth - container.clientWidth + 'px';
+    // console.log(paddingDiv.style.height, container.scrollWidth, container.clientWidth)
   }
 
   // Shifts the graphic horizontally based on the progress of paddingDiv.

@@ -473,8 +473,8 @@ header {
 }
 
 @media (max-width: 660px) {
-  .image .image-overlay .image-caption-text {
-    font-size: 25px;
+  .image .image-caption-text {
+    padding: 0 10px;
   }
 }
 

@@ -7,6 +7,7 @@ import wordwrap from 'd3-jetpack/src/wordwrap';
 
 import { industryColorsScale } from './canceled-internships';
 import scrollHorizontally from './helpers/scroll-horizontally';
+import { IS_MOBILE } from './helpers/utils';
 
 /* Some data preprocessing */
 
@@ -191,6 +192,8 @@ function IndustryChart(divContainer, fullLength) {
     title.selectAll('tspan').at({ x: 0 });
   }
 
+  const isSafari = window.safari !== undefined;
+
   // Horizontal scroll callback to highlight middle bar and stick axis
   let justTranslated = false;
   this.onScroll = (scrollDistance, maxScroll) => {
@@ -198,16 +201,15 @@ function IndustryChart(divContainer, fullLength) {
     const x =
       Math.min(maxScroll, scrollDistance) -
       window.innerWidth / 2 +
-      (isSmall ? 42 : 50);
+      (isSafari ? 57 : 50);
+    const minX = -10;
     if (x > 0) {
-      const transform = `translate(${x}px, 0)`;
-      axisTexts.forEach(text => (text.style.transform = transform));
-      title && title.st({ transform });
+      axisTexts.forEach(text => text.setAttribute('x', minX + x));
+      title && title.selectAll('tspan').at({ x });
       justTranslated = true;
     } else if (justTranslated) {
-      const transform = '';
-      axisTexts.forEach(text => (text.style.transform = transform));
-      title && title.st({ transform });
+      axisTexts.forEach(text => text.setAttribute('x', minX));
+      title && title.selectAll('tspan').at({ x: 0 });
       justTranslated = false;
     }
   };
@@ -252,7 +254,8 @@ function IndustryChart(divContainer, fullLength) {
             Math.max(xAvg - node.clientWidth / 2, 20),
             width - node.clientWidth - 20,
           ) + 'px';
-        node.style.top = (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.3)) + 'px';
+        node.style.top =
+          (pctAvg < -0.2 ? yScale(0.5) : yScale(-0.4) + margin.top - 20) + 'px';
       },
     );
   };
@@ -288,11 +291,18 @@ export function init() {
 
   // const smallChart = new IndustryChart(select('#smol-industry-impact'));
 
+  let oldWidth = window.innerWidth;
   window.addEventListener(
     'resize',
     throttle(() => {
-      largeChart.updateGraph();
-      // smallChart.updateGraph();
+      if (IS_MOBILE) {
+        if (oldWidth !== window.innerWidth) {
+          largeChart.updateGraph();
+          oldWidth = window.innerWidth;
+        }
+      } else {
+        largeChart.updateGraph();
+      }
     }, 500),
   );
 }
