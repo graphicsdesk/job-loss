@@ -22,27 +22,21 @@ const postings = postingsData.postings
   }))
   .sort((a, b) => a.date - b.date);
 
-const standardPosting = postings[0].count;
-const percentChange = postings.map(({ date, count, remoteCount }) => ({
-  date: date,
-  percentChange: (count - standardPosting) / standardPosting,
-}));
-
 /* compute the rolling mean */
 const rollingMean = [];
 
-for (let i = 0; i < percentChange.length; i++) {
+for (let i = 0; i < postings.length; i++) {
   let sum = 0;
   let mean = 0;
 
-  if (i > 2 && i < percentChange.length - 3) {
+  if (i > 2 && i < postings.length - 3) {
     for (let j = -3; j <= 3; j++) {
-      sum += percentChange[i + j].percentChange;
+      sum += postings[i + j].count;
     }
     mean = sum / 7;
     rollingMean.push({
-      date: percentChange[i].date,
-      percentChange: mean,
+      date: postings[i].date,
+      count: mean,
     });
   }
 }
@@ -96,8 +90,11 @@ const xAxis = svg.append('g.x.axis');
 const yAxis = svg.append('g.y.axis');
 
 // Instantiate scales
-const xScale = scaleTime().domain(extent(percentChange, d => d.date));
-const yScale = scaleLinear().domain([-1, 1]);
+const xScale = scaleTime().domain(extent(postings, d => d.date));
+const yScale = scaleLinear().domain([
+  0,
+  1.1 * Math.max(...postings.map(d => d.count)),
+]);
 const pScale = scaleLinear().domain([0, 1]);
 
 // Instantiate shape and axes generators
@@ -138,12 +135,12 @@ async function drawGraph() {
   yScale.range([gHeight, 0]);
 
   // Update line and axes generation params
-  lineFn.x(d => xScale(d.date)).y(d => yScale(d.percentChange));
+  lineFn.x(d => xScale(d.date)).y(d => yScale(d.count));
   xAxisFn
     .scale(xScale)
     .ticks(gWidth / 80)
     .tickSize(-gHeight);
-  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format('.0%'));
+  yAxisFn.scale(yScale).tickSize(-gWidth).tickFormat(format(''));
 
   // Create axes
   xAxis.translate([0, gHeight]).call(xAxisFn);
@@ -166,7 +163,7 @@ async function drawGraph() {
     .style('stroke', 'black');
 
   // Set path d
-  linePath.attr('d', lineFn(percentChange)).classed('percentChange', true);
+  linePath.attr('d', lineFn(postings)).classed('percentChange', true);
   meanPath.attr('d', lineFn(rollingMean)).classed('rollingMean', true);
 
   /* animation:
@@ -250,15 +247,15 @@ async function drawDateLine() {
     class: 'dateLine',
     x1: xScale(dateToNote),
     x2: xScale(dateToNote),
-    y1: yScale(-1),
-    y2: yScale(0.2),
+    y1: yScale(0),
+    y2: yScale(423),
   });
 
   /* append text to dateLine */
   lineLabel
     .at({
       x: xScale(dateToNote) - 25,
-      y: yScale(0.2) - 6,
+      y: yScale(423) - 6,
     })
     .text('March 7th')
     .attr('class', 'lineLabel');
@@ -289,11 +286,11 @@ async function addLegend() {
         x: 45,
         y: 25,
       })
-      .text('percent change since September 5th');
+      .text('daily posting count');
 
     legend2.attr('class', 'legend2').at({
-      x1: 300,
-      x2: 320,
+      x1: 200,
+      x2: 220,
       y1: 20,
       y2: 20,
     });
@@ -301,7 +298,7 @@ async function addLegend() {
     legend2Text
       .attr('class', 'legend2')
       .at({
-        x: 325,
+        x: 225,
         y: 25,
       })
       .text('7 day rolling mean');
@@ -334,7 +331,7 @@ async function addLegend() {
         x: 45,
         y: 25,
       })
-      .text('percent change since September 5th');
+      .text('daily posting count');
 
     legend2.attr('class', 'legend2').at({
       x1: 20,
