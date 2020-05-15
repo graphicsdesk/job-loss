@@ -7,7 +7,7 @@
     "postinstall": "patch-package",
     "start": "parcel src/index.html --global script",
     "prebuild": "rm -f dist/*",
-    "build": "parcel build src/index.html --global script --public-url . --no-content-hash --no-source-maps"
+    "build": "parcel build src/index.html --global script --public-url https://spectator-static-assets.s3.amazonaws.com/job-loss --no-content-hash --no-source-maps"
   },
   "keywords": [],
   "devDependencies": {
