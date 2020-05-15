@@ -1,9 +1,10 @@
 /* These styles help hide default site elements for a News story */
 
 // Unset Arc's Bootstrap box-sizing: border-box;
-#pb-root > article,
-#pb-root > article * {
+.pb-container > div,
+.pb-container > div * {
   box-sizing: unset;
+  -webkit-box-sizing: unset;
 }
 
 #top {

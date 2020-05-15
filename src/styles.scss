@@ -8,6 +8,16 @@ h1.headline {
   font-style: normal;
 }
 
+.tli-author {
+  display: none;
+}
+
+.pb-container {
+  margin: 0;
+  display: block;
+  width: auto !important;
+}
+
 /**
  * Styles for the text that goes over scrolly things
  */
