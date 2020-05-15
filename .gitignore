@@ -4,4 +4,5 @@ dist
 node_modules
 .env
 
-data/
+data/postings.json
+data/doc.json

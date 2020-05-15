@@ -2,13 +2,9 @@
 
 This story was created with [Spectate](https://github.com/graphicsdesk/spectate). For setup and usage instructions, see the [Spectate documentation](https://github.com/graphicsdesk/spectate/#cloning-a-spectate-project).
 
-This repository does not include its data sources so it can stay public. Data can be re-generated locally by following the [Data Diary](#data-diary).
+This repository does not include the postings data. Postings data can be re-generated locally by following the [Data Diary](#data-diary).
 
 ## Data Diary
-
-#### `data/canceled-internships.json`
-
-Here's a [one-liner](https://github.com/graphicsdesk/canceled-internships#shortcuts) for generating the data using the [`canceled-internships`](https://github.com/graphicsdesk/canceled-internships) repository.
 
 #### `data/postings.json`
 
@@ -24,3 +20,7 @@ Now you can run:
 ```
 $ node process/get-data.js
 ```
+
+#### `data/canceled-internships.json`
+
+Be careful when regenerating the `canceled-internships` data. It also regenerates the random index mapping that controls the color scale.

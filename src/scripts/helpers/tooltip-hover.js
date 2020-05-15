@@ -2,10 +2,8 @@ import { select } from 'd3-selection';
 
 let outlinedCircle;
 
-const formatInfo = ({ industry, employer, sizeText }, industryColorsScale) => `
-  <p class="tooltip-industry" style="color:${industryColorsScale(
-    industry,
-  )}">${industry}</p>
+const formatInfo = ({ industry, employer, sizeText }, industryColor) => `
+  <p class="tooltip-industry" style="color:${industryColor}">${industry}</p>
   <p class="tooltip-employer">${employer}</p>
   <p class="tooltip-size">${sizeText} employees</p>
 `;
@@ -19,7 +17,7 @@ function showTooltip({ clientX, clientY, industryColorsScale }) {
     top: clientY,
     opacity: 1,
   });
-  tooltipBox.html(formatInfo(d, industryColorsScale));
+  tooltipBox.html(formatInfo(d, industryColorsScale(d.industry)));
 }
 
 export function hideTooltip() {

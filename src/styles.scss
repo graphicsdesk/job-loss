@@ -1,7 +1,12 @@
 @import 'styles/spectate';
 
 // Uncomment the next line if this project is a News story
-// @import 'styles/news-ellipsis';
+@import 'styles/news-ellipsis';
+
+/* Arc overrides */
+h1.headline {
+  font-style: normal;
+}
 
 /**
  * Styles for the text that goes over scrolly things
@@ -53,7 +58,7 @@ p.step-box {
 
 // Place bubble chart paragraphs near the right of the screen
 #canceled-scrolly .step p {
-  margin: 0 $step-margin-side 0 auto;
+  margin: 0 auto;
 }
 
 // Place postings line chart paragraphs near the left of the screen
@@ -75,7 +80,7 @@ p.step-box {
   z-index: 0;
 
   svg {
-    // overflow: visible;
+    overflow: visible;
 
     circle.softwareBig {
       fill-opacity: 0.4;
@@ -109,14 +114,6 @@ p.step-box {
         transition-duration: 0.2s;
         transition-property: opacity;
       }
-
-      tspan.background-tspan {
-        stroke: #fff;
-        opacity: 0.9;
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-      }
     }
 
     rect#invisible-background {
@@ -126,6 +123,23 @@ p.step-box {
       x: -50%;
       y: -50%;
     }
+  }
+}
+
+tspan.background-tspan {
+  stroke: #fff;
+  opacity: 0.94;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 750px) {
+  #canceled-internships svg g.bubble-labels text {
+    font-size: 26px;
+  }
+  tspan.background-tspan {
+    stroke-width: 5;
   }
 }
 
@@ -237,7 +251,7 @@ p.step-box {
     line.legend1 {
       stroke: red;
       stroke-opacity: 0.2;
-      stroke-width: 1px;
+      stroke-width: 2px;
     }
 
     text.legend1 {
@@ -275,12 +289,25 @@ p.step-box {
  * Styles for horizontal scroll thing
  */
 
-.industry-impact-lead {
-  padding-top: 20vh;
-  padding-bottom: 20vh;
+.scroll-warning {
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: italic;
+  color: #999;
+  font-size: 16px;
+}
+
+#industry-impact-lead {
+  padding: 8vh 0;
 
   p {
     margin: 0 auto;
+  }
+
+  .keep-scrolling {
+    text-align: center;
+    margin-top: 20px;
+    transform: translateY(20px);
   }
 }
 
@@ -293,9 +320,20 @@ p.step-box {
   padding-left: 50%;
   // padding-left: max(30%, calc(50% - #{$gbody-width / 2}));
   padding-right: 50%;
+}
 
-  svg {
-    overflow: visible;
+svg.industry-impact-svg {
+  overflow: visible;
+
+  text {
+    font-family: Roboto;
+    pointer-events: none;
+  }
+
+  text.chart-title {
+    dominant-baseline: middle;
+    font-size: 17px;
+    font-weight: 700;
   }
 
   g.y-axis {
@@ -304,7 +342,6 @@ p.step-box {
     }
     .tick {
       text {
-        font-family: Roboto;
         font-size: 14px;
         color: #666;
       }
@@ -315,35 +352,54 @@ p.step-box {
   }
 
   .bars-container {
-    g {
-      rect {
-        fill: #62aee5;
-        transition-duration: 0.1s;
-      }
-      text {
-        fill: black;
-        fill-opacity: 0;
-        transition-duration: 0.1s;
-        text-anchor: middle;
-        alignment-baseline: middle;
-        font-family: Roboto;
-        font-size: 16px;
-      }
+    rect {
+      fill-opacity: 0.25;
+      transition-duration: 0.1s;
+      stroke: #fff;
+    }
+  }
+
+  .bar-highlighters-container {
+    rect {
+      fill: none;
+      stroke: #121212;
+      stroke-width: 1.5px;
+      opacity: 0;
+      transition-duration: 0.2s;
     }
 
-    g.highlight-bar-group {
-      rect {
-        fill: #0282fa;
-      }
-      text {
-        fill-opacity: 1;
-      }
+    rect.bright {
+      opacity: 1;
     }
+  }
 
-    g.highlight-bar-group-forever {
-      rect {
-        fill: #0282fa;
-      }
+  .bar-label text {
+    fill: black;
+    opacity: 0;
+    transition-duration: 0.1s;
+    text-anchor: middle;
+    alignment-baseline: middle;
+    dominant-baseline: middle;
+    font-size: 16px;
+  }
+
+  rect.highlighter {
+    fill: none;
+    stroke: #121212;
+    stroke-width: 2px;
+    transition-duration: 0.1s;
+    opacity: 0;
+  }
+
+  g.bar-label {
+    .bar-label-percentage {
+      font-size: 15px;
+    }
+    &.bright text {
+      opacity: 1;
+    }
+    &.always-bright .bar-label-percentage {
+      opacity: 1;
     }
   }
 }
@@ -356,18 +412,29 @@ p.step-box {
     width: $step-max-width;
     max-width: $step-max-width;
   }
+
+  j.padding-highlight {
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 500px) {
+  #industry-content p {
+    width: 320px;
+  }
 }
 
 #scroll-down-message {
+  pointer-events: none;
   position: fixed;
-  top: 0;
+  top: 22%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
   transition-duration: 0.3s;
 
   p {
-    font-size: 20px;
+    color: #888;
   }
 }
 
@@ -385,21 +452,34 @@ p.step-box {
   display: none; // Safari and Chrome
 }
 
+#smol-industry-impact {
+  svg {
+    display: block;
+    margin: 0 auto;
+
+    .tick line {
+      stroke: #888;
+    }
+  }
+}
+
 /**
  * Misc.
  */
 
 .story-top {
-  padding-top: 60px;
-
+  padding-top: 70px;
   .graphic:last-child {
-    margin-top: 40px;
+    margin-top: 80px;
     margin-bottom: 0;
   }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 500px) {
   .story-top {
     padding-top: 100px;
+    .graphic:last-child {
+      margin-top: -20px;
+    }
   }
 }

@@ -1,12 +1,17 @@
 import textBalancer from 'text-balancer';
-import initAi2html from './helpers/ai2html-resizer';
 import { spectate as spectateConfig } from '../../package.json';
+
+import initAi2html from './helpers/ai2html-resizer';
+import { init as industryImpactInit } from './industry-impact';
+import initNavScrolls from './nav-scrolls';
 
 /**
  * Put all initializer scripts into this init() function
  */
 
 function init() {
+  industryImpactInit();
+  initNavScrolls();
   initAi2html();
 }
 
@@ -20,7 +25,7 @@ const isOnContributorPage =
 
 const SECTION_MAIN_SELECTOR = 'section#main';
 const ARTICLE_SELECTOR =
-  '.pb-f-article-article-body > .row > .col-xs-12 > .ab-article-body > .ab-article-content > article';
+  '.pb-f-eye-article-article-body > .row > .col-xs-12 > .ab-article-body > .ab-article-content > article';
 
 // Replaces section#main with article
 function hoistArticle() {

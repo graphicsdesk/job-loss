@@ -7,7 +7,7 @@ import { centroid } from './utils';
  * Utility functions for making forces quickly
  */
 
-const STRENGTH = 0.7;
+const STRENGTH = 0.02;
 export const forceXFn = (x, strength = STRENGTH) =>
   forceX(x).strength(strength);
 export const forceYFn = (y, strength = STRENGTH) =>
@@ -20,7 +20,7 @@ export const forceYFn = (y, strength = STRENGTH) =>
  */
 
 export function cjClusterForce(centroidListener) {
-  const strength = 0.1;
+  const strength = 0.08;
   let nodes;
 
   function force(alpha) {
@@ -29,12 +29,25 @@ export function cjClusterForce(centroidListener) {
     const centroids = rollup(nodes, centroid, d => d.industry);
 
     // Allow other functions to listen in on centroid changes so centroids
-    // don't need to be recomputed
+    // don't need to be recomputed in other places
     centroidListener(centroids);
 
     alpha *= strength;
     for (const d of nodes) {
-      const { x: cx, y: cy } = centroids.get(d.industry);
+      const { industry } = d;
+
+      // If the industry is Hotels, use the Aerospace centroid and then and
+      // then space it out a bit. This ensures that, after the ghost
+      // transition, Hotels isn't stuck in some random place separate from
+      // the other industries it should be with in the first separation.
+      let { x: cx, y: cy } = centroids.get(
+        industry === 'Hotels & Accommodation' ? 'Aerospace' : industry,
+      );
+      if (industry === 'Hotels & Accommodation') {
+        cx -= 80;
+        cy += 80;
+      }
+
       d.vx -= (d.x - cx) * alpha;
       d.vy -= (d.y - cy) * alpha;
     }
@@ -57,7 +70,7 @@ export function cjClusterForce(centroidListener) {
 export function elonMuskCollide() {
   const alpha = 0.4; // fixed for greater rigidity!
   const padding1 = 1; // separation between same-color nodes
-  const padding2 = 17; // separation between different-color nodes
+  let padding2 = 17; // separation between different-color nodes
   let nodes;
   let maxRadius;
 
@@ -83,23 +96,24 @@ export function elonMuskCollide() {
       // are the lower and upper bounds of the node.
       theQuadtree.visit((q, x1, y1, x2, y2) => {
         const { data: quadNode } = q;
-<<<<<<< HEAD
         const CUTOFFSIZE = 1000;
-        if(isGhosting){
-          if(!q.length&&(quadNode.size>CUTOFFSIZE&&node.size>CUTOFFSIZE)||(quadNode.size<CUTOFFSIZE&&node.size<CUTOFFSIZE)){
+        if (!q.length && quadNode !== node) {
+          if (isGhosting) {
+            if (
+              (quadNode.size > CUTOFFSIZE && node.size > CUTOFFSIZE) ||
+              (quadNode.size <= CUTOFFSIZE && node.size <= CUTOFFSIZE)
+            ) {
+              calculation();
+            }
+          } else {
             calculation();
           }
-        } else if(!q.length && quadNode !== node) {
-          calculation();
         }
         // if ghosting is truth, we only collide nodes of the same size class
         // if ghosting is false, we do the following:
-        function calculation() { // if this is false, no computation is done
-=======
-
-        if (!q.length && quadNode !== node) {
+        function calculation() {
           // if this is false, no computation is done
->>>>>>> e7142eb2e776de39b748c3843d84f267b2a2a1f1
+          // if this is false, no computation is done
           // Calculate desired minimum distance and current distance
           const padding =
             node.industry === quadNode.industry ? padding1 : padding2;
@@ -133,18 +147,26 @@ export function elonMuskCollide() {
     maxRadius = max(nodes, d => d.radius) + Math.max(padding1, padding2);
   };
 
+  let noGhostTimeout;
+
   // Turn on or turn off the ghost state
-<<<<<<< HEAD
   force.ghost = () => {
+    clearTimeout(noGhostTimeout); // Cancel any pending noGhosts
     isGhosting = true;
+    padding2 = 12; // reduce padding2 bc the small businesses are smol
+    return force;
   };
 
   force.noGhostingIWillDivorceYou = () => {
     isGhosting = false;
+    padding2 = 17;
+    return force;
   };
-=======
-  force.ghost = () => {};
->>>>>>> e7142eb2e776de39b748c3843d84f267b2a2a1f1
+
+  // This function waits a certain time before turning ghosting off
+  force.deferNoGhost = milliseconds => {
+    noGhostTimeout = setTimeout(force.noGhostingIWillDivorceYou, milliseconds);
+  };
 
   return force;
 }

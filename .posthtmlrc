@@ -9,24 +9,16 @@
         "top": [
           {
             "type": "text",
-            "value": "When Chaitanya Reddy Gurijala, a student pursuing his master’s degree in computer science at Stony Brook University lost his internship, he knew he was not the only one looking for answers about job availability."
-          },
-          {
-            "type": "text",
-            "value": "Looking to help others in a similar position, he took to Twitter and started the account @hiring2020. The account’s Twitter bio explains its simple mission: to provide “information about internships and full-time jobs for college students.” Gurijala is on a mission to collect and distribute information about which student internships and jobs are hiring amid the pandemic."
-          },
-          {
-            "type": "text",
-            "value": "Since March 22, Gurijala has updated the Twitter account that now boasts over 3,500 followers and has created a Facebook page, LinkedIn, GitHub, and a website with crowdsourced information about the hiring status of internships and jobs. This is what Gurijala found:"
+            "value": "When Chaitanya Reddy Gurijala, a student pursuing his master’s degree in computer science at Stony Brook University lost his internship, he knew he was not the only one looking for answers about job availability. Looking to help others in a similar position, he started <a href=\"https://hiring20.com/\">Hiring2020</a>, and has since been collecting information about the hiring status of jobs and companies."
           },
           {
             "type": "graphic",
             "value": {
               "asset": "canceled-internships.html",
               "steps": [
-                "As of May 10, he noted 318 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tapover to see each company’s name, industry, and size range.",
+                "As of May 14, he noted 319 canceled internships and jobs. Here they are, color-coded by industry and scaled relative to the company’s approximate size. Hover or tap to see each company’s name, industry, and size range.",
                 "The impact of these job losses can be seen across all industries, but it is more apparent in some than others.",
-                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among thesethe <c>transportation and logistics</c>; <c>aerospace</c>; <c>sports and leisure</c>; <c>tourism</c>; and <c>hotels and accommodation</c> industries have canceled internships. These companies make up a little over 9 percent of all the canceled jobs in the dataset.",
+                "It should come as no surprise to see job losses in the service sector and travel-related industries—these are some of the largest industries impacted by the pandemic. Thirty companies among these industries —a little over 9 percent of the dataset—have canceled internships.",
                 "The biggest industry reflected in the cancellation data is <c>Internet and software</c>.",
                 "But the cancellations largely do not affect the Internet giants—over 58 percent of software companies impacted are small, with less than 1,000 employees.",
                 "In fact, 40 percent of all lost jobs reflected here are from companies with 1,000 employees or fewer, which in some industries makes them small businesses.",
@@ -57,18 +49,34 @@
             "value": "<b> </b><b>The Great Lockdown</b>"
           },
           {
+            "type": "text",
+            "value": "Barnard senior Alisha Sahay, has felt the impacts of the Great Lockdown first hand. Most of the companies she has heard back from have enacted hiring freezes, that seem to be in place for the foreseeable future."
+          },
+          {
+            "type": "text",
+            "value": "“The job search has been a little bit frustrating because it's not like there's anything wrong with me or like my background is purely just like something that something companies are going through” she tells me."
+          },
+          {
+            "type": "text",
+            "value": "“It's definitely really scary.” she adds later. For her and much of the class of 2020 the lack of jobs is at the forefront of their minds.”This whole job situation is all I can really think about because before any of this started,  it was so clear as to what I was going to be doing. But now I have no clue”"
+          },
+          {
+            "type": "text",
+            "value": "With data from LionSHARE, a job posting site for Columbia students hosted by Handshake, we can see where some of this uncertainty is coming from. Postings rates right now, are among the lowest of this academic year. The only other time of year that experienced similar lows was late December—an annual period with historically low job openings and, <a href=\"https://www.forbes.com/sites/billconerly/2019/11/26/hiring-slows-during-the-holidays-but-some-opportunities-remain/#26128dc776a4\">according to Forbes</a>, with 26 percent fewer new hires than any typical month."
+          },
+          {
             "type": "graphic",
             "value": {
               "asset": "posting-graphics.html",
               "steps": [
-                "Since March 7, the average job postings on LionSHARE, a job posting site for Columbia students hosted by Handshake, has been consistently low, as compared to average posting rates since September 2019. The only other time of year that experienced similar lows was late December—an annual period with historically low job openings and, <a href=\"https://www.forbes.com/sites/billconerly/2019/11/26/hiring-slows-during-the-holidays-but-some-opportunities-remain/#26128dc776a4\">according to Forbes</a>, with 26 percent fewer new hires than any typical month.",
-                "Of the job postings that remain, a larger percentage of them will be remote. Even so, the number of remote postings is still relatively small compared to all of the jobs advertised on Handshake. Further, not all industries can transfer to remote jobs."
+                "Since March 7, the average job postings on LionSHARE has been consistently low, as compared to average posting rates since September 2019.",
+                "Of the job postings that remain, a larger percentage of them will be remote. Even so, the number of remote postings is still relatively small compared to all of the jobs advertised on LionSHARE. Further, not all industries can transfer to remote jobs."
               ]
             }
           },
           {
             "type": "text",
-            "value": "There are not enough remote jobs on Handshake to draw a conclusion on the national availability of remote opportunities. The pre-quarantine norm for remote work, however, only included a minority of most jobs.<a href=\"https://www.theguardian.com/world/2020/mar/27/coronavirus-working-from-home-privilege\"> According</a> to the 2017-18 American Time Use Survey from the Bureau of Labor Statistics, only 29 percent of workers were able to work from home."
+            "value": "There are not enough remote jobs on LionSHARE to draw a conclusion on the national availability of remote opportunities. The pre-quarantine norm for remote work, however, only included a minority of most jobs. <a href=\"https://www.theguardian.com/world/2020/mar/27/coronavirus-working-from-home-privilege\">According</a> to the 2017-18 American Time Use Survey from the Bureau of Labor Statistics, only 29 percent of workers were able to work from home."
           },
           {
             "type": "text",
@@ -76,11 +84,11 @@
           },
           {
             "type": "text",
-            "value": "At Columbia, economics and computer science are the most popular fields of study, so jobs in finance, business, and technology are common pathways for graduates. In fact, software engineering, business analytics, and management consulting are among the most common fields for jobs posted on Handshake."
+            "value": "At Columbia, economics and computer science are the most popular fields of study, so jobs in finance, business, and technology are common pathways for graduates. In fact, software engineering, business analytics, and management consulting are among the most common fields for jobs posted on LionSHARE."
           },
           {
             "type": "text",
-            "value": "These figures are likely to change because of how COVID-19 has pushed workers who would not ordinarily have the opportunity to work from home find creative ways to do so. They also reflect the pandemic’s disproportionate impact on certain industries."
+            "value": "These figures are likely to change because of how COVID-19 has pushed workers who would not ordinarily have the opportunity to work from home find creative ways to do so, they do reflect the pandemic’s disproportionate impact on certain industries."
           },
           {
             "type": "text",
@@ -90,22 +98,27 @@
             "type": "graphic",
             "value": {
               "asset": "industry-impact.html",
-              "lead": "In order to examine that question, we can also look at Handshake posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings.",
+              "lead": "In order to examine that question, we can also look at LionSHARE posting data by industry and note the percent change in the average daily posting of different industries after March 1. Some industries have been omitted because they have limited job postings.",
+              "chartTitle": "Percent change in average daily job postings",
               "steps": [
                 {
-                  "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the bottom three are restaurants and food service, hotels and accommodation, and tourism.",
-                  "industries": "Tourism; Hotels & Accommodation; Restaurants & Food Service"
+                  "text": "The industries that have had the biggest decrease relative to other industries in daily postings are not a surprise—the among them service sector staples: <j>hotels and accommodation</j>, <j>restaurants and food service</j>, and <j>tourism</j>.",
+                  "industries": "Hotels & Accommodation; Restaurants & Food Service; Tourism"
+                },
+                {
+                  "text": "Nor are those least impacted, many of them relate to the health sector: <j>Biotech & Life Sciences</j>; <j>Medical Devices</j>; <j>Research</j>.",
+                  "industries": "Biotech & Life Sciences; Medical Devices; Research"
                 }
               ]
             }
           },
           {
             "type": "text",
-            "value": "These are industries that Alexander Hertel-Fernadez, a political economist and associate professor who studies relationships between business, labor, and public policy at the School of International and Public Affairs, thinks will face some of the largest changes over time."
+            "value": "Service Sector  industries  are some that Alexander Hertel-Fernadez, a political economist and associate professor who studies relationships between business, labor, and public policy at the School of International and Public Affairs, thinks will face some of the largest changes over time."
           },
           {
             "type": "text",
-            "value": "“And the question is: Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that, will people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
+            "value": "“Will we still have places like Las Vegas in two years? For instance, given that people may be really uncomfortable being in large social gatherings like that. Will people still be comfortable taking long, international trips with hundreds of people on a plane tightly together?” Hertel-Fernadez asks."
           },
           {
             "type": "text",
@@ -121,37 +134,31 @@
           },
           {
             "type": "text",
-            "value": "Telemedicine answers some of the questions of what healthcare will look like in the future. Healthcare has been harder hit in the number of Handshake postings, but as Zaloom notes, it might be more appreciated than ever. “There are certain professions, it seems to me, that are going to be seen as more and more essential, but which also happened to be professions that were already on the rise, and particularly in healthcare.”"
+            "value": "Telemedicine answers some of the questions of what healthcare will look like in the future. Healthcare has been harder hit in the number of LionSHARE postings, but as Zaloom notes, it might be more appreciated than ever. “There are certain professions, it seems to me, that are going to be seen as more and more essential, but which also happened to be professions that were already on the rise, and particularly in healthcare.”"
           },
           {
             "type": "text",
-            "value": "Other health-related jobs seem to be relatively less impacted than some of those in the service industry. The medical devices industry is one of the few with a positive percent change in postings. Biotech and life sciences and research, while impacted, have not experienced a drastic change relative to the data for other industries."
+            "value": "Other health-related jobs seem to be relatively less impacted than some of those in the service industry. The medical devices, Biotech and life sciences and research, while impacted, have not experienced a drastic change relative to the data for other industries."
           },
           {
             "type": "text",
-            "value": "[add quotes from senior about difficulty getting a job]"
+            "value": "Sahay is hoping to be in media and journalism after graduation, but as pickings are  slim, she is expanding her search to anything adjacent to her interests—and is really open to anything that will help her gain experience."
           },
           {
             "type": "text",
-            "value": "Getting a job immediately after graduation can set people up for the rest of their careers. “Graduating in a recession has very deep economic and social costs for individuals over their entire lives,” says Hertel-Fernandez. “In good times, the jobs that you get immediately after graduating from college are very important because they set you up for the trajectory that you're going to have going forward.”"
+            "value": "“It feels like everything is dark and you're just blindly trying to grasp at anything that comes your way”"
           },
           {
             "type": "text",
-            "value": "Black adds that even those who know what searching for a job looks like in a normal recession, an economic shutdown is a special, unknown circumstance. Health restrictions, shutdowns and  Hiring freezes and at many institutions, including Columbia and Barnard, makes the job search even harder."
+            "value": "Searching for a job in an economic shutdown is a special, unknown circumstance, Black notes it's different from a regular recession. Health restrictions, shutdowns and Hiring freezes and at many institutions, including Columbia and Barnard, makes the job search even harder."
           },
           {
             "type": "text",
             "value": "“I think this is the case where we know that it's hard during the recession and you take less desirable jobs and it makes it harder to get caught up to people who start out their careers in better times. But this is the additional problem of, there aren't even really jobs to find because of the pandemic. And so I think we don't know what the consequences are going to be.”"
           },
           {
-            "type": "image",
-            "value": {
-              "width": "full-width",
-              "caption": "Illustration by Lisa Evseeva.",
-              "url_lg": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/AVCDNKSRQFDAZIEZI55SLSHDL4.jpg",
-              "url_md": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/KU4IIBIYAJGOVFIBB4R5L5QTOI.jpg",
-              "url_sm": "https://cloudfront-us-east-1.images.arcpublishing.com/spectator/S5J2NENAOBGGZEC2N6XDULM6VM.jpg"
-            }
+            "type": "text",
+            "value": "Hertel-Fernadez cautions what the consequences could be: “Graduating in a recession has very deep economic and social costs for individuals over their entire lives,” says Hertel-Fernandez. “In good times, the jobs that you get immediately after graduating from college are very important because they set you up for the trajectory that you're going to have going forward.”"
           },
           {
             "type": "subhed",
@@ -269,17 +276,29 @@
           },
           {
             "type": "text",
+            "value": "As graduates adapt to this new economic reality it also feels like a strange, daunting, end to their four years. “I think the class of 2020 definitely had a perception of what [their] senior spring was going to look like.”"
+          },
+          {
+            "type": "text",
+            "value": "As Sahay tells me this, she pauses and remembers that today was supposed to be her senior gala."
+          },
+          {
+            "type": "text",
+            "value": "“I would've pictured myself getting ready with my friends, going to a senior gala and knowing that I had a job in my hand. [Then] just spending these last few days and weeks with friends who I knew I wasn't going to see again..Knowing and having the sense of like stability, knowing thatI kind of knew what the next step was, which was going to be like work at some job. But now that's all suspended in the air at the moment—It does feel daunting.”"
+          },
+          {
+            "type": "text",
             "value": "<i>Enjoy leafing through our tenth issue!</i>"
           },
           {
             "type": "text",
-            "value": "<a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/9/\"><i>Previous Issue</i></a><i> | </i><a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/10/\"><i>More In This Issue</i></a>"
+            "value": "<a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/9/\">Previous Issue</a> | <a href=\"https://www.columbiaspectator.com/eye/issue/XXVIII/10/\">More In This Issue</a>"
           }
         ],
         "date": "May 12, 2020",
-        "headline": "Uncertainty looms as Student Jobs are Disappear the Great Lockdown",
+        "headline": "Uncertainty looms as Student Jobs are Disappearing in the Great Lockdown",
         "byline": "By <a href=\"https://www.columbiaspectator.com/contributors/Eve-Washington/\">Eve Washington</a>\nVisuals by <a href=\"https://www.columbiaspectator.com/contributors/Charlotte-Li\">Charlotte Li</a> and <a href=\"https://www.columbiaspectator.com/contributors/Jason-Kao/\">Jason Kao</a>\nEdited by <a href=\"https://www.columbiaspectator.com/contributors/Claudia-Gohn/\">Claudia Gohn</a> and <a href=\"https://www.columbiaspectator.com/contributors/Paul-Hanna/\">Paul Hanna</a>",
-        "footer": "Data sources: Handshake, Crunchbase",
+        "footer": "Data sources: Handshake for postings counts; Handshake and Crunchbase for employer industries and sizes.\n\nThe code for this story’s graphics and data analysis is <a href=\"https://github.com/graphicsdesk/job-loss/\">open source on GitHub</a>.",
         "USE_NEWS_NAV": false,
         "USE_EYE_NAV": true,
         "USE_COVER_HED": false,

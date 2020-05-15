@@ -1,14 +1,12 @@
-import { select, selectAll } from 'd3-selection';
+import { select } from 'd3-selection';
 import { scaleTime, scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { format } from 'd3-format';
-import { timeFormat } from 'd3-time-format';
 import 'd3-jetpack';
 import scrollama from 'scrollama';
 import throttle from 'just-throttle';
-import { wordwrap } from 'd3-transition';
 
 import postingsData from '../../data/postings.json';
 
@@ -65,7 +63,7 @@ for (let i = 0; i < postings.length; i++) {
 }
 /* Some constants */
 
-const margin = { left: 43, top: 20, bottom: 50, right: 20 };
+const margin = { left: 47, top: 20, bottom: 50, right: 20 };
 const TICK_PADDING = 11;
 const dateToNote = new Date('2020-03-07'); //PAUSE:effective at 8PM on Sunday, March 22
 
@@ -124,7 +122,7 @@ const legend3Text = legendContainer.append('text');
 async function drawGraph() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -189,7 +187,7 @@ async function drawGraph() {
 /* function for remote graph */
 async function drawRemoteGraph() {
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -233,7 +231,7 @@ async function drawRemoteGraph() {
 async function drawDateLine() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
   const gHeight = height - margin.top - margin.bottom;
 
@@ -265,12 +263,9 @@ async function drawDateLine() {
 async function addLegend() {
   // Update width and height
   width = Math.min(1020, document.body.clientWidth);
-  height = document.body.clientHeight;
+  height = window.innerHeight;
   const gWidth = width - margin.left - margin.right;
-  const gHeight = height - margin.top - margin.bottom;
   const THRESHOLD = 375;
-
-  container.select('svg').at({ width, height });
 
   if (gWidth > THRESHOLD) {
     legend1.attr('class', 'legend1').at({
@@ -286,7 +281,7 @@ async function addLegend() {
         x: 45,
         y: 25,
       })
-      .text('daily posting count');
+      .text('Daily posting count');
 
     legend2.attr('class', 'legend2').at({
       x1: 200,
@@ -331,7 +326,7 @@ async function addLegend() {
         x: 45,
         y: 25,
       })
-      .text('daily posting count');
+      .text('Daily posting count');
 
     legend2.attr('class', 'legend2').at({
       x1: 20,
@@ -358,7 +353,10 @@ async function addLegend() {
     legend3Text
       .classed('legend3', false)
       .attr('y', 25)
-      .tspans(['7 day rolling mean of percent', 'remote postings per day'], 20)
+      .tspans(
+        ['7 day rolling mean of daily percentage', 'of remote postings'],
+        20,
+      )
       .attr('x', 45);
   }
 }
@@ -399,20 +397,25 @@ function existHandle({ index, direction }) {
   }
 }
 
+// draw graph and legend when the page is loaded
+drawGraph();
+addLegend();
+
 // instantiate the scrollama
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#postings-scrolly .step' })
+  .setup({ step: '#postings-scrolly .step', offset: width < 500 ? 0.8 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
-// draw graph and legend when the page is loaded
-drawGraph();
-addLegend();
-
 // setup resize event
-window.addEventListener('resize', drawGraph);
-window.addEventListener('resize', addLegend);
-window.addEventListener('resize', throttle(scroller.resize, 500));
+window.addEventListener(
+  'resize',
+  throttle(() => {
+    drawGraph();
+    addLegend();
+    scroller.resize();
+  }, 500),
+);

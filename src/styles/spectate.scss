@@ -59,7 +59,7 @@ p {
 }
 
 a {
-  color: #337ab7;
+  color: #5ec2c2;
   text-decoration: none;
 
   &[href^='mailto:'] {
@@ -68,7 +68,7 @@ a {
 }
 
 a:hover {
-  color: #23527c;
+  color: #5ec2c2;
   text-decoration: underline;
 }
 
@@ -97,11 +97,6 @@ b {
   font-size: 21px;
   line-height: 1.63;
   font-weight: bold;
-}
-
-.graphic-subhed {
-  font-family: Roboto;
-  text-align: center;
 }
 
 /* Styling the cover and cover-hed */
@@ -271,6 +266,7 @@ header {
 
   #nav-links {
     opacity: 0;
+    pointer-events: none;
   }
 
   .hamburger-btn {
@@ -280,6 +276,7 @@ header {
 }
 
 #navbar.not-even-eye-logo {
+  pointer-events: none;
   #eye-logo-container {
     opacity: 0;
   }
@@ -441,7 +438,6 @@ header {
     font-family: $georgia;
     color: #666;
     margin: 7px 0 0 0;
-    padding: 0 $gbody-padding / 2;
     line-height: 1.3;
 
     .image-credit {
@@ -510,6 +506,10 @@ header {
 @media (max-width: 767px) {
   .image {
     padding: 0 $gbody-padding;
+  }
+
+  .image.width-full-width {
+    padding: 0;
   }
 }
 

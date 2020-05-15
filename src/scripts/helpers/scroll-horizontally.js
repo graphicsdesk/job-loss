@@ -52,7 +52,7 @@ export default function ({
     const scrollLeft = paddingDiv.offsetTop - top;
     container.scrollLeft = fixLeft = scrollLeft;
     attemptsToUnfix = 0;
-    onScroll(scrollLeft, container.clientWidth);
+    onScroll(scrollLeft, container.scrollWidth - container.clientWidth);
   }
 
   // Setup the intersection observer

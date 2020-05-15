@@ -1,6 +1,6 @@
 import { select, event } from 'd3-selection';
 import { scaleSqrt } from 'd3-scale';
-import { forceSimulation, forceCollide } from 'd3-force';
+import { forceSimulation } from 'd3-force';
 import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import throttle from 'just-throttle';
@@ -113,9 +113,13 @@ const radiusScale = scaleSqrt()
   .domain(extent(companies, d => d.size))
   .range([2, maxRadius]);
 
-function industryColorsScale(industry) {
-  const t =
-    randomIndexMapping[industries.indexOf(industry)] / industries.length;
+// Accepts both an index and the industry name
+
+export function industryColorsScale(industry) {
+  if (!Number.isInteger(industry)) {
+    industry = industries.indexOf(industry);
+  }
+  const t = randomIndexMapping[industry] / industries.length;
   return interpolateViridis(t);
 }
 
@@ -161,17 +165,19 @@ const softwareBig = circles.filter(
 const forceXCenter = forceXFn(0);
 const forceYCenter = forceYFn(0);
 
+// Our cluster force calls this callback every time centroids update. We store
+// the centroids so we can use them later for label positioning.
+const clusterForce = cjClusterForce(c => (centroids = c));
+
+// Store the collide force so we can configure its settings (e.g. ghost state)
+const collideForce = elonMuskCollide();
+
 let centroids;
 const simulation = forceSimulation()
   .force('x', forceXCenter)
   .force('y', forceYCenter)
-  .force(
-    'cjCluster',
-    // The force calls this callback every time centroids update. We store
-    // the centroids so we can use them later for label positioning.
-    cjClusterForce(centroidsListener),
-  )
-  .force('elonMuskCollide', elonMuskCollide());
+  .force('cjCluster', clusterForce)
+  .force('elonMuskCollide', collideForce);
 
 /* feed data into simulation so for every change in time it moves it into a certain place(?)*/
 
@@ -192,10 +198,18 @@ simulation.nodes(companyData).on('tick', () => {
   //   we don't have to recompute centroids after cjClusterForce already did.
   if (labeledIndustries) {
     labelNodes.each(function (industry) {
-      if (industries.includes(industry)) {
+      if (labeledIndustries.includes(industry)) {
         let { x, y } = rotatePoint(centroids.get(industry), angle);
-        if (industry === 'Hotels & Accommodation') y -= 35;
-        if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 45;
+        if (industry === 'Hotels & Accommodation') {
+          y += isShrunk ? 40 : -30;
+        }
+        if (['Tourism', 'Sports & Leisure'].includes(industry)) {
+          y += 50;
+        }
+        if (isShrunk) {
+          if (industry === 'Aerospace') y -= 20;
+          if (industry === 'Internet & Software') y -= 75;
+        }
         select(this).at({ y }).selectAll('tspan').at({ x });
       }
     });
@@ -203,6 +217,15 @@ simulation.nodes(companyData).on('tick', () => {
 });
 
 /* Functions for interactivity */
+
+// Utility function that sets a simulation's alpha and restarts it.
+// Does nothing if the simulation's alpha is already higher (like when
+// we refresh in the middle of a step).
+function alphaRestart(a) {
+  if (simulation.alpha() < a) {
+    simulation.alpha(a).restart();
+  }
+}
 
 /**
  * Spits out an industry cluster. Rotates graphic so the cluster is always spit
@@ -212,11 +235,14 @@ simulation.nodes(companyData).on('tick', () => {
 let currentlySeparatedIndustries = null;
 let angle;
 
-async function separateIndustries(industries) {
+async function separateIndustries(industries, justUnseparatedSizes) {
   if (industries && !Array.isArray(industries)) {
     industries = [industries];
   }
-  if (equalOrNull(currentlySeparatedIndustries, industries)) {
+  if (
+    equalOrNull(currentlySeparatedIndustries, industries) &&
+    !justUnseparatedSizes
+  ) {
     return;
   }
   currentlySeparatedIndustries = industries;
@@ -237,9 +263,9 @@ async function separateIndustries(industries) {
   const [xForce, yForce] = calculateSeparationForces(industries, angle);
 
   // Update forces and rotate, awaiting the rotate and animate labels around it
-  simulation.force('x', xForce).force('y', yForce).alpha(0.6).restart();
+  simulation.force('x', xForce).force('y', yForce);
+  alphaRestart(0.6);
 
-  showTextNodes(null);
   try {
     await graphic.rotate(angle);
     showTextNodes(industries, angle);
@@ -271,7 +297,7 @@ const labelNodes = labelsContainer
     enter
       .append('text')
       .st({ opacity: 0 })
-      .tspansBackgrounds(splitAmpersand, 20),
+      .tspansBackgrounds(splitAmpersand, isShrunk ? 33 : 20),
   );
 
 function showTextNodes(industries) {
@@ -285,39 +311,77 @@ function showTextNodes(industries) {
   }
 }
 
-function centroidsListener(c) {
-  centroids = c;
-}
-
 // Brings everything back to the center.
 async function unseparateIndustry() {
-  simulation
-    .force('x', forceXCenter)
-    .force('y', forceYCenter)
-    .alpha(0.8)
-    .restart();
+  simulation.force('x', forceXCenter).force('y', forceYCenter);
+  alphaRestart(0.8);
   showTextNodes(null);
 }
 
+let areSizesSeparated = false;
+
 function separateSize() {
-  simulation.force('elonMuskCollide', elonMuskCollide().ghost())
-    .force('x', forceXFn(d => (d.size>1000) ? width/4 : -width/4 ))
+  if (areSizesSeparated) return;
+
+  graphic.rotate();
+  showTextNodes(null);
+
+  // Use the spit target while accounting for the current rotation
+  const [x, y] = inverseRotatePoint(spitTarget, angle);
+
+  // Since the simulation stores the address and not a copy of the collide
+  // force, we can call ghost() without re-adding the force to the simulation
+  collideForce.ghost();
+
+  // const scale
+  const scaleIsolation = isShrunk ? 4 / 3 : 1; // how isolated the small biz are
+  const scaleSeparation = isShrunk ? 4 / 3 : 1; // how separated the big biz are
+  const getValue = val => d =>
+    d.size > 1000 ? -val * scaleSeparation : val * scaleIsolation;
+
+  simulation
+    // Remove the cluster force because it's too confusing w 2 centers
+    .force('cjCluster', null)
+    .force('x', forceXFn(getValue(x), 0.04))
+    .force('y', forceYFn(getValue(y), 0.04));
+  alphaRestart(0.9);
+
+  areSizesSeparated = true;
+}
+
+// Undo the size separation. Returns true if we actually did something
+function unseparateSize() {
+  if (areSizesSeparated) {
+    simulation
+      .force('cjCluster', clusterForce)
+      .force('x', forceXCenter)
+      .force('y', forceYCenter);
+    alphaRestart(0.69);
+
+    // Wait a bit for the circles to go back to their industry clusters
+    // before adding back the collide force
+    collideForce.deferNoGhost(1200);
+
+    areSizesSeparated = false;
+    return true;
+  }
 }
 
 /* Scrolly stuff */
 
-async function enterHandle({ index, direction }) {
-  if (index === 4 && direction === 'down') {
+async function enterHandle({ index }) {
+  if (index === 4) {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
   }
-  if (index === 5 && direction === 'down') {
+  if (index === 5) {
     bigBusiness.classed('bigBusiness', true);
-    separateSize();
   }
 
-  if(index != 5){
-    await separateIndustries(industriesToShow[index]);
+  if (index < 5) {
+    await separateIndustries(industriesToShow[index], unseparateSize());
+  } else if (index < 6) {
+    separateSize();
   }
 }
 
@@ -326,9 +390,6 @@ async function exitHandle({ index, direction }) {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', false);
   }
-  if (index === 5 && direction === 'up') {
-    bigBusiness.classed('bigBusiness', false);
-  }
 }
 
 // instantiate the scrollama
@@ -336,7 +397,7 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.7 : 0.6 })
+  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.8 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 
@@ -360,15 +421,10 @@ graphic
   .on('mouseout', hideTooltip);
 
 /* set styles for text elements */
+
 const textList = document.querySelectorAll('c');
-const industryList = [
-  'Transportation & Logistics',
-  'Aerospace',
-  'Sports & Leisure',
-  'Tourism',
-  'Hotels & Accommodation',
-  'Internet & Software',
-];
+const industryList = ['Internet & Software'];
+
 for (let i = 0; i < textList.length; i++) {
   textList[i].style.color = industryColorsScale(industryList[i]);
   textList[i].style.fontWeight = 700;
