@@ -25,7 +25,7 @@ const isOnContributorPage =
 
 const SECTION_MAIN_SELECTOR = 'section#main';
 const ARTICLE_SELECTOR =
-  '.pb-f-article-article-body > .row > .col-xs-12 > .ab-article-body > .ab-article-content > article';
+  '.pb-f-eye-article-article-body > .row > .col-xs-12 > .ab-article-body > .ab-article-content > article';
 
 // Replaces section#main with article
 function hoistArticle() {

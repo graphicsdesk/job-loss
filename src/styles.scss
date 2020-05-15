@@ -3,6 +3,11 @@
 // Uncomment the next line if this project is a News story
 @import 'styles/news-ellipsis';
 
+/* Arc overrides */
+h1.headline {
+  font-style: normal;
+}
+
 /**
  * Styles for the text that goes over scrolly things
  */
