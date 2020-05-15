@@ -279,7 +279,7 @@ function calculateSeparationForces(industries, angle) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   // greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = isShrunk ? 0.04 : 0.015;
+  const strength = isShrunk ? 0.04 : 0.02;
   const scaleIsolation = isShrunk ? 3 / 4 : 0.9; // how isolated an industry is
   const scaleSeparation = isShrunk ? 3.5 / 2 : 1.2; // how separate others are
 
@@ -297,7 +297,7 @@ const labelNodes = labelsContainer
     enter
       .append('text')
       .st({ opacity: 0 })
-      .tspansBackgrounds(splitAmpersand, 38),
+      .tspansBackgrounds(splitAmpersand, 30),
   );
 
 function showTextNodes(industries) {
