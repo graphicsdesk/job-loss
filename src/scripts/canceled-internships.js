@@ -84,7 +84,7 @@ const nodesContainer = graphic.append('g.node-container');
 
 function updateGraphic() {
   width = document.body.clientWidth;
-  height = window.innerHeight;
+  height = document.body.clientHeight;
   vbWidth = Math.max(750, width);
   vbHeight = height;
 
@@ -200,8 +200,15 @@ simulation.nodes(companyData).on('tick', () => {
     labelNodes.each(function (industry) {
       if (labeledIndustries.includes(industry)) {
         let { x, y } = rotatePoint(centroids.get(industry), angle);
-        if (industry === 'Hotels & Accommodation') y -= 30;
-        if (['Tourism', 'Sports & Leisure'].includes(industry)) y += 50;
+        if (industry === 'Hotels & Accommodation') {
+          y += isShrunk ? 40 : -30;
+        }
+        if (['Tourism', 'Sports & Leisure'].includes(industry)) {
+          y += 50;
+        }
+        if (industry === 'Aerospace') {
+          y += isShrunk ? -20 : 0;
+        }
         select(this).at({ y }).selectAll('tspan').at({ x });
       }
     });
@@ -289,7 +296,7 @@ const labelNodes = labelsContainer
     enter
       .append('text')
       .st({ opacity: 0 })
-      .tspansBackgrounds(splitAmpersand, 20),
+      .tspansBackgrounds(splitAmpersand, isShrunk ? 33 : 20),
   );
 
 function showTextNodes(industries) {
@@ -313,6 +320,8 @@ async function unseparateIndustry() {
 let areSizesSeparated = false;
 
 function separateSize() {
+  if (areSizesSeparated) return;
+
   graphic.rotate();
   showTextNodes(null);
 
@@ -359,18 +368,18 @@ function unseparateSize() {
 
 /* Scrolly stuff */
 
-async function enterHandle({ index, direction }) {
-  if (index === 4 && direction === 'down') {
+async function enterHandle({ index }) {
+  if (index === 4) {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', true);
   }
-  if (index === 5 && direction === 'down') {
+  if (index === 5) {
     bigBusiness.classed('bigBusiness', true);
   }
 
-  if (index != 5) {
+  if (index < 5) {
     await separateIndustries(industriesToShow[index], unseparateSize());
-  } else {
+  } else if (index < 6) {
     separateSize();
   }
 }
@@ -380,9 +389,6 @@ async function exitHandle({ index, direction }) {
     bigBusiness.classed('bigBusiness', false);
     softwareBig.classed('softwareBig', false);
   }
-  if (index === 5 && direction === 'up') {
-    bigBusiness.classed('bigBusiness', false);
-  }
 }
 
 // instantiate the scrollama
@@ -390,7 +396,7 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.7 : 0.6 })
+  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.8 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 

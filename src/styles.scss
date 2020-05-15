@@ -75,7 +75,7 @@ p.step-box {
   z-index: 0;
 
   svg {
-    // overflow: visible;
+    overflow: visible;
 
     circle.softwareBig {
       fill-opacity: 0.4;
@@ -127,6 +127,15 @@ tspan.background-tspan {
   stroke-width: 3.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+@media (max-width: 750px) {
+  #canceled-internships svg g.bubble-labels text {
+    font-size: 26px;
+  }
+  tspan.background-tspan {
+    stroke-width: 5;
+  }
 }
 
 #bubble-tooltip {
@@ -275,6 +284,14 @@ tspan.background-tspan {
  * Styles for horizontal scroll thing
  */
 
+.scroll-warning {
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: italic;
+  color: #999;
+  font-size: 16px;
+}
+
 .industry-impact-lead {
   padding: 12vh 0;
 
@@ -283,12 +300,9 @@ tspan.background-tspan {
   }
 
   .keep-scrolling {
-    font-family: Roboto;
-    font-weight: 400;
-    font-style: italic;
-    color: #999;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
+    transform: translateY(20px);
   }
 }
 
@@ -391,20 +405,23 @@ svg.industry-impact-svg {
   }
 }
 
+@media (max-width: 500px) {
+  #industry-content p {
+    width: 320px;
+  }
+}
+
 #scroll-down-message {
+  pointer-events: none;
   position: fixed;
   top: 22%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  font-family: Roboto;
-  font-weight: 400;
-  font-style: italic;
   transition-duration: 0.3s;
 
   p {
     color: #888;
-    font-size: 17px;
   }
 }
 
@@ -438,16 +455,18 @@ svg.industry-impact-svg {
  */
 
 .story-top {
-  padding-top: 60px;
-
+  padding-top: 70px;
   .graphic:last-child {
-    margin-top: 40px;
+    margin-top: 80px;
     margin-bottom: 0;
   }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 500px) {
   .story-top {
     padding-top: 100px;
+    .graphic:last-child {
+      margin-top: -20px;
+    }
   }
 }

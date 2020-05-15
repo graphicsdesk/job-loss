@@ -2,14 +2,14 @@ import textBalancer from 'text-balancer';
 import { spectate as spectateConfig } from '../../package.json';
 
 import initAi2html from './helpers/ai2html-resizer';
-import industryImpact from './industry-impact';
+import { init as industryImpactInit } from './industry-impact';
 
 /**
  * Put all initializer scripts into this init() function
  */
 
 function init() {
-  industryImpact.init();
+  industryImpactInit();
   initAi2html();
 }
 

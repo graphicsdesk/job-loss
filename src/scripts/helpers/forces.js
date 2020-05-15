@@ -153,11 +153,13 @@ export function elonMuskCollide() {
   force.ghost = () => {
     clearTimeout(noGhostTimeout); // Cancel any pending noGhosts
     isGhosting = true;
+    padding2 = 12; // reduce padding2 bc the small businesses are smol
     return force;
   };
 
   force.noGhostingIWillDivorceYou = () => {
     isGhosting = false;
+    padding2 = 17;
     return force;
   };
 

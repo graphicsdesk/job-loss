@@ -399,22 +399,25 @@ function existHandle({ index, direction }) {
   }
 }
 
+// draw graph and legend when the page is loaded
+drawGraph();
+addLegend();
+
 // instantiate the scrollama
 const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#postings-scrolly .step' })
+  .setup({ step: '#postings-scrolly .step', offset: width < 500 ? 0.8 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
-// draw graph and legend when the page is loaded
-drawGraph();
-addLegend();
-
 // setup resize event
-window.addEventListener('resize', throttle(() => {
-  drawGraph();
-  addLegend();
-  scroller.resize();
-}, 500));
+window.addEventListener(
+  'resize',
+  throttle(() => {
+    drawGraph();
+    addLegend();
+    scroller.resize();
+  }, 500),
+);

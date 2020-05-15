@@ -91,7 +91,7 @@ function IndustryChart(divContainer, fullLength) {
       : Math.min(document.body.clientWidth - 40, 600);
     width = svgWidth - margin.left;
     const svgHeight = fullLength
-      ? window.innerHeight
+      ? document.body.clientHeight
       : Math.max(300, (width * 2) / 3);
     height = svgHeight - margin.top - margin.bottom;
 
@@ -117,7 +117,7 @@ function IndustryChart(divContainer, fullLength) {
       y: d => Math.min(yScale(0), yScale(d.percentChange)),
       width: xScale.bandwidth(),
       height: d => Math.abs(yScale(d.percentChange) - yScale(0)),
-    }
+    };
     bars.at(barAttrs);
     barHighlighters.at(barAttrs);
 
