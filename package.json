@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "patch-package",
     "start": "parcel src/index.html --global script",
-    "prebuild": "rm -f dist/*",
+    "prebuild": "rm -r -f dist/*", 
     "build": "parcel build src/index.html --global script --public-url https://spectator-static-assets.s3.amazonaws.com/job-loss --no-content-hash --no-source-maps"
   },
   "keywords": [],

@@ -12,6 +12,16 @@ h1.headline {
   display: none;
 }
 
+.tli-author {
+  display: none;
+}
+
+.pb-container {
+  margin: 0;
+  display: block;
+  width: auto !important;
+}
+
 /**
  * Styles for the text that goes over scrolly things
  */
