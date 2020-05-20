@@ -206,18 +206,18 @@ tspan.background-tspan {
     }
 
     path#percentChange.percentChange {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-opacity: 0.2;
       stroke-width: 1px;
     }
 
     path#rollingMean.rollingMean {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-width: 2px;
     }
 
     g.remote path.remotePostings {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-width: 2px;
     }
 
@@ -251,7 +251,7 @@ tspan.background-tspan {
     }
 
     line.legend2 {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-width: 2px;
     }
 
@@ -264,7 +264,7 @@ tspan.background-tspan {
     }
 
     line.legend1 {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-opacity: 0.2;
       stroke-width: 2px;
     }
@@ -278,7 +278,7 @@ tspan.background-tspan {
     }
 
     line.legend3 {
-      stroke: red;
+      stroke: rgb(76, 194, 125);
       stroke-width: 2px;
     }
 
@@ -331,6 +331,7 @@ tspan.background-tspan {
   overflow-y: hidden;
   height: 100vh;
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   padding-left: 50%;
   // padding-left: max(30%, calc(50% - #{$gbody-width / 2}));
@@ -426,6 +427,7 @@ svg.industry-impact-svg {
     position: absolute;
     width: $step-max-width;
     max-width: $step-max-width;
+    box-shadow: 0 1px 5px 0 #ccc;
   }
 
   j.padding-highlight {

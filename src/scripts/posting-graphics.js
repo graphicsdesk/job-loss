@@ -9,6 +9,7 @@ import scrollama from 'scrollama';
 import throttle from 'just-throttle';
 
 import postingsData from '../../data/postings.json';
+import { IS_MOBILE } from './helpers/utils';
 
 /* Data preprocessing */
 
@@ -64,6 +65,10 @@ for (let i = 0; i < postings.length; i++) {
 /* Some constants */
 
 const margin = { left: 47, top: 20, bottom: 50, right: 20 };
+if (IS_MOBILE) {
+  margin.bottom += 50;
+  margin.top += 50;
+}
 const TICK_PADDING = 11;
 const dateToNote = new Date('2020-03-07'); //PAUSE:effective at 8PM on Sunday, March 22
 
@@ -229,18 +234,6 @@ async function drawRemoteGraph() {
 
 /* function for drawing date line */
 async function drawDateLine() {
-  // Update width and height
-  width = Math.min(1020, document.body.clientWidth);
-  height = window.innerHeight;
-  const gWidth = width - margin.left - margin.right;
-  const gHeight = height - margin.top - margin.bottom;
-
-  container.select('svg').at({ width, height });
-
-  // Update scale ranges
-  xScale.range([0, gWidth]);
-  yScale.range([gHeight, 0]);
-
   dateLine.at({
     class: 'dateLine',
     x1: xScale(dateToNote),
@@ -406,16 +399,29 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#postings-scrolly .step', offset: width < 500 ? 0.8 : 0.6 })
+  .setup({ step: '#postings-scrolly .step', offset: IS_MOBILE ? 0.5 : 0.7 })
   .onStepEnter(enterHandle)
   .onStepExit(existHandle);
 
 // setup resize event
+let oldWidth = window.innerWidth;
 window.addEventListener(
   'resize',
   throttle(() => {
-    drawGraph();
-    addLegend();
-    scroller.resize();
+    if (IS_MOBILE) {
+      if (oldWidth !== window.innerWidth) {
+        resize();
+        oldWidth = window.innerWidth;
+      }
+    } else {
+      resize();
+    }
   }, 500),
 );
+
+function resize() {
+  drawGraph();
+  addLegend();
+  drawDateLine();
+  scroller.resize();
+}

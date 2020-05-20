@@ -1,4 +1,5 @@
 import 'd3-jetpack/essentials';
+import 'intersection-observer';
 
 import './scripts/helpers/d3-wrappers';
 import './scripts/page';

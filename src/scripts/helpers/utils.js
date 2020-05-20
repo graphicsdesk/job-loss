@@ -1,3 +1,7 @@
+// export const IS_MOBILE = /Mobi|Android/i.test(navigator.userAgent);
+export const IS_MOBILE = window.screen.width < 660;
+// export const IS_MOBILE = window.innerWidth < 600;
+
 // Rotates a vector counterclockwise by theta radians
 export function rotatePoint(coord, theta) {
   let wasObject = false;

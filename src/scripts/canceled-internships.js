@@ -5,6 +5,7 @@ import { interpolateViridis } from 'd3-scale-chromatic';
 import { extent } from 'd3-array';
 import throttle from 'just-throttle';
 import scrollama from 'scrollama';
+import { IS_MOBILE } from './helpers/utils';
 
 import {
   cjClusterForce,
@@ -96,7 +97,7 @@ function updateGraphic() {
   initialRadius = (Math.min(vbWidth, vbHeight) * 3) / 4;
 
   svg.at({ width, height, viewBox });
-  graphic.style('transform', `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`);
+  graphic.safeTranslate([vbWidth / 2, vbHeight / 2]);
   labelsContainer.style(
     'transform',
     `translate(${vbWidth / 2}px, ${vbHeight / 2}px)`,
@@ -279,9 +280,9 @@ function calculateSeparationForces(industries, angle) {
   const [x, y] = inverseRotatePoint(spitTarget, angle);
   // greenCircle.transition().at({ cx: x, cy: y });
 
-  const strength = isShrunk ? 0.04 : 0.02;
-  const scaleIsolation = isShrunk ? 3 / 4 : 0.9; // how isolated an industry is
-  const scaleSeparation = isShrunk ? 3.5 / 2 : 1.2; // how separate others are
+  const strength = isShrunk ? 0.055 : 0.02;
+  const scaleIsolation = isShrunk ? 3 / 4 : 1; // how isolated an industry is
+  const scaleSeparation = isShrunk ? 4 / 2 : 1; // how separate others are
 
   const separate = val => d =>
     industries.includes(d.industry)
@@ -397,18 +398,30 @@ const scroller = scrollama();
 
 // setup the instance, pass callback functions
 scroller
-  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.8 : 0.6 })
+  .setup({ step: '#canceled-scrolly .step', offset: isShrunk ? 0.7 : 0.6 })
   .onStepEnter(enterHandle)
   .onStepExit(exitHandle);
 
 // setup resize event
+let oldWidth = window.innerWidth;
 window.addEventListener(
   'resize',
   throttle(() => {
-    scroller.resize();
-    updateGraphic();
+    if (IS_MOBILE) {
+      if (oldWidth !== window.innerWidth) {
+        resize();
+        oldWidth = window.innerWidth;
+      }
+    } else {
+      resize();
+    }
   }),
 );
+
+function resize() {
+  scroller.resize();
+  updateGraphic();
+}
 
 /* Logic for adding an outline to circles we're hovering over */
 
