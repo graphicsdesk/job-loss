@@ -14,6 +14,20 @@ const select = selector => {
   return document.getElementById(selector);
 };
 
+/**
+ * The exported function takes seven arguments:
+ * - container is where you should have made your horizontal graphic
+ * - padding is the id of an HTML element you need to make at the bottom of your container
+ *   to make sure the container gets really tall (see github.com/graphicsdesk/job-loss/blob/master/src/industry-impact.html#L32)
+ * - topDetectorId and bottomDetectorId are the id's of HTML elements you need before and 
+ *   after the graphic (see github.com/graphicsdesk/job-loss/blob/master/src/industry-impact.html#L14)
+ * - onScroll is an optional callback function you can use to track how many pixels to the left/right
+ *   a reader has scrolled through. An example use case is to highlight the center bar in
+ *   horzontal bar chart.
+ * - exitLeft and exitRight are optional callbacks you can use when readers have scrolled
+ *   up or down past the graphic.
+ */
+
 export default function ({
   container,
   padding: paddingDiv,
