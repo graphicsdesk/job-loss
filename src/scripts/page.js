@@ -57,8 +57,9 @@ function hoistArticle() {
 const TRY_TIME = 5000;
 let start = null;
 function ready(timestamp) {
-  if (document.body && document.querySelector(SECTION_MAIN_SELECTOR)) {
-    hoistArticle();
+  if (document.body) {
+    if (document.querySelector(SECTION_MAIN_SELECTOR)) hoistArticle();
+    else init();
     return;
   }
   if (timestamp - (start || (start = timestamp)) < TRY_TIME) {
